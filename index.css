@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Rubik", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --primary-glow: rgba(251, 191, 36, 0.4);
+  --secondary-glow: rgba(5, 102, 217, 0.4);
+}
+
+body {
+  font-family: 'Rubik', sans-serif;
+  background-color: #0c1322;
+  color: #dce2f7;
+  direction: rtl;
+}
+
+.glow-primary {
+  transition: all 0.3s ease;
+}
+.glow-primary:hover {
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+}
+
+.glow-secondary {
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(5, 102, 217, 0.3);
+}
+.glow-secondary:hover {
+  box-shadow: 0 0 25px rgba(5, 102, 217, 0.6);
+}
+
+.glass-card {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(79, 70, 51, 0.3);
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, rgba(12, 19, 34, 0.85) 0%, rgba(5, 102, 217, 0.25) 100%);
+}
+
+.segmented-progress {
+  background-image: linear-gradient(90deg, #fbbf24 50%, transparent 50%);
+  background-size: 8px 100%;
+}
+
+.active-package {
+  border-color: #fbbf24 !important;
+  background-color: rgba(251, 191, 36, 0.1) !important;
+  box-shadow: inset 0 0 10px rgba(251, 191, 36, 0.2);
+}
+
+/* Rounded configurations */
+.rounded-xl {
+  border-radius: 1.5rem;
+}
+.rounded-2xl {
+  border-radius: 2rem;
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0c1322;
+}
+::-webkit-scrollbar-thumb {
+  background: #2e3545;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #fbbf24;
+}
