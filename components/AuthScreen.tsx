@@ -62,10 +62,8 @@ const SIMULATED_LIVE_FEED = [
   { name: "يوسف م.", item: "بطاقة PlayStation Plus سنوية", time: "منذ 8 دقائق", type: "playstation" },
   { name: "نورة القحطاني", item: "حزمة أسلحة Warzone المتميزة", time: "منذ 10 دقائق", type: "cod" }
 ];
-
-export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
+export default function AuthScreen({ onLoginSuccess, availableDemoUsers }: AuthScreenProps) {
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
-  
   // Input Credentials state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
