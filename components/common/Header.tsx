@@ -74,6 +74,12 @@ export default function Header({
                   الرئيسية
                 </a>
                 <a 
+                  onClick={() => navigateToTab("wallet")}
+                  className={`cursor-pointer pb-1 transition-all ${activeTab === "wallet" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
+                >
+                  إدارة الرصيد
+                </a>
+                <a 
                   onClick={() => {
                     if (gamesList.length > 0) {
                       setSelectedGame(gamesList[0]);
@@ -83,12 +89,6 @@ export default function Header({
                   className={`cursor-pointer pb-1 transition-all ${activeTab === "game-detail" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
                 >
                   باقات الشحن
-                </a>
-                <a 
-                  onClick={() => navigateToTab("wallet")}
-                  className={`cursor-pointer pb-1 transition-all ${activeTab === "wallet" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
-                >
-                  المحفظة والرصيد
                 </a>
               </>
             ) : (

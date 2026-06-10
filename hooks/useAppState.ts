@@ -200,7 +200,7 @@ export function useAppState() {
         dbOrders.push({
           id: docSnap.id,
           product: data.product || "",
-          date: data.date || "اليوم",
+          date: data.date === "اليوم" && data.timestamp ? new Date(data.timestamp).toLocaleString("en-GB", {day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true}) : data.date || "اليوم",
           price: Number(data.price) || 0,
           currency: data.currency || "JD",
           status: data.status as OrderStatus,
@@ -442,7 +442,7 @@ export function useAppState() {
     const newOrder: Order = {
       id: newId,
       product: "تعبئة رصيد محفظة",
-      date: "اليوم",
+      date: new Date().toLocaleString("en-GB", {day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true}),
       price: Number(depositAmount),
       currency: "JOD",
       status: OrderStatus.PENDING,
@@ -519,7 +519,7 @@ export function useAppState() {
     const newOrder: Order = {
       id: newId,
       product: `${selectedPackage.name} - ${selectedGame.name}`,
-      date: "اليوم",
+      date: new Date().toLocaleString("en-GB", {day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true}),
       price: packagePrice,
       currency: "JD",
       status: OrderStatus.COMPLETED,
