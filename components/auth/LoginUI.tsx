@@ -32,6 +32,7 @@ interface LoginUIProps {
   handleSubmit: (e: React.FormEvent) => void;
   handleGoogleLogin: () => void;
   onSwitchToRegister: () => void;
+  onSwitchToResetPassword: () => void;
 }
 
 export default function LoginUI({
@@ -47,7 +48,8 @@ export default function LoginUI({
   shakeError,
   handleSubmit,
   handleGoogleLogin,
-  onSwitchToRegister
+  onSwitchToRegister,
+  onSwitchToResetPassword
 }: LoginUIProps) {
   return (
     <AuthLayout emailOrNameForCard={email} isRegister={false}>
@@ -168,7 +170,10 @@ export default function LoginUI({
           </div>
 
           <div className="text-left">
-            <span className="text-xs text-[#a3b7dc] hover:text-amber-400 transition-colors cursor-pointer bg-[#151f33]/60 px-2.5 py-1 rounded-lg border border-[#21314d] inline-block">
+            <span 
+              onClick={onSwitchToResetPassword}
+              className="text-xs text-[#a3b7dc] hover:text-amber-400 transition-colors cursor-pointer bg-[#151f33]/60 px-2.5 py-1 rounded-lg border border-[#21314d] inline-block"
+            >
               نسيت كلمة السر؟ 🔑
             </span>
           </div>

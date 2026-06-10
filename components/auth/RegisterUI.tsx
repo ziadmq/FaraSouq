@@ -259,7 +259,7 @@ export default function RegisterUI({
               </div>
             ) : (
               <>
-                <span>تفعيل العضوية ومطالبة بـ 75 د.أ 🎁</span>
+                <span>تسجيل حساب جديد</span>
                 <Sparkles className="w-4 h-4 text-slate-950" />
               </>
             )}
