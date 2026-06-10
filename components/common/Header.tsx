@@ -82,7 +82,7 @@ export default function Header({
                   }}
                   className={`cursor-pointer pb-1 transition-all ${activeTab === "game-detail" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
                 >
-                  المتجر والمنتجات
+                  باقات الشحن
                 </a>
                 <a 
                   onClick={() => navigateToTab("wallet")}

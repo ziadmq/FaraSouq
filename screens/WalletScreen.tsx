@@ -55,14 +55,14 @@ export default function WalletScreen({
     >
       {/* Wallet Balance Card */}
       <div className="bg-[#111827] rounded-2xl p-8 border border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="flex flex-col items-end w-full">
+        <div className="flex flex-col items-start w-full">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-slate-400 text-sm font-medium">الرصيد المتاح</span>
             <Wallet className="w-5 h-5 text-emerald-500" />
+            <span className="text-slate-400 text-sm font-medium">الرصيد المتاح</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-emerald-500 font-medium">JOD</span>
             <span className="text-4xl font-bold text-white tracking-tight">{walletBalance.toFixed(2)}</span>
+            <span className="text-emerald-500 font-medium">JOD</span>
           </div>
         </div>
       </div>
@@ -70,9 +70,9 @@ export default function WalletScreen({
       {/* Deposit Form */}
       <section className="bg-[#111827] rounded-2xl border border-slate-800 overflow-hidden shadow-sm">
         <div className="p-6 border-b border-slate-800">
-          <h2 className="text-xl font-bold text-white flex items-center justify-end gap-2">
-            <span>شحن المحفظة</span>
+          <h2 className="text-xl font-bold text-white flex items-center justify-start gap-2">
             <Coins className="w-5 h-5 text-emerald-500" />
+            <span>شحن المحفظة</span>
           </h2>
           <p className="text-sm text-slate-400 mt-1">قم بتحويل المبلغ المطلوب وأرفق الوصل ليتم شحن حسابك.</p>
         </div>
@@ -82,20 +82,20 @@ export default function WalletScreen({
             
             {/* Payment Details */}
             <div className="bg-slate-900/50 rounded-xl p-5 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-right flex-1">
+                <p className="text-sm text-slate-400 mb-1">حساب CliQ للتحويل:</p>
+                <div className="flex items-center justify-start gap-3">
+                  <span className="text-xl font-mono font-bold text-white">FAARA-SHOP-99</span>
+                </div>
+              </div>
               <button 
                 type="button"
                 onClick={() => handleCopyText("FAARA-SHOP-99")}
-                className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors"
+                className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors shrink-0"
               >
                 <Copy className="w-4 h-4" />
                 <span>{copiedText ? "تم النسخ" : "نسخ الاسم"}</span>
               </button>
-              <div className="text-right flex-1">
-                <p className="text-sm text-slate-400 mb-1">حساب CliQ للتحويل:</p>
-                <div className="flex items-center justify-end gap-3">
-                  <span className="text-xl font-mono font-bold text-white">FAARA-SHOP-99</span>
-                </div>
-              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -110,7 +110,7 @@ export default function WalletScreen({
                   required
                   min="0.1"
                   step="0.01"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-left font-mono text-white outline-none focus:border-emerald-500 transition-colors"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-right font-mono text-white outline-none focus:border-emerald-500 transition-colors"
                 />
               </div>
 
@@ -145,8 +145,8 @@ export default function WalletScreen({
                 <span>جاري الإرسال...</span>
               ) : (
                 <>
+                  <Send className="w-4 h-4 rotate-180" />
                   <span>إرسال الطلب</span>
-                  <Send className="w-4 h-4" />
                 </>
               )}
             </button>
@@ -157,9 +157,9 @@ export default function WalletScreen({
       {/* Orders History */}
       <section className="bg-[#111827] rounded-2xl border border-slate-800 overflow-hidden shadow-sm">
         <div className="p-6 border-b border-slate-800">
-          <h3 className="text-lg font-bold text-white flex items-center justify-end gap-2">
-            <span>سجل طلبات المحفظة</span>
+          <h3 className="text-lg font-bold text-white flex items-center justify-start gap-2">
             <History className="w-5 h-5 text-slate-400" />
+            <span>سجل طلبات المحفظة</span>
           </h3>
         </div>
 
@@ -167,11 +167,11 @@ export default function WalletScreen({
           <table className="w-full text-right text-sm">
             <thead>
               <tr className="bg-slate-900/50 text-slate-400 border-b border-slate-800">
-                <th className="px-6 py-4 font-medium">الحالة</th>
-                <th className="px-6 py-4 font-medium">المبلغ</th>
-                <th className="px-6 py-4 font-medium">تاريخ الإرسال</th>
-                <th className="px-6 py-4 font-medium">العملية</th>
                 <th className="px-6 py-4 font-medium">رقم المعاملة</th>
+                <th className="px-6 py-4 font-medium">العملية</th>
+                <th className="px-6 py-4 font-medium">تاريخ الإرسال</th>
+                <th className="px-6 py-4 font-medium">المبلغ</th>
+                <th className="px-6 py-4 font-medium">الحالة</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
@@ -184,6 +184,15 @@ export default function WalletScreen({
               ) : (
                 userOrders.map(item => (
                   <tr key={item.id} className="hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 font-mono text-slate-300">{item.id}</td>
+                    <td className="px-6 py-4 text-white">{item.product}</td>
+                    <td className="px-6 py-4 text-slate-400">{item.date}</td>
+                    <td className="px-6 py-4 font-mono text-emerald-400">
+                      <div className="flex gap-1 justify-start">
+                        <span>{item.price.toFixed(2)}</span>
+                        <span>{item.currency}</span>
+                      </div>
+                    </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
                         item.status === OrderStatus.COMPLETED 
@@ -197,12 +206,6 @@ export default function WalletScreen({
                         {item.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-mono text-emerald-400">
-                      {item.price.toFixed(2)} {item.currency}
-                    </td>
-                    <td className="px-6 py-4 text-slate-400">{item.date}</td>
-                    <td className="px-6 py-4 text-white">{item.product}</td>
-                    <td className="px-6 py-4 font-mono text-slate-300">{item.id}</td>
                   </tr>
                 ))
               )}
