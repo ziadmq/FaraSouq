@@ -40,7 +40,7 @@ export default function Footer({
           </div>
 
           <div className="flex flex-col items-center md:items-start gap-1">
-            <span className="font-headline-md text-base sm:text-lg text-amber-400 font-extrabold shadow-glow">فارة | سوق</span>
+            <span className="font-headline-md text-base sm:text-lg text-emerald-400 font-extrabold shadow-glow">فارة | سوق</span>
             <span className="text-[#9c8f79]">© 2026 فارة | سوق. جميع حقوق الألعاب والملكيات محفوظة للمنصات.</span>
           </div>
 
@@ -55,7 +55,7 @@ export default function Footer({
             <>
               <button 
                 onClick={() => { navigateToTab("home"); handleMarkAllNotificationsRead(); }}
-                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "home" ? "text-amber-400" : "text-[#9c8f79]"}`}
+                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "home" ? "text-emerald-400" : "text-[#9c8f79]"}`}
               >
                 <Gamepad2 className="w-5 h-5" />
                 <span className="text-[10px] font-bold">الرئيسية</span>
@@ -68,7 +68,7 @@ export default function Footer({
                   }
                   navigateToTab("game-detail");
                 }}
-                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "game-detail" ? "text-amber-400" : "text-[#9c8f79]"}`}
+                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "game-detail" ? "text-emerald-400" : "text-[#9c8f79]"}`}
               >
                 <ShoppingBag className="w-5 h-5" />
                 <span className="text-[10px] font-bold">المتجر</span>
@@ -76,7 +76,7 @@ export default function Footer({
 
               <button 
                 onClick={() => navigateToTab("wallet")}
-                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "wallet" ? "text-amber-400" : "text-[#9c8f79]"}`}
+                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "wallet" ? "text-emerald-400" : "text-[#9c8f79]"}`}
               >
                 <Wallet className="w-5 h-5" />
                 <span className="text-[10px] font-bold">المحفظة</span>
@@ -85,7 +85,7 @@ export default function Footer({
           ) : (
             <button 
               onClick={() => navigateToTab("admin")}
-              className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "admin" ? "text-amber-400" : "text-[#9c8f79]"}`}
+              className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "admin" ? "text-emerald-400" : "text-[#9c8f79]"}`}
             >
               <Sliders className="w-5 h-5" />
               <span className="text-[10px] font-bold">لوحة التحكم (Admin)</span>

@@ -56,13 +56,13 @@ export default function GameDetailScreen({
       transition={{ duration: 0.2 }}
       className="max-w-4xl mx-auto w-full space-y-6 text-right font-sans"
     >
-      <div className="flex justify-end">
+      <div className="flex justify-start">
         <button 
           onClick={() => setActiveTab("home")}
           className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer group"
         >
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           <span>العودة للمتجر</span>
-          <ArrowRight className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
         </button>
       </div>
 
@@ -146,23 +146,28 @@ export default function GameDetailScreen({
               <div 
                 key={p.id}
                 onClick={() => setSelectedPackage(p)}
-                className={`cursor-pointer p-5 rounded-2xl border transition-all duration-200 flex flex-col items-center justify-center gap-3 relative overflow-hidden ${
+                className={`cursor-pointer p-5 rounded-2xl border transition-all duration-300 flex flex-col items-center justify-center gap-3 relative overflow-hidden group ${
                   isSelected 
-                    ? "bg-emerald-500/10 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.15)]" 
-                    : "bg-[#111827] border-slate-800 hover:border-slate-600"
+                    ? "bg-gradient-to-b from-emerald-500/20 to-transparent border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] scale-[1.02] z-10" 
+                    : "bg-[#111827] border-slate-800 hover:border-slate-700 hover:bg-slate-800/50"
                 }`}
               >
+                {isSelected && (
+                  <div className="absolute inset-0 bg-emerald-500/5 mix-blend-overlay pointer-events-none" />
+                )}
                 {p.bonusPercent && (
-                  <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">
+                  <div className="absolute top-0 right-0 bg-gradient-to-r from-emerald-400 to-emerald-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl z-20">
                     +{p.bonusPercent}%
                   </div>
                 )}
-                <Coins className={`w-8 h-8 ${isSelected ? "text-emerald-500" : "text-slate-500"}`} />
-                <div className="text-center w-full">
-                  <p className={`font-bold text-sm truncate ${isSelected ? "text-white" : "text-slate-300"}`}>
+                <div className={`p-3 rounded-full transition-colors duration-300 z-10 ${isSelected ? "bg-emerald-500/20 shadow-inner" : "bg-slate-800 group-hover:bg-slate-700"}`}>
+                  <Coins className={`w-8 h-8 transition-colors duration-300 ${isSelected ? "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" : "text-slate-400 group-hover:text-emerald-500/70"}`} />
+                </div>
+                <div className="text-center w-full mt-1 z-10">
+                  <p className={`font-bold text-sm truncate transition-colors duration-300 ${isSelected ? "text-white" : "text-slate-300 group-hover:text-white"}`}>
                     {p.name}
                   </p>
-                  <p className={`text-xs mt-1 font-mono ${isSelected ? "text-emerald-400" : "text-slate-400"}`}>
+                  <p className={`text-xs mt-1.5 font-mono font-semibold tracking-wide transition-colors duration-300 ${isSelected ? "text-emerald-400" : "text-slate-400 group-hover:text-emerald-500"}`}>
                     {p.price.toFixed(2)} {selectedGame.currency}
                   </p>
                 </div>
@@ -173,21 +178,34 @@ export default function GameDetailScreen({
       </section>
 
       {/* Checkout Footer */}
-      <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row-reverse items-center justify-between gap-6">
-        <div className="flex flex-col text-center sm:text-right w-full sm:w-auto">
-          <span className="text-sm text-slate-400">الإجمالي المستحق</span>
-          <span className="text-2xl font-bold font-mono text-white">
-            {selectedPackage ? `${selectedPackage.price.toFixed(2)} ${selectedGame.currency}` : "0.00 JOD"}
-          </span>
-          <span className="text-xs text-slate-500 mt-1">الرصيد المتاح: {walletBalance.toFixed(2)} JOD</span>
+      <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden mt-8">
+        {/* Subtle background glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+
+        <div className="flex flex-col items-center sm:items-start w-full sm:w-auto z-10">
+          <span className="text-sm text-slate-400 font-medium mb-1">الإجمالي المستحق</span>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-3xl font-bold font-mono text-white tracking-tight">
+              {selectedPackage ? selectedPackage.price.toFixed(2) : "0.00"}
+            </span>
+            <span className="text-emerald-500 font-bold text-lg">
+              {selectedGame.currency}
+            </span>
+          </div>
+          <div className="text-xs text-slate-500 mt-2 flex items-center gap-1">
+            <span>الرصيد المتاح:</span>
+            <span className="font-mono text-slate-400">{walletBalance.toFixed(2)}</span>
+            <span className="text-slate-400">{selectedGame.currency}</span>
+          </div>
         </div>
 
         <button 
           onClick={handlePurchasePackage}
-          className="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+          disabled={!selectedPackage || !playerId.trim()}
+          className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 disabled:from-slate-700 disabled:to-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)] active:scale-95 z-10"
         >
-          <span>تأكيد الشراء</span>
           <ShoppingBag className="w-5 h-5" />
+          <span className="text-base">تأكيد الشراء</span>
         </button>
       </div>
 

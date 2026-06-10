@@ -27,7 +27,7 @@ export function useAppState() {
   
   // Dynamic list of games state
   const [gamesList, setGamesList] = useState<Game[]>(() => {
-    const saved = localStorage.getItem("fara_games_list_v2");
+    const saved = localStorage.getItem("fara_games_list_v3");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -46,7 +46,7 @@ export function useAppState() {
 
   // Game selected for detail page
   const [selectedGame, setSelectedGame] = useState<Game>(() => {
-    const saved = localStorage.getItem("fara_games_list_v2");
+    const saved = localStorage.getItem("fara_games_list_v3");
     let initialGames = GAMES_DATA;
     if (saved) {
       try {
@@ -87,10 +87,10 @@ export function useAppState() {
   const [selectedCategory, setSelectedCategory] = useState<GameCategory>(GameCategory.ALL);
 
   // States for CMS & alert configurations (loaded into memory)
-  const [cmsBannerText, setCmsBannerText] = useState<string>("اشحن توكنز جواكر (Jawaker Tokens) واحصل على 20% رصيد إضافي ⭐");
-  const [cmsBannerUrl, setCmsBannerUrl] = useState<string>("https://fara-souq.com/offers/jawaker-20");
+  const [cmsBannerText, setCmsBannerText] = useState<string>("اشحن توكنز جواكر بأفضل الأسعار ⭐");
+  const [cmsBannerUrl, setCmsBannerUrl] = useState<string>("");
   const [cmsBannerImage, setCmsBannerImage] = useState<string>("https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=1200&auto=format&fit=crop");
-  const [cmsPopupText, setCmsPopupText] = useState<string>("خصم خاص بمناسبة إطلاق التحديث الجديد! استخدم الكود JAWAKER26 للحصول على 20% خصم إضافي.");
+  const [cmsPopupText, setCmsPopupText] = useState<string>("");
 
   // States for Package Selection Screen (Screen 2)
   const [playerId, setPlayerId] = useState<string>("");

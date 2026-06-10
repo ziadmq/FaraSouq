@@ -38,7 +38,7 @@ export default function CMSSettingsTab({
             <h3 className="font-extrabold text-lg text-white">تخصيص واجهة فارة (CMS Control)</h3>
             <p className="text-xs text-[#9c8f79] mt-0.5">يمكنك هنا تغيير صورة البنر الرئيسي، ونصوص الإعلانات المنبثقة بشكل فوري.</p>
           </div>
-          <Settings className="w-5 h-5 text-amber-400" />
+          <Settings className="w-5 h-5 text-emerald-400" />
         </div>
 
         <form onSubmit={handleSaveCMS} className="space-y-4">
@@ -50,7 +50,7 @@ export default function CMSSettingsTab({
               value={cmsBannerText}
               onChange={(e) => setCmsBannerText(e.target.value)}
               placeholder="العنوان الأساسي بالبنر"
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-amber-400 outline-none"
+              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-emerald-400 outline-none"
             />
           </div>
 
@@ -71,7 +71,7 @@ export default function CMSSettingsTab({
             <div className="border border-[#4f4633]/30 rounded-xl overflow-hidden aspect-video relative max-w-md bg-slate-950">
               <img src={cmsBannerImage} alt="Banner layout" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent flex flex-col justify-end p-4 text-right">
-                <span className="bg-amber-400 text-slate-950 text-[10px] uppercase font-bold px-2 py-0.5 rounded w-fit mb-1">
+                <span className="bg-emerald-400 text-slate-950 text-[10px] uppercase font-bold px-2 py-0.5 rounded w-fit mb-1">
                   عرض ترويجي
                 </span>
                 <h4 className="text-white text-xs sm:text-sm font-bold truncate">{cmsBannerText}</h4>
@@ -96,14 +96,14 @@ export default function CMSSettingsTab({
               onChange={(e) => setCmsPopupText(e.target.value)}
               rows={3}
               placeholder="اكتب نصوص العروض الترويجية هنا..."
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-amber-400 outline-none resize-none"
+              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-emerald-400 outline-none resize-none"
             />
           </div>
 
           <div className="flex justify-end pt-2">
             <button 
               type="submit"
-              className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-6 py-2.5 rounded-xl cursor-pointer text-xs sm:text-sm shadow-md transition-all active:scale-95"
+              className="bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black px-6 py-2.5 rounded-xl cursor-pointer text-xs sm:text-sm shadow-md transition-all active:scale-95"
             >
               حفظ وتطبيق تغييرات التخصيص
             </button>

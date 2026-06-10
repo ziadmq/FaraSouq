@@ -43,7 +43,7 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
     if (/[^A-Za-z0-9]/.test(pass)) score += 1;
 
     if (score <= 2) return { score, label: "ضعيف ⚠️", color: "bg-rose-500" };
-    if (score === 3) return { score, label: "متوسط ⚡", color: "bg-amber-400" };
+    if (score === 3) return { score, label: "متوسط ⚡", color: "bg-emerald-400" };
     if (score === 4) return { score, label: "قوي وآمن 🛡️", color: "bg-emerald-500" };
     return { score, label: "فائق التفوق والأمان! 💎", color: "bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]" };
   };

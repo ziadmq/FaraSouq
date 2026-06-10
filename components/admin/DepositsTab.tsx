@@ -32,7 +32,7 @@ export default function DepositsTab({
         <div className="space-y-3 pt-3">
           {pendingOrders.length === 0 ? (
             <div className="text-center p-12 text-[#9c8f79]">
-              <Wallet className="w-12 h-12 mx-auto text-amber-500 opacity-20 mb-2" />
+              <Wallet className="w-12 h-12 mx-auto text-emerald-500 opacity-20 mb-2" />
               <p className="font-bold">لا توجد طلبات إيداع معلقة متبقية.</p>
             </div>
           ) : (
@@ -43,18 +43,18 @@ export default function DepositsTab({
                     src={order.receiptUrl || "https://lh3.googleusercontent.com/aida-public/AB6AXuDt_Ia8NFL2910LQeWD6l1aebyCE2kukULD1velcJLQl8uxf8BNG6bmT9RCWyjQ5XYBDD81Gf5WmECKJKNtb3_tO1LjPRHqQpYcWPeXnT2kjNAv7PPqQBCLqXXsZOL0gpfWkAIGwUaZk8FsriyFuKdvZUIYbzgtrlM__6Ey1GK8IQio_TjAdVifw5ZDFuLswkEjzGafYxCFsDtnJq_Uyif092IF3JVA5I0ir-K6ZarVDHB8ky6rr3A7GyYvY7ttzh4jpMOkr6RgUFo"} 
                     alt="إيصال" 
                     onClick={() => setZoomReceiptUrl(order.receiptUrl || null)}
-                    className="w-16 h-16 object-cover rounded border border-[#4f4633]/30 cursor-pointer hover:border-amber-400"
+                    className="w-16 h-16 object-cover rounded border border-[#4f4633]/30 cursor-pointer hover:border-emerald-400"
                     referrerPolicy="no-referrer"
                   />
                   <div>
                     <p className="font-bold text-white text-sm">{order.user}</p>
-                    <p className="text-xs text-[#d3c5ac] mt-0.5">الرقم المرجعي: <span className="font-mono text-amber-400">{order.id}</span></p>
+                    <p className="text-xs text-[#d3c5ac] mt-0.5">الرقم المرجعي: <span className="font-mono text-emerald-400">{order.id}</span></p>
                     <p className="text-[10px] text-[#9c8f79]">وسيلة الدفع: <span className="font-bold">{order.paymentMethod}</span></p>
                   </div>
                 </div>
 
                 <div className="flex flex-row items-center gap-4 text-right shrink-0 w-full md:w-auto justify-between md:justify-end">
-                  <span className="font-mono text-amber-400 font-extrabold text-lg">
+                  <span className="font-mono text-emerald-400 font-extrabold text-lg">
                     {order.price.toFixed(2)} JOD
                   </span>
                   <div className="flex gap-2">

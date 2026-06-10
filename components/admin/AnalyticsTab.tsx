@@ -45,10 +45,10 @@ export default function AnalyticsTab({
       {/* Bento Grid Header statistics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 text-right space-y-1 hover:border-amber-400/30 transition-all shadow-sm">
+        <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 text-right space-y-1 hover:border-emerald-400/30 transition-all shadow-sm">
           <div className="flex justify-between items-start">
             <span className="text-[#9c8f79] text-xs font-bold">إجمالي المبيعات</span>
-            <Coins className="w-5 h-5 text-amber-400" />
+            <Coins className="w-5 h-5 text-emerald-400" />
           </div>
           <p className="font-mono text-xl sm:text-2xl font-black text-white">{totalSalesToDisplay.toFixed(2)} د.أ</p>
         </div>
@@ -71,10 +71,10 @@ export default function AnalyticsTab({
           <p className="font-mono text-xl sm:text-2xl font-black text-white">{totalMembersToDisplay} لاعب</p>
         </div>
 
-        <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 text-right space-y-1 hover:border-amber-400/30 transition-all shadow-sm">
+        <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 text-right space-y-1 hover:border-emerald-400/30 transition-all shadow-sm">
           <div className="flex justify-between items-start">
             <span className="text-[#9c8f79] text-xs font-bold">إجمالي الإيداعات المقبولة</span>
-            <Wallet className="w-5 h-5 text-amber-300" />
+            <Wallet className="w-5 h-5 text-emerald-300" />
           </div>
           <p className="font-mono text-xl sm:text-2xl font-black text-white">{totalInstantDepositsToDisplay.toFixed(2)} د.أ</p>
         </div>
@@ -84,9 +84,9 @@ export default function AnalyticsTab({
       {/* Deposit Request Lists */}
       <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 space-y-4">
         <div className="flex justify-between items-center border-b border-[#4f4633]/20 pb-3">
-          <h3 className="font-bold text-base text-amber-200 flex items-center gap-1.5 justify-end">
+          <h3 className="font-bold text-base text-emerald-200 flex items-center gap-1.5 justify-end">
             <span>طلبات تأكيد الشحن والإيداع الأخيرة بالمتجر</span>
-            <Wallet className="w-5 h-5 text-amber-400" />
+            <Wallet className="w-5 h-5 text-emerald-400" />
           </h3>
           <span className="text-xs text-[#9c8f79]">مراجعة يدوية نشطة</span>
         </div>
@@ -121,7 +121,7 @@ export default function AnalyticsTab({
                   <div>
                     <div className="flex items-center gap-2">
                       <h4 className="font-bold text-white text-sm">{order.user}</h4>
-                      <span className="bg-amber-400 text-slate-950 px-1.5 py-0.2 rounded font-mono text-[9px] font-black">
+                      <span className="bg-emerald-400 text-slate-950 px-1.5 py-0.2 rounded font-mono text-[9px] font-black">
                         {order.paymentMethod}
                       </span>
                     </div>
@@ -130,7 +130,7 @@ export default function AnalyticsTab({
                 </div>
 
                 <div className="flex flex-row items-center gap-4 w-full sm:w-auto shrink-0 justify-between sm:justify-end">
-                  <span className="font-mono text-amber-400 font-extrabold text-sm sm:text-base">
+                  <span className="font-mono text-emerald-400 font-extrabold text-sm sm:text-base">
                     {order.price.toFixed(2)} JOD
                   </span>
                   <div className="flex gap-2">

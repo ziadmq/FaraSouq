@@ -41,7 +41,7 @@ export default function UsersTab({
               {adminUsers.map(user => (
                 <tr key={user.id} className="hover:bg-slate-900/35 transition-colors">
                   <td className="px-5 py-4 font-bold text-white flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-slate-800 text-amber-400 font-extrabold flex items-center justify-center text-[10px] select-none uppercase">
+                    <div className="w-8 h-8 rounded-full bg-slate-800 text-emerald-400 font-extrabold flex items-center justify-center text-[10px] select-none uppercase">
                       {user.avatarLetter.substr(0, 1)}
                     </div>
                     <span>{user.name}</span>

@@ -189,7 +189,7 @@ export default function WalletScreen({
                         item.status === OrderStatus.COMPLETED 
                           ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" 
                           : item.status === OrderStatus.PENDING
-                            ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                            ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                             : item.status === OrderStatus.PROCESSING
                               ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
                               : "bg-red-500/10 text-red-400 border-red-500/20"

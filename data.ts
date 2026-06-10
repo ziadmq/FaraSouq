@@ -10,7 +10,7 @@ export const GAMES_DATA: Game[] = [
     rating: 4.8,
     ratingCount: "12.4k",
     isPopular: true,
-    currency: "د.أ",
+    currency: "JOD",
     description: "اشحن حسابك في لعبة جواكر فوراً وبكل سهولة. احصل على التوكنز خلال ثوانٍ واستمتع باللعب والمنافسة دون انقطاع مع أصدقائك. خدماتنا تضمن لك سرعة الإنجاز والموثوقية التامة.",
     packages: [
       { id: "jw_50k", name: "50,000 توكنز", price: 1.99, badge: "أساسي" },

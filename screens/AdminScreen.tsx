@@ -135,10 +135,10 @@ export default function AdminScreen({
         <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/40 flex flex-col gap-5">
           <div className="flex items-center gap-3 justify-end mb-2">
             <div>
-              <h2 className="font-bold text-base text-amber-400">لوحة الإشراف</h2>
+              <h2 className="font-bold text-base text-emerald-400">لوحة الإشراف</h2>
               <p className="text-[10px] text-[#9c8f79]">إدارة محتويات المتجر</p>
             </div>
-            <Sliders className="w-5 h-5 text-amber-400" />
+            <Sliders className="w-5 h-5 text-emerald-400" />
           </div>
 
           <nav className="flex flex-col gap-2">
@@ -157,7 +157,7 @@ export default function AdminScreen({
                   onClick={() => setActiveAdminTab(menu.id as any)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs sm:text-sm text-right transition-all transform hover:-translate-x-1 cursor-pointer ${
                     isSelected 
-                      ? "bg-amber-400 text-slate-950 shadow-md" 
+                      ? "bg-emerald-400 text-slate-950 shadow-md" 
                       : "text-[#d3c5ac] hover:bg-[#232a3a]"
                   }`}
                 >

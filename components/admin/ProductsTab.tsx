@@ -61,7 +61,7 @@ export default function ProductsTab({
           <span className="text-[10px] text-sky-400 font-bold bg-sky-500/10 px-2 py-0.5 rounded-full">
             {editingGame ? "تعديل نشط" : "إضافة منتج جديد"}
           </span>
-          <h3 className="font-extrabold text-base text-amber-200">
+          <h3 className="font-extrabold text-base text-emerald-200">
             {editingGame ? `تعديل بيانات المنتج: ${editingGame.name}` : "إضافة منتج أو لعبة جديدة للمتجر"}
           </h3>
         </div>
@@ -75,7 +75,7 @@ export default function ProductsTab({
               <select 
                 value={formCategory}
                 onChange={(e) => setFormCategory(e.target.value as GameCategory)}
-                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-amber-400 outline-none"
+                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-emerald-400 outline-none"
               >
                 <option value={GameCategory.JAWAKER}>شحن جواكر (Jawaker)</option>
                 <option value={GameCategory.BATTLE_ROYALE}>ألعاب باتل رويال (Battle Royale)</option>
@@ -93,7 +93,7 @@ export default function ProductsTab({
                 onChange={(e) => setFormName(e.target.value)}
                 placeholder="مثال: توكنز جواكر (Jawaker Tokens)"
                 required
-                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-amber-400 outline-none"
+                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-emerald-400 outline-none"
               />
             </div>
 
@@ -108,7 +108,7 @@ export default function ProductsTab({
                 onChange={(e) => setFormStartingPrice(parseFloat(e.target.value) || 0)}
                 placeholder="1.99"
                 required
-                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-left font-mono outline-none focus:border-amber-400"
+                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-left font-mono outline-none focus:border-emerald-400"
               />
             </div>
 
@@ -121,7 +121,7 @@ export default function ProductsTab({
                 onChange={(e) => setFormImageUrl(e.target.value)}
                 placeholder="https://images.unsplash.com/..."
                 required
-                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-left font-mono outline-none focus:border-amber-400"
+                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-left font-mono outline-none focus:border-emerald-400"
               />
             </div>
 
@@ -135,7 +135,7 @@ export default function ProductsTab({
               onChange={(e) => setFormDescription(e.target.value)}
               rows={3}
               placeholder="اكتب تعليمات الشحن وسياسة الاسترجاع والوصف الترويجي للمنتج..."
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-amber-400 outline-none resize-none"
+              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs sm:text-sm text-right focus:border-emerald-400 outline-none resize-none"
             />
           </div>
 
@@ -152,7 +152,7 @@ export default function ProductsTab({
               </button>
               <div className="flex items-center gap-2">
                 <h4 className="font-extrabold text-[#d3c5ac] text-xs sm:text-sm">باقات وحزم الشحن للشراء والطلب</h4>
-                <Coins className="w-4 h-4 text-amber-400 animate-pulse" />
+                <Coins className="w-4 h-4 text-emerald-400 animate-pulse" />
               </div>
             </div>
 
@@ -161,7 +161,7 @@ export default function ProductsTab({
             ) : (
               <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
                 {formPackages.map((pkg, idx) => (
-                  <div key={pkg.id} className={`p-3 rounded-xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 transition-colors ${pkg.isPreferred ? "bg-amber-400/5 border-amber-400" : "bg-[#070e1d]/80 border-[#4f4633]/15"}`}>
+                  <div key={pkg.id} className={`p-3 rounded-xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 transition-colors ${pkg.isPreferred ? "bg-emerald-400/5 border-emerald-400" : "bg-[#070e1d]/80 border-[#4f4633]/15"}`}>
                     {/* Actions side */}
                     <div className="flex items-center gap-2 justify-between md:justify-start w-full md:w-auto shrink-0 order-2 md:order-1">
                       {/* Remove package button */}
@@ -180,8 +180,8 @@ export default function ProductsTab({
                         onClick={() => handleUpdatePackageField(pkg.id, "isPreferred", !pkg.isPreferred)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 border transition-all cursor-pointer ${
                           pkg.isPreferred 
-                            ? "bg-amber-400 border-amber-400 text-slate-950 font-extrabold shadow-sm" 
-                            : "bg-[#070e1d] border-[#4f4633]/25 text-[#9c8f79] hover:text-[#d3c5ac] hover:border-amber-400/40"
+                            ? "bg-emerald-400 border-emerald-400 text-slate-950 font-extrabold shadow-sm" 
+                            : "bg-[#070e1d] border-[#4f4633]/25 text-[#9c8f79] hover:text-[#d3c5ac] hover:border-emerald-400/40"
                         }`}
                       >
                         <Star className={`w-3.5 h-3.5 ${pkg.isPreferred ? "fill-current" : ""}`} />
@@ -199,7 +199,7 @@ export default function ProductsTab({
                           placeholder="شارة مميزة"
                           value={pkg.badge || ""}
                           onChange={(e) => handleUpdatePackageField(pkg.id, "badge", e.target.value)}
-                          className="w-full bg-[#070e1d] border border-[#4f4633]/25 text-white rounded-lg px-2 py-1.5 text-xs text-right focus:border-amber-400 outline-none"
+                          className="w-full bg-[#070e1d] border border-[#4f4633]/25 text-white rounded-lg px-2 py-1.5 text-xs text-right focus:border-emerald-400 outline-none"
                         />
                       </div>
 
@@ -211,7 +211,7 @@ export default function ProductsTab({
                           placeholder="بونص %"
                           value={pkg.bonusPercent === undefined || pkg.bonusPercent === 0 ? "" : pkg.bonusPercent}
                           onChange={(e) => handleUpdatePackageField(pkg.id, "bonusPercent", e.target.value === "" ? undefined : (parseInt(e.target.value) || 0))}
-                          className="w-full bg-[#070e1d] border border-[#4f4633]/25 text-white rounded-lg px-2 py-1.5 text-xs text-left font-mono focus:border-amber-400 outline-none"
+                          className="w-full bg-[#070e1d] border border-[#4f4633]/25 text-white rounded-lg px-2 py-1.5 text-xs text-left font-mono focus:border-emerald-400 outline-none"
                         />
                       </div>
 
@@ -225,7 +225,7 @@ export default function ProductsTab({
                           placeholder="السعر"
                           value={pkg.price}
                           onChange={(e) => handleUpdatePackageField(pkg.id, "price", parseFloat(e.target.value) || 0)}
-                          className="w-full bg-[#070e1d] border border-[#4f4633]/25 text-white rounded-lg px-2 py-1.5 text-xs text-left font-mono focus:border-amber-400 outline-none"
+                          className="w-full bg-[#070e1d] border border-[#4f4633]/25 text-white rounded-lg px-2 py-1.5 text-xs text-left font-mono focus:border-emerald-400 outline-none"
                           required
                         />
                       </div>
@@ -238,7 +238,7 @@ export default function ProductsTab({
                           placeholder="مثال: 325 شدة"
                           value={pkg.name}
                           onChange={(e) => handleUpdatePackageField(pkg.id, "name", e.target.value)}
-                          className="w-full bg-[#070e1d] border border-[#4f4633]/25 text-white rounded-lg px-2 py-1.5 text-xs text-right focus:border-amber-400 outline-none"
+                          className="w-full bg-[#070e1d] border border-[#4f4633]/25 text-white rounded-lg px-2 py-1.5 text-xs text-right focus:border-emerald-400 outline-none"
                           required
                         />
                       </div>
@@ -262,7 +262,7 @@ export default function ProductsTab({
             )}
             <button 
               type="submit"
-              className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-6 py-2.5 rounded-xl cursor-pointer text-xs sm:text-sm shadow-md transition-all active:scale-95"
+              className="bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black px-6 py-2.5 rounded-xl cursor-pointer text-xs sm:text-sm shadow-md transition-all active:scale-95"
             >
               {editingGame ? "تحديث وتعديل المنتج" : "حفظ إضافة المنتج الجديد"}
             </button>
@@ -275,14 +275,14 @@ export default function ProductsTab({
         <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 shadow-md">
           <div className="flex justify-between items-center border-b border-[#4f4633]/20 pb-3 mb-4">
             <span className="text-xs text-[#9c8f79] font-mono font-bold">إجمالي المتوفر: {gamesList.length} منتجات</span>
-            <h3 className="font-extrabold text-base text-amber-200">المنتجات المعروضة بالمتجر حالياً</h3>
+            <h3 className="font-extrabold text-base text-emerald-200">المنتجات المعروضة بالمتجر حالياً</h3>
           </div>
 
           <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
             {gamesList.map(game => (
               <div 
                 key={game.id} 
-                className="bg-[#111827]/80 rounded-xl p-3 border border-[#4f4633]/20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 hover:border-amber-400/20 transition-all group"
+                className="bg-[#111827]/80 rounded-xl p-3 border border-[#4f4633]/20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 hover:border-emerald-400/20 transition-all group"
               >
                 <div className="flex items-center gap-2 justify-end sm:justify-start order-2 sm:order-1">
                   <button
@@ -304,13 +304,13 @@ export default function ProductsTab({
                 {/* Game info */}
                 <div className="flex items-center gap-4 text-right shrink min-w-0 order-1 sm:order-2 w-full">
                   <div className="min-w-0 flex-1">
-                    <h4 className="font-bold text-white text-sm sm:text-base truncate group-hover:text-amber-400 transition-colors">
+                    <h4 className="font-bold text-white text-sm sm:text-base truncate group-hover:text-emerald-400 transition-colors">
                       {game.name}
                     </h4>
                     <div className="flex justify-end gap-3 items-center text-xs text-[#9c8f79] mt-1">
-                      <span>السعر الأساسي: <b className="font-mono text-amber-400">{game.startingPrice}</b> {game.currency}</span>
+                      <span>السعر الأساسي: <b className="font-mono text-emerald-400">{game.startingPrice}</b> {game.currency}</span>
                       <span>•</span>
-                      <span className="bg-slate-900 border border-[#4f4633]/20 text-[10px] px-2 py-0.5 rounded text-amber-200 font-bold">
+                      <span className="bg-slate-900 border border-[#4f4633]/20 text-[10px] px-2 py-0.5 rounded text-emerald-200 font-bold">
                         {game.category}
                       </span>
                     </div>
@@ -326,11 +326,11 @@ export default function ProductsTab({
                             key={p.id} 
                             className={`text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1 border ${
                               p.isPreferred 
-                                ? "bg-amber-400/10 border-amber-400 text-amber-300 font-black shadow-[0_0_8px_rgba(251,191,36,0.1)]" 
+                                ? "bg-emerald-400/10 border-emerald-400 text-emerald-300 font-black shadow-[0_0_8px_rgba(251,191,36,0.1)]" 
                                 : "bg-[#070e1d]/90 border-[#4f4633]/15 text-[#9c8f79]"
                             }`}
                           >
-                            {p.isPreferred && <Star className="w-2.5 h-2.5 fill-current text-amber-400 animate-pulse" />}
+                            {p.isPreferred && <Star className="w-2.5 h-2.5 fill-current text-emerald-400 animate-pulse" />}
                             <span>{p.name} ({p.price.toFixed(2)} د.أ)</span>
                           </span>
                         ))}

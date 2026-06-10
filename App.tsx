@@ -123,7 +123,7 @@ export default function App() {
 
       {/* Dynamic Popups based on Admin Settings */}
       {cmsPopupText && (
-        <div className="bg-amber-400 text-slate-950 text-xs sm:text-sm py-1.5 px-4 font-bold text-center relative flex justify-center items-center gap-2">
+        <div className="bg-emerald-400 text-slate-950 text-xs sm:text-sm py-1.5 px-4 font-bold text-center relative flex justify-center items-center gap-2">
           <Sparkles className="w-4 h-4 animate-bounce" />
           <span>{cmsPopupText}</span>
         </div>

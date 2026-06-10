@@ -66,17 +66,17 @@ export default function RegisterUI({
       <motion.div 
         animate={shakeError ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.5 }}
-        className="w-full bg-[#11192a]/90 backdrop-blur-2xl border border-amber-500/15 p-5 sm:p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden"
+        className="w-full bg-[#11192a]/90 backdrop-blur-2xl border border-emerald-500/15 p-5 sm:p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden"
       >
         {/* Styled Gold Top Header Ring */}
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-[0_0_15px_rgba(251,191,36,0.5)]" />
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(251,191,36,0.5)]" />
 
         {/* Title Block & Tab Segment Switcher */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-5 border-b border-[#21314d]/60">
           <div className="text-right">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-1.5 justify-end">
               <span>إنشاء حساب لاعب جديد</span>
-              <Award className="w-5 h-5 text-amber-400" />
+              <Award className="w-5 h-5 text-emerald-400" />
             </h2>
 
           </div>
@@ -97,7 +97,7 @@ export default function RegisterUI({
               تسجيل
               <motion.div 
                 layoutId="activeAuthBg" 
-                className="absolute inset-0 bg-amber-400 rounded-lg -z-10 shadow-[0_0_12px_rgba(251,191,36,0.6)]"
+                className="absolute inset-0 bg-emerald-400 rounded-lg -z-10 shadow-[0_0_12px_rgba(251,191,36,0.6)]"
               />
             </button>
           </div>
@@ -141,16 +141,16 @@ export default function RegisterUI({
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="أدخل اسمك الحقيقي أو المستعار"
-                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-amber-400/40 focus:border-amber-400 text-white rounded-xl pr-10 pl-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-amber-400 text-right transition-all font-sans"
+                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-emerald-400/40 focus:border-emerald-400 text-white rounded-xl pr-10 pl-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-400 text-right transition-all font-sans"
               />
-              <UserIcon className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-amber-400 transition-colors" />
+              <UserIcon className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-emerald-400 transition-colors" />
             </div>
           </div>
 
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               {email && !email.includes("@") && (
-                <span className="text-[10px] text-amber-400/90 font-mono font-bold bg-amber-400/10 px-2 py-0.5 rounded-md">
+                <span className="text-[10px] text-emerald-400/90 font-mono font-bold bg-emerald-400/10 px-2 py-0.5 rounded-md">
                   {email.trim()}@farasouq.com ⚙️
                 </span>
               )}
@@ -165,9 +165,9 @@ export default function RegisterUI({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="مثال: khaled أو email@domain.com"
-                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-amber-400/40 focus:border-amber-400 text-white rounded-xl pr-10 pl-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-amber-400 text-right font-mono transition-all"
+                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-emerald-400/40 focus:border-emerald-400 text-white rounded-xl pr-10 pl-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-400 text-right font-mono transition-all"
               />
-              <Mail className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-amber-400 transition-colors" />
+              <Mail className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-emerald-400 transition-colors" />
             </div>
 
           </div>
@@ -181,9 +181,9 @@ export default function RegisterUI({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-amber-400/40 focus:border-amber-400 text-white rounded-xl pr-10 pl-10 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-amber-400 text-right font-mono transition-all"
+                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-emerald-400/40 focus:border-emerald-400 text-white rounded-xl pr-10 pl-10 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-400 text-right font-mono transition-all"
               />
-              <Lock className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-amber-400 transition-colors" />
+              <Lock className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-emerald-400 transition-colors" />
               
               <button
                 type="button"
@@ -199,7 +199,7 @@ export default function RegisterUI({
               <div className="space-y-1.5 pt-1 text-right">
                 <div className="flex justify-between items-center text-[10px] font-bold">
                   <span className="text-[#8da1c5]">
-                    مستوى القوة: <span className="text-amber-300 font-bold">{strength.label}</span>
+                    مستوى القوة: <span className="text-emerald-300 font-bold">{strength.label}</span>
                   </span>
                   <span className="text-[#5e7193] font-mono">{strength.score * 20}%</span>
                 </div>
@@ -239,16 +239,16 @@ export default function RegisterUI({
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="أعد كتابة كلمة المرور"
-                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-amber-400/40 focus:border-amber-400 text-white rounded-xl pr-10 pl-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-amber-400 text-right font-mono transition-all"
+                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-emerald-400/40 focus:border-emerald-400 text-white rounded-xl pr-10 pl-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-400 text-right font-mono transition-all"
               />
-              <Lock className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-amber-400 transition-colors" />
+              <Lock className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-emerald-400 transition-colors" />
             </div>
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-amber-400 hover:bg-amber-300 disabled:bg-[#1f283d] text-slate-950 font-black py-3.5 rounded-xl cursor-pointer transition-all active:scale-98 text-sm shadow-xl mt-3 flex items-center justify-center gap-2 ${
+            className={`w-full bg-emerald-400 hover:bg-emerald-300 disabled:bg-[#1f283d] text-slate-950 font-black py-3.5 rounded-xl cursor-pointer transition-all active:scale-98 text-sm shadow-xl mt-3 flex items-center justify-center gap-2 ${
               isLoading ? "pointer-events-none opacity-60" : "glow-primary"
             }`}
           >
@@ -277,7 +277,7 @@ export default function RegisterUI({
             type="button"
             onClick={handleGoogleLogin}
             disabled={isLoading}
-            className={`w-full bg-[#18243c] hover:bg-[#1d2c4b] border border-[#2e3e5c] hover:border-amber-400/40 text-white font-bold py-3.5 rounded-xl cursor-pointer transition-all active:scale-98 text-sm shadow-md flex items-center justify-center gap-3 ${
+            className={`w-full bg-[#18243c] hover:bg-[#1d2c4b] border border-[#2e3e5c] hover:border-emerald-400/40 text-white font-bold py-3.5 rounded-xl cursor-pointer transition-all active:scale-98 text-sm shadow-md flex items-center justify-center gap-3 ${
               isLoading ? "pointer-events-none opacity-60" : "glow-secondary"
             }`}
           >

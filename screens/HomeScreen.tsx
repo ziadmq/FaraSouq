@@ -63,7 +63,7 @@ export default function HomeScreen({
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 select-none"
         />
         <div className="absolute inset-0 z-20 flex flex-col justify-center px-6 md:px-12 gap-4 text-right">
-          <span className="bg-amber-400 text-slate-950 font-bold text-xs uppercase px-3 py-1 rounded-full w-fit shadow-[0_0_15px_rgba(251,191,36,0.6)] animate-pulse">
+          <span className="bg-emerald-400 text-slate-950 font-bold text-xs uppercase px-3 py-1 rounded-full w-fit shadow-[0_0_15px_rgba(251,191,36,0.6)] animate-pulse">
             عرض لفترة محدودة
           </span>
           <h1 className="font-headline-xl text-2xl sm:text-4xl lg:text-5xl text-white font-black leading-tight max-w-2xl drop-shadow-md">
@@ -121,8 +121,8 @@ export default function HomeScreen({
                   }}
                   className={`flex flex-col items-center justify-center p-6 rounded-xl border transition-all text-center gap-1 group cursor-pointer ${
                     isSelected 
-                      ? "bg-amber-400 border-amber-400 text-slate-950 shadow-lg shadow-amber-950/20" 
-                      : "bg-[#191f2f] border-[#4f4633]/30 hover:border-amber-400/50 hover:bg-[#232a3a]"
+                      ? "bg-emerald-400 border-emerald-400 text-slate-950 shadow-lg shadow-emerald-950/20" 
+                      : "bg-[#191f2f] border-[#4f4633]/30 hover:border-emerald-400/50 hover:bg-[#232a3a]"
                   }`}
                 >
                   <IconComp className={`w-8 h-8 mb-2 group-hover:scale-110 transition-transform ${isSelected ? "text-slate-950" : "text-[#d3c5ac]"}`} />
@@ -137,7 +137,7 @@ export default function HomeScreen({
           {searchQuery && (
             <div className="bg-[#191f2f] border border-[#4f4633]/20 p-3 rounded-xl flex items-center justify-between">
               <p className="text-xs text-[#d3c5ac]">
-                نتائج البحث لـ <span className="text-amber-400 font-bold">"{searchQuery}"</span> ({filteredGames.length} منتجات)
+                نتائج البحث لـ <span className="text-emerald-400 font-bold">"{searchQuery}"</span> ({filteredGames.length} منتجات)
               </p>
               <button 
                 onClick={() => setSearchQuery("")}
@@ -170,7 +170,7 @@ export default function HomeScreen({
               <p className="font-bold">عذراً! لم نجد أي ألعاب تتطابق مع بحثك أو الفئة المدخلة.</p>
               <button 
                 onClick={() => { setSelectedCategory(GameCategory.ALL); setSearchQuery(""); }}
-                className="mt-4 px-4 py-2 bg-amber-400 text-slate-950 text-xs font-bold rounded-lg"
+                className="mt-4 px-4 py-2 bg-emerald-400 text-slate-950 text-xs font-bold rounded-lg"
               >
                 إعادة تعيين الفلترة
               </button>
@@ -183,7 +183,7 @@ export default function HomeScreen({
                 className={`bg-[#191f2f] rounded-2xl border overflow-hidden transition-all duration-300 shadow-xl flex flex-col justify-between ${
                   game.isComingSoon 
                     ? "border-[#4f4633]/20 opacity-75 grayscale-[20%]" 
-                    : "border-[#4f4633]/40 hover:border-amber-400/50 group cursor-pointer"
+                    : "border-[#4f4633]/40 hover:border-emerald-400/50 group cursor-pointer"
                 }`}
                 onClick={() => {
                   if (game.isComingSoon) {
@@ -209,12 +209,12 @@ export default function HomeScreen({
                         قريباً
                       </span>
                     ) : game.isPopular ? (
-                      <span className="bg-amber-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full uppercase shadow">
+                      <span className="bg-emerald-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full uppercase shadow">
                         رائج
                       </span>
                     ) : null}
-                    <span className="bg-slate-900/80 backdrop-blur-md text-amber-400 text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-amber-500/20">
-                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <span className="bg-slate-900/80 backdrop-blur-md text-emerald-400 text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-emerald-500/20">
+                      <Star className="w-3 h-3 fill-emerald-400 text-emerald-400" />
                       <span>{game.rating}</span>
                     </span>
                   </div>
@@ -227,7 +227,7 @@ export default function HomeScreen({
                     </h3>
                     <div className="flex items-center justify-between mt-1 text-xs">
                       <span className="text-[#9c8f79]">{game.isComingSoon ? "متوفر" : "يبدأ من"}</span>
-                      <span className="text-amber-400 font-extrabold">{game.isComingSoon ? "قريباً ⏳" : `${game.startingPrice.toFixed(2)} ${game.currency}`}</span>
+                      <span className="text-emerald-400 font-extrabold">{game.isComingSoon ? "قريباً ⏳" : `${game.startingPrice.toFixed(2)} ${game.currency}`}</span>
                     </div>
                   </div>
 
@@ -235,7 +235,7 @@ export default function HomeScreen({
                     className={`w-full text-center py-2 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                       game.isComingSoon
                         ? "bg-slate-800/80 border border-slate-700/40 text-slate-500 cursor-not-allowed"
-                        : "bg-[#2e3545] border border-[#4f4633]/40 text-[#dce2f7] group-hover:bg-amber-400 group-hover:text-slate-950 group-hover:border-amber-400"
+                        : "bg-[#2e3545] border border-[#4f4633]/40 text-[#dce2f7] group-hover:bg-emerald-400 group-hover:text-slate-950 group-hover:border-emerald-400"
                     }`}
                   >
                     {game.isComingSoon ? "متوفر قريباً ⏳" : "عرض الفئات"}
