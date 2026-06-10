@@ -55,37 +55,57 @@ export default function HomeScreen({
     >
       
       {/* Giant Glowing Banner */}
-      <section className="relative overflow-hidden rounded-2xl border border-[#4f4633]/40 bg-[#191f2f] group shadow-2xl h-[330px] md:h-[400px]">
-        <div className="absolute inset-0 hero-gradient z-10" />
+      <section className="relative overflow-hidden rounded-3xl border border-emerald-500/20 bg-slate-950 group shadow-2xl h-[380px] md:h-[450px]">
+        {/* Deep emerald overlay */}
+        <div className="absolute inset-0 bg-gradient-to-l from-slate-950/90 via-slate-900/60 to-transparent z-10" />
         <img 
           src={cmsBannerImage}
           alt="Hero Promo" 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 select-none"
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:rotate-1 select-none"
         />
-        <div className="absolute inset-0 z-20 flex flex-col justify-center px-6 md:px-12 gap-4 text-right">
-          <span className="bg-emerald-400 text-slate-950 font-bold text-xs uppercase px-3 py-1 rounded-full w-fit shadow-[0_0_15px_rgba(251,191,36,0.6)] animate-pulse">
-            عرض لفترة محدودة
-          </span>
-          <h1 className="font-headline-xl text-2xl sm:text-4xl lg:text-5xl text-white font-black leading-tight max-w-2xl drop-shadow-md">
-            {cmsBannerText}
-          </h1>
-          <p className="text-sm sm:text-lg text-[#d3c5ac] max-w-md drop-shadow-md">
-            أقوى العروض على بطاقات الهدايا وشحن الألعاب في الشرق الأوسط. اشحن الآن ونافس المحترفين.
-          </p>
-          <div className="flex gap-4 mt-4">
-            <button 
-              onClick={() => {
-                const jwGame = gamesList.find(g => g.id.includes("jw")) || gamesList[0];
-                if (jwGame) {
-                  setSelectedGame(jwGame);
-                }
-                navigateToTab("game-detail");
-              }}
-              className="bg-sky-600 hover:bg-sky-500 text-white font-bold px-6 py-3 rounded-xl glow-secondary transition-all hover:scale-105 active:scale-95 text-sm sm:text-base cursor-pointer"
-            >
-              اشحن جواكر الآن 🃏
-            </button>
-          </div>
+        
+        {/* Floating Glow Orbs */}
+        <div className="absolute top-[-10%] right-[-5%] w-64 h-64 bg-emerald-500/30 rounded-full blur-[100px] z-10 pointer-events-none" />
+        <div className="absolute bottom-[-10%] left-1/4 w-72 h-72 bg-emerald-600/20 rounded-full blur-[120px] z-10 pointer-events-none" />
+
+        <div className="absolute inset-0 z-20 flex flex-col justify-center px-6 md:px-16 items-start">
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="bg-slate-950/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-10 max-w-2xl shadow-2xl flex flex-col gap-5 text-right relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-1/2 h-1 bg-gradient-to-r from-emerald-400 to-transparent" />
+            
+            <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-bold text-xs uppercase px-4 py-1.5 rounded-full w-fit shadow-[0_0_15px_rgba(16,185,129,0.3)] animate-pulse flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5" />
+              عرض لفترة محدودة
+            </span>
+            
+            <h1 className="font-headline-xl text-3xl sm:text-4xl lg:text-5xl text-white font-black leading-tight drop-shadow-lg">
+              {cmsBannerText}
+            </h1>
+            
+            <p className="text-sm sm:text-lg text-slate-300 drop-shadow-md leading-relaxed">
+              أقوى العروض على بطاقات الهدايا وشحن الألعاب في الشرق الأوسط. اشحن الآن ونافس المحترفين بأفضل وأرخص الأسعار المتوفرة.
+            </p>
+            
+            <div className="flex gap-4 mt-2">
+              <button 
+                onClick={() => {
+                  const jwGame = gamesList.find(g => g.id.includes("jw")) || gamesList[0];
+                  if (jwGame) {
+                    setSelectedGame(jwGame);
+                  }
+                  navigateToTab("game-detail");
+                }}
+                className="bg-gradient-to-r from-emerald-600 to-emerald-400 hover:from-emerald-500 hover:to-emerald-300 text-white font-black px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 text-sm sm:text-base shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)] flex items-center justify-center gap-2 cursor-pointer group"
+              >
+                <span>اشحن جواكر الآن</span>
+                <Flame className="w-5 h-5 text-yellow-300 group-hover:scale-125 transition-transform" />
+              </button>
+            </div>
+          </motion.div>
         </div>
       </section>
 

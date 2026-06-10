@@ -50,6 +50,8 @@ interface AdminScreenProps {
   setCmsBannerUrl: (url: string) => void;
   cmsPopupText: string;
   setCmsPopupText: (text: string) => void;
+  joPaySettings: any;
+  setJoPaySettings: (settings: any) => void;
   handleSaveCMS: (e: React.FormEvent) => void;
 
   // Products
@@ -98,6 +100,8 @@ export default function AdminScreen({
   setCmsBannerUrl,
   cmsPopupText,
   setCmsPopupText,
+  joPaySettings,
+  setJoPaySettings,
   handleSaveCMS,
   editingGame,
   formName,
@@ -247,6 +251,8 @@ export default function AdminScreen({
             setCmsBannerUrl={setCmsBannerUrl}
             cmsPopupText={cmsPopupText}
             setCmsPopupText={setCmsPopupText}
+            joPaySettings={joPaySettings}
+            setJoPaySettings={setJoPaySettings}
             handleSaveCMS={handleSaveCMS}
           />
         )}
