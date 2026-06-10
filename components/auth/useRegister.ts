@@ -104,7 +104,7 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
           email: user.email || "",
           avatarLetter: cleanName.substring(0, 2),
           joinDate: new Date().toISOString().split("T")[0].replace(/-/g, "/"),
-          balance: 75.0,
+          balance: 0,
           status: "نشط",
           imageUrl: user.photoURL || undefined
         };
@@ -171,7 +171,7 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
         email: formattedEmail,
         avatarLetter: fullName.substring(0, 2),
         joinDate: new Date().toISOString().split("T")[0].replace(/-/g, "/"),
-        balance: 75.0,
+        balance: 0,
         status: "نشط"
       };
 
@@ -185,7 +185,7 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
         handleFirestoreError(err, OperationType.CREATE, `users/${user.uid}`);
       }
 
-      setSuccessMessage("تهانينا! تم إنشاء حسابك وحصلت على 75 د.أ مكافأة ترحيبية 🎉");
+      setSuccessMessage("تهانينا! تم إنشاء حسابك بنجاح 🎉");
       setIsLoading(false);
       setTimeout(() => {
         onLoginSuccess(newUser, true);

@@ -76,7 +76,7 @@ export function useAppState() {
   // Custom states
   const [adminUsers, setAdminUsers] = useState<User[]>(INITIAL_USERS);
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
-  const [walletBalance, setWalletBalance] = useState<number>(1450.0);
+  const [walletBalance, setWalletBalance] = useState<number>(0);
   const [loyaltyXp, setLoyaltyXp] = useState<number>(4820);
   const [userOrders, setUserOrders] = useState<Order[]>(INITIAL_ORDERS);
   const [notifications, setNotifications] = useState<AppNotification[]>(INITIAL_NOTIFICATIONS);
@@ -338,6 +338,7 @@ export function useAppState() {
 
   const handleLogout = () => {
     setLoggedUser(null);
+    setWalletBalance(0);
     setActiveTab("home");
     showToast("تم تسجيل الخروج بنجاح. ركّز على انتصاراتك القادمة!", "info");
   };

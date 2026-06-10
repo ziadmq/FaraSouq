@@ -67,7 +67,7 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           email: user.email || "",
           avatarLetter: (data.name || cleanName).substring(0, 2),
           joinDate: data.joinDate || "نوفمبر 2024",
-          balance: Number(data.balance) ?? 100.0,
+          balance: Number(data.balance) ?? 0,
           status: data.status || "نشط",
           imageUrl: user.photoURL || undefined
         };
@@ -84,7 +84,7 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           email: user.email || "",
           avatarLetter: cleanName.substring(0, 2),
           joinDate: new Date().toISOString().split("T")[0].replace(/-/g, "/"),
-          balance: 75.0,
+          balance: 0,
           status: "نشط",
           imageUrl: user.photoURL || undefined
         };
@@ -153,7 +153,7 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           email: user.email || "",
           avatarLetter: (data.name || "👤").substring(0, 2),
           joinDate: data.joinDate || "اليوم",
-          balance: Number(data.balance) ?? 100.0,
+          balance: Number(data.balance) ?? 0,
           status: data.status || "نشط"
         };
         
@@ -170,7 +170,7 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           email: user.email || "",
           avatarLetter: cleanName.substring(0, 2),
           joinDate: "اليوم",
-          balance: 100.0,
+          balance: 0,
           status: "نشط"
         };
 
