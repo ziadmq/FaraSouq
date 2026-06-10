@@ -55,26 +55,13 @@ interface AdminScreenProps {
   handleSaveCMS: (e: React.FormEvent) => void;
 
   // Products
-  editingGame: Game | null;
-  formName: string;
-  setFormName: (name: string) => void;
-  formCategory: GameCategory;
-  setFormCategory: (category: GameCategory) => void;
-  formImageUrl: string;
-  setFormImageUrl: (url: string) => void;
-  formDescription: string;
-  setFormDescription: (desc: string) => void;
-  formStartingPrice: number;
-  setFormStartingPrice: (price: number) => void;
   formPackages: GamePackage[];
-  handleSaveItem: (e: React.FormEvent) => void;
-  handleResetItemForm: () => void;
+  handleSavePackages: (e: React.FormEvent) => void;
   handleAddPackage: () => void;
   handleRemovePackage: (id: string) => void;
   handleUpdatePackageField: (id: string, field: keyof GamePackage, value: any) => void;
+  handleUpdateJawakerPackage: (oldId: string, newId: string, newName: string) => void;
   gamesList: Game[];
-  handleEditClick: (game: Game) => void;
-  handleDeleteItem: (id: string, name: string) => void;
 }
 
 export default function AdminScreen({
@@ -103,26 +90,13 @@ export default function AdminScreen({
   joPaySettings,
   setJoPaySettings,
   handleSaveCMS,
-  editingGame,
-  formName,
-  setFormName,
-  formCategory,
-  setFormCategory,
-  formImageUrl,
-  setFormImageUrl,
-  formDescription,
-  setFormDescription,
-  formStartingPrice,
-  setFormStartingPrice,
   formPackages,
-  handleSaveItem,
-  handleResetItemForm,
+  handleSavePackages,
   handleAddPackage,
   handleRemovePackage,
   handleUpdatePackageField,
-  gamesList,
-  handleEditClick,
-  handleDeleteItem
+  handleUpdateJawakerPackage,
+  gamesList
 }: AdminScreenProps) {
   return (
     <motion.div
@@ -217,26 +191,13 @@ export default function AdminScreen({
 
         {activeAdminTab === "items" && (
           <ProductsTab
-            editingGame={editingGame}
-            formName={formName}
-            setFormName={setFormName}
-            formCategory={formCategory}
-            setFormCategory={setFormCategory}
-            formImageUrl={formImageUrl}
-            setFormImageUrl={setFormImageUrl}
-            formDescription={formDescription}
-            setFormDescription={setFormDescription}
-            formStartingPrice={formStartingPrice}
-            setFormStartingPrice={setFormStartingPrice}
             formPackages={formPackages}
-            handleSaveItem={handleSaveItem}
-            handleResetItemForm={handleResetItemForm}
+            handleSavePackages={handleSavePackages}
             handleAddPackage={handleAddPackage}
             handleRemovePackage={handleRemovePackage}
             handleUpdatePackageField={handleUpdatePackageField}
+            handleUpdateJawakerPackage={handleUpdateJawakerPackage}
             gamesList={gamesList}
-            handleEditClick={handleEditClick}
-            handleDeleteItem={handleDeleteItem}
           />
         )}
 

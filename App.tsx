@@ -26,17 +26,6 @@ export default function App() {
     gamesList,
     selectedGame,
     setSelectedGame,
-    editingGame,
-    formName,
-    setFormName,
-    formCategory,
-    setFormCategory,
-    formImageUrl,
-    setFormImageUrl,
-    formDescription,
-    setFormDescription,
-    formStartingPrice,
-    setFormStartingPrice,
     formPackages,
     adminUsers,
     loggedUser,
@@ -102,13 +91,11 @@ export default function App() {
     handleDeleteUser,
     confirmDeleteUser,
     handleMarkAllNotificationsRead,
-    handleSaveItem,
-    handleResetItemForm,
-    handleEditClick,
+    handleSavePackages,
     handleAddPackage,
     handleRemovePackage,
     handleUpdatePackageField,
-    handleDeleteItem,
+    handleUpdateJawakerPackage,
     confirmDeleteItem,
     handleSaveCMS
   } = useAppState();
@@ -235,26 +222,13 @@ export default function App() {
               cmsPopupText={cmsPopupText}
               setCmsPopupText={setCmsPopupText}
               handleSaveCMS={handleSaveCMS}
-              editingGame={editingGame}
-              formName={formName}
-              setFormName={setFormName}
-              formCategory={formCategory}
-              setFormCategory={setFormCategory}
-              formImageUrl={formImageUrl}
-              setFormImageUrl={setFormImageUrl}
-              formDescription={formDescription}
-              setFormDescription={setFormDescription}
-              formStartingPrice={formStartingPrice}
-              setFormStartingPrice={setFormStartingPrice}
               formPackages={formPackages}
-              handleSaveItem={handleSaveItem}
-              handleResetItemForm={handleResetItemForm}
+              handleSavePackages={handleSavePackages}
               handleAddPackage={handleAddPackage}
               handleRemovePackage={handleRemovePackage}
               handleUpdatePackageField={handleUpdatePackageField}
+              handleUpdateJawakerPackage={handleUpdateJawakerPackage}
               gamesList={gamesList}
-              handleEditClick={handleEditClick}
-              handleDeleteItem={handleDeleteItem}
             />
           )}
 

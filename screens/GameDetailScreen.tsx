@@ -10,7 +10,8 @@ import {
   User as UserIcon, 
   Coins, 
   ShoppingBag,
-  Info
+  Info,
+  Star
 } from "lucide-react";
 import { Game, GamePackage, User } from "../types";
 
@@ -142,6 +143,19 @@ export default function GameDetailScreen({
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {selectedGame.packages.map(p => {
             const isSelected = selectedPackage?.id === p.id;
+            
+            // Calculate base amount if bonus exists
+            const totalTokensStr = p.name.replace(/\D/g, "");
+            const totalTokens = parseInt(totalTokensStr);
+            let baseTokensStr = "";
+            let finalTokensStr = totalTokens.toLocaleString('en-US');
+            
+            if (p.bonusPercent && !isNaN(totalTokens)) {
+              const bonusMultiplier = 1 + (p.bonusPercent / 100);
+              const baseTokens = Math.round(totalTokens / bonusMultiplier);
+              baseTokensStr = baseTokens.toLocaleString('en-US');
+            }
+
             return (
               <div 
                 key={p.id}
@@ -155,6 +169,20 @@ export default function GameDetailScreen({
                 {isSelected && (
                   <div className="absolute inset-0 bg-emerald-500/5 mix-blend-overlay pointer-events-none" />
                 )}
+                {/* Preferred Star Badge */}
+                {p.isPreferred && (
+                  <div className="absolute top-0 left-0 bg-gradient-to-r from-amber-400 to-amber-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-br-xl z-20 flex items-center gap-1">
+                    <Star className="w-3 h-3 fill-current" />
+                    مفضلة
+                  </div>
+                )}
+                {/* Custom Admin Badge */}
+                {p.badge && !p.isPreferred && (
+                  <div className="absolute top-0 left-0 bg-gradient-to-r from-indigo-500 to-purple-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-br-xl z-20">
+                    {p.badge}
+                  </div>
+                )}
+                {/* Bonus Badge */}
                 {p.bonusPercent && (
                   <div className="absolute top-0 right-0 bg-gradient-to-r from-emerald-400 to-emerald-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl z-20">
                     +{p.bonusPercent}%
@@ -164,8 +192,21 @@ export default function GameDetailScreen({
                   <Coins className={`w-8 h-8 transition-colors duration-300 ${isSelected ? "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" : "text-slate-400 group-hover:text-emerald-500/70"}`} />
                 </div>
                 <div className="text-center w-full mt-1 z-10">
-                  <p className={`font-bold text-sm truncate transition-colors duration-300 ${isSelected ? "text-white" : "text-slate-300 group-hover:text-white"}`}>
-                    {p.name}
+                  <p className={`font-bold text-sm truncate transition-colors duration-300 overflow-visible ${isSelected ? "text-white" : "text-slate-300 group-hover:text-white"}`}>
+                    {p.name} {p.bonusPercent ? (
+                      <span className="relative group/tooltip inline-flex items-center justify-center ml-1">
+                        <span className="text-emerald-400 font-black cursor-help flex items-center gap-0.5 bg-emerald-500/10 px-1.5 py-0.5 rounded transition-all active:scale-95">
+                          + بونص
+                          <Info className="w-3 h-3 opacity-70" />
+                        </span>
+                        {/* Interactive Tooltip */}
+                        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] bg-slate-800 text-white text-[10px] p-2.5 rounded-lg shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible group-active/tooltip:opacity-100 group-active/tooltip:visible transition-all duration-200 z-[100] border border-slate-700 pointer-events-none flex flex-col gap-1.5 text-center font-sans font-normal">
+                          <span className="text-slate-400 line-through decoration-rose-500 decoration-2">قبل العرض: {baseTokensStr} توكنز</span>
+                          <span className="text-emerald-400 font-bold whitespace-nowrap">بعد بونص {p.bonusPercent}%: {finalTokensStr} توكنز</span>
+                          <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[5px] border-transparent border-t-slate-800"></span>
+                        </span>
+                      </span>
+                    ) : null}
                   </p>
                   <p className={`text-xs mt-1.5 font-mono font-semibold tracking-wide transition-colors duration-300 ${isSelected ? "text-emerald-400" : "text-slate-400 group-hover:text-emerald-500"}`}>
                     {p.price.toFixed(2)} {selectedGame.currency}
