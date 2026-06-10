@@ -137,11 +137,11 @@ export default function AdminScreen({
       {/* Left Column Admin Side Navigation Panel */}
       <aside className="lg:col-span-3 space-y-4">
         <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/40 flex flex-col gap-5">
-          <div className="flex items-center gap-3 justify-end mb-2">
+          <div className="flex items-center gap-3 justify-start mb-2">
+            <Sliders className="w-5 h-5 text-emerald-400" />
             <div>
               <h2 className="font-bold text-base text-emerald-400">لوحة تحكم الأدمن</h2>
             </div>
-            <Sliders className="w-5 h-5 text-emerald-400" />
           </div>
 
           <nav className="flex flex-col gap-2">
@@ -177,7 +177,7 @@ export default function AdminScreen({
               className="w-full flex items-center gap-3 px-4 py-3 text-rose-400 hover:bg-rose-500/10 rounded-xl text-xs sm:text-sm font-bold transition-all text-right cursor-pointer"
             >
               <LogOut className="w-4.5 h-4.5" />
-              <span>تسجيل الخروج من الحساب</span>
+              <span>تسجيل الخروج</span>
             </button>
           </div>
         </div>

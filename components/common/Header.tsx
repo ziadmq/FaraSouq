@@ -92,13 +92,22 @@ export default function Header({
                 </a>
               </>
             ) : (
-              <a 
-                onClick={() => navigateToTab("admin")}
-                className={`cursor-pointer pb-1 transition-all flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${activeTab === "admin" ? "bg-emerald-400 text-slate-950 border-emerald-400" : "bg-slate-900 text-emerald-400 border-emerald-500/30 hover:border-emerald-400 hover:text-white animate-pulse"}`}
-              >
-                <Sliders className="w-3.5 h-3.5" />
-                <span>لوحة التحكم (Admin)</span>
-              </a>
+              activeTab === "admin" ? (
+                <a 
+                  onClick={() => { navigateToTab("home"); handleMarkAllNotificationsRead(); }}
+                  className="cursor-pointer pb-1 transition-all flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold border bg-slate-800 text-white border-[#4f4633]/50 hover:bg-slate-700 active:scale-95"
+                >
+                  <span>العودة للمتجر</span>
+                </a>
+              ) : (
+                <a 
+                  onClick={() => navigateToTab("admin")}
+                  className="cursor-pointer pb-1 transition-all flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold border bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:border-emerald-400 hover:text-white animate-pulse active:scale-95"
+                >
+                  <Sliders className="w-4 h-4" />
+                  <span>لوحة التحكم (Admin)</span>
+                </a>
+              )
             )}
           </nav>
         </div>
@@ -220,10 +229,12 @@ export default function Header({
                     {loggedUser.name}
                   </span>
                   <span className="text-[9px] text-emerald-400/80 font-mono flex items-center gap-1 group-hover:text-rose-400/80 transition-colors">
-                    <span className="group-hover:hidden">{loggedUser.status === "نشط" ? "لاعب نشط" : "لاعب محظور"}</span>
+                    <span className="group-hover:hidden">
+                      {isAdmin ? "مدير النظام" : (loggedUser.status === "نشط" ? "لاعب نشط" : "لاعب محظور")}
+                    </span>
                     <span className="hidden group-hover:flex items-center gap-1">
                       <LogOut className="w-2.5 h-2.5" />
-                      تسجيل خروج
+                      تسجيل الخروج
                     </span>
                   </span>
                 </div>
