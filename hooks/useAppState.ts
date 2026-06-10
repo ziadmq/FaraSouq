@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { 
   collection, 
   onSnapshot, 
@@ -12,10 +13,11 @@ import {
   updateDoc, 
   deleteDoc, 
   getDocs,
+  getDoc,
   query,
   where
 } from "firebase/firestore";
-import { db, handleFirestoreError, OperationType } from "../lib/firebase";
+import { auth, db, handleFirestoreError, OperationType } from "../lib/firebase";
 import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, User, AppNotification } from "../types";
 import { GAMES_DATA, INITIAL_ORDERS, INITIAL_USERS, INITIAL_NOTIFICATIONS } from "../data";
 
@@ -242,6 +244,42 @@ export function useAppState() {
     return () => unsubscribe();
   }, [loggedUser?.id]);
 
+  // Auth state listener to persist login across page reloads
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        try {
+          const userDocRef = doc(db, "users", firebaseUser.uid);
+          const docSnap = await getDoc(userDocRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            const appUser: User = {
+              id: firebaseUser.uid,
+              name: data.name || firebaseUser.displayName || firebaseUser.email?.split("@")[0] || "لاعب",
+              email: firebaseUser.email || "",
+              avatarLetter: (data.name || "👤").substring(0, 2),
+              joinDate: data.joinDate || "اليوم",
+              balance: Number(data.balance) || 0,
+              status: data.status || "نشط",
+              imageUrl: data.imageUrl || firebaseUser.photoURL || undefined
+            };
+            setLoggedUser(appUser);
+            setWalletBalance(appUser.balance);
+            const isUserAdmin = appUser.email?.trim().toLowerCase() === "kafehazyad5@gmail.com";
+            setActiveTab(isUserAdmin ? "admin" : "home");
+          }
+        } catch (e) {
+          console.warn("Error fetching user profile:", e);
+        }
+      } else {
+        setLoggedUser(null);
+        setWalletBalance(0);
+      }
+    });
+
+    return () => unsubscribeAuth();
+  }, []);
+
 
 
   // Centralized navigation guard
@@ -293,7 +331,12 @@ export function useAppState() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error("Sign out error:", e);
+    }
     setLoggedUser(null);
     setWalletBalance(0);
     setActiveTab("home");
