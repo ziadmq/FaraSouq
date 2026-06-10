@@ -280,6 +280,23 @@ export function useAppState() {
     return () => unsubscribeAuth();
   }, []);
 
+  // Temporary cleanup script to forcefully delete mock data from Firestore
+  useEffect(() => {
+    if (isAdmin) {
+      const cleanupMock = async () => {
+        const mockUsers = ["usr_1", "usr_2", "usr_3", "usr_4"];
+        const mockOrders = ["FA-88001", "FA-88002", "FA-88003", "FA-88195"];
+        
+        for (const uid of mockUsers) {
+          try { await deleteDoc(doc(db, "users", uid)); } catch (e) { }
+        }
+        for (const oid of mockOrders) {
+          try { await deleteDoc(doc(db, "orders", oid)); } catch (e) { }
+        }
+      };
+      cleanupMock();
+    }
+  }, [isAdmin]);
 
 
   // Centralized navigation guard
