@@ -65,7 +65,7 @@ export default function LoginUI({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-5 border-b border-[#21314d]/60">
           <div className="text-right">
             <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-1.5 justify-end">
-              <span>تسجيل الدخول للرصيد</span>
+              <span>تسجيل الدخول</span>
               <Award className="w-5 h-5 text-amber-400" />
             </h2>
           </div>

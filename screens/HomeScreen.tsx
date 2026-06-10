@@ -96,7 +96,6 @@ export default function HomeScreen({
         <div className="lg:col-span-12 flex flex-col justify-between gap-6">
           <div className="flex items-center justify-between border-b border-[#4f4633]/20 pb-3">
             <h2 className="font-headline-md text-xl sm:text-2xl font-bold">تصفح حسب فئات الألعاب</h2>
-            <span className="text-amber-400 text-xs font-semibold">تصفح بالكل</span>
           </div>
 
           {/* Filtering Categories Grid */}

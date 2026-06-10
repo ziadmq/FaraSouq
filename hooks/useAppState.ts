@@ -74,12 +74,12 @@ export function useAppState() {
   ]);
   
   // Custom states
-  const [adminUsers, setAdminUsers] = useState<User[]>(INITIAL_USERS);
+  const [adminUsers, setAdminUsers] = useState<User[]>([]);
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
   const [walletBalance, setWalletBalance] = useState<number>(0);
   const [loyaltyXp, setLoyaltyXp] = useState<number>(4820);
-  const [userOrders, setUserOrders] = useState<Order[]>(INITIAL_ORDERS);
-  const [notifications, setNotifications] = useState<AppNotification[]>(INITIAL_NOTIFICATIONS);
+  const [userOrders, setUserOrders] = useState<Order[]>([]);
+  const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [showNotificationDropdown, setShowNotificationDropdown] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<GameCategory>(GameCategory.ALL);
@@ -178,7 +178,7 @@ export function useAppState() {
   // 2. Real-time synchronization of orders from Firebase Firestore
   useEffect(() => {
     if (!loggedUser) {
-      setUserOrders(INITIAL_ORDERS);
+      setUserOrders([]);
       return;
     }
 
@@ -242,50 +242,7 @@ export function useAppState() {
     return () => unsubscribe();
   }, [loggedUser?.id]);
 
-  // 4. Boostrap Firestore database with default users and orders if completely empty
-  useEffect(() => {
-    const bootstrapDB = async () => {
-      try {
-        const usersSnapshot = await getDocs(collection(db, "users"));
-        if (usersSnapshot.empty) {
-          for (const u of INITIAL_USERS) {
-            await setDoc(doc(db, "users", u.id), {
-              id: u.id,
-              name: u.name,
-              email: u.id === "usr_3" ? "kafehazyad5@gmail.com" : `${u.id}@farasouq.com`,
-              avatarLetter: u.avatarLetter,
-              joinDate: u.joinDate,
-              balance: u.balance,
-              status: u.status,
-              lastLogin: Date.now()
-            });
-          }
-        }
-        
-        const ordersSnapshot = await getDocs(collection(db, "orders"));
-        if (ordersSnapshot.empty) {
-          for (const o of INITIAL_ORDERS) {
-            await setDoc(doc(db, "orders", o.id), {
-              id: o.id,
-              product: o.product,
-              date: o.date,
-              price: o.price,
-              currency: o.currency,
-              status: o.status,
-              user: o.user,
-              paymentMethod: o.paymentMethod || "Zain Cash",
-              receiptUrl: o.receiptUrl || "",
-              timestamp: o.timestamp,
-              userId: o.id === "FA-88002" ? "usr_1" : "usr_3"
-            });
-          }
-        }
-      } catch (e) {
-        console.warn("Bootstrap skipped:", e);
-      }
-    };
-    bootstrapDB();
-  }, []);
+
 
   // Centralized navigation guard
   const navigateToTab = (tab: "home" | "game-detail" | "wallet" | "admin" | "login") => {
