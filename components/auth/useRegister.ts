@@ -8,7 +8,7 @@ import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db, googleProvider, handleFirestoreError, OperationType } from "../../lib/firebase";
 import { User } from "../../types";
-import { PasswordStrength } from "./useAuth";
+import { PasswordStrength } from "../../types";
 
 interface UseRegisterProps {
   onLoginSuccess: (user: User, isNew?: boolean) => void;
@@ -25,10 +25,7 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [shakeError, setShakeError] = useState(false);
 
-  // Google OAuth flow states
-  const [showGoogleSimulationModal, setShowGoogleSimulationModal] = useState(false);
-  const [simulatedGoogleName, setSimulatedGoogleName] = useState("خالد العتيبي");
-  const [simulatedGoogleEmail, setSimulatedGoogleEmail] = useState("kafehazyad5@gmail.com");
+
 
   const triggerShakeError = (msg: string) => {
     setErrorMessage(msg);
@@ -130,70 +127,8 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
 
     } catch (err: any) {
       console.error("Google Auth standard error:", err);
-      const isSimulationTrigger = 
-        err.code === "auth/popup-blocked" || 
-        err.code === "auth/operation-not-allowed" || 
-        err.code === "auth/configuration-not-found" || 
-        err.code === "auth/unauthorized-domain" ||
-        err.code === "auth/popup-closed-by-user" ||
-        err.code === "auth/cancelled-popup-request" ||
-        err.message?.includes("iframe") || 
-        err.message?.includes("popup") ||
-        err.message?.includes("not-allowed") ||
-        err.message?.includes("config") ||
-        err.message?.includes("unauthorized") ||
-        err.message?.includes("domain");
-
-      if (isSimulationTrigger) {
-        setErrorMessage("تنبيه: تم تفعيل محاكي السحابة المتقدم لعدم تمكن المتصفح من فتح نافذة Google المنبثقة.");
-        setIsLoading(false);
-        setShowGoogleSimulationModal(true);
-      } else {
-        setErrorMessage(err.message || "فشل تسجيل الدخول باستخدام Google Auth.");
-        setIsLoading(false);
-      }
-    }
-  };
-
-  const handleExecuteGoogleSimulation = async () => {
-    setShowGoogleSimulationModal(false);
-    setIsLoading(true);
-    
-    try {
-      const cleanName = simulatedGoogleName.trim() || "مستخدم Google";
-      const cleanEmail = simulatedGoogleEmail.trim() || "user@gmail.com";
-      const simulatedId = `google_sim_${Math.floor(100000 + Math.random() * 900000)}`;
-      
-      const simulatedGoogleUser: User = {
-        id: simulatedId,
-        name: cleanName,
-        email: cleanEmail,
-        avatarLetter: cleanName.substring(0, 2),
-        joinDate: "اليوم",
-        balance: 1450.0,
-        status: "نشط"
-      };
-
-      const userDocRef = doc(db, "users", simulatedId);
-      try {
-        await setDoc(userDocRef, {
-          ...simulatedGoogleUser,
-          lastLogin: Date.now()
-        });
-      } catch (err) {
-        handleFirestoreError(err, OperationType.CREATE, `users/${simulatedId}`);
-      }
-
-      setSuccessMessage(`مرحباً يا ${cleanName}! تم تسجيل دخولك بنجاح بنمط محاكاة Google المُطور 🌐`);
+      setErrorMessage(err.message || "فشل تسجيل الدخول باستخدام Google Auth.");
       setIsLoading(false);
-      setTimeout(() => {
-        onLoginSuccess(simulatedGoogleUser);
-      }, 1200);
-
-    } catch (err: any) {
-      console.error("Google simulation write error:", err);
-      setIsLoading(false);
-      setErrorMessage("فشل تسجيل الدخول وحفظ البيانات في قاعدة البيانات.");
     }
   };
 
@@ -284,15 +219,8 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
     errorMessage,
     successMessage,
     shakeError,
-    showGoogleSimulationModal,
-    setShowGoogleSimulationModal,
-    simulatedGoogleName,
-    setSimulatedGoogleName,
-    simulatedGoogleEmail,
-    setSimulatedGoogleEmail,
     strength,
     handleSubmit,
-    handleGoogleLogin,
-    handleExecuteGoogleSimulation
+    handleGoogleLogin
   };
 }

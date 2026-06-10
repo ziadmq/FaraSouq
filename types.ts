@@ -82,3 +82,10 @@ export interface AppNotification {
   type: "success" | "warning" | "info";
   isRead: boolean;
 }
+
+export interface PasswordStrength {
+  score: number;
+  label: string;
+  color: string;
+}
+
