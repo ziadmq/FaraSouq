@@ -50,7 +50,7 @@ export default function DepositsTab({
               <div className="w-24 h-24 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6 border border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
                 <CheckCircle2 className="w-12 h-12 text-emerald-400" />
               </div>
-              <h3 className="text-2xl font-black text-white mb-2">ممتاز! لا توجد طلبات معلقة</h3>
+              <h3 className="text-2xl font-black text-white mb-2">لا توجد طلبات معلقة</h3>
               <p className="text-[#8da1c5] text-base max-w-md mx-auto">
                 لقد قمت بمراجعة جميع طلبات الإيداع بنجاح. لا يوجد لاعبين في طابور الانتظار حالياً.
               </p>

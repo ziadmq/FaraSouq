@@ -77,7 +77,7 @@ export default function AnalyticsTab({
           </div>
           <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-white to-emerald-200 flex items-end gap-1.5 justify-end relative z-10">
             <span>{totalSalesToDisplay.toFixed(2)}</span>
-            <span className="text-sm text-emerald-500 font-bold mb-1.5">د.أ</span>
+            <span className="text-sm text-emerald-500 font-bold mb-1.5">JOD</span>
           </p>
         </div>
 
@@ -145,7 +145,7 @@ export default function AnalyticsTab({
           </div>
           <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-white to-indigo-200 flex items-end gap-1.5 justify-end relative z-10">
             <span>{totalInstantDepositsToDisplay.toFixed(2)}</span>
-            <span className="text-sm text-indigo-500 font-bold mb-1.5">د.أ</span>
+            <span className="text-sm text-indigo-500 font-bold mb-1.5">JOD</span>
           </p>
         </div>
 
@@ -172,7 +172,7 @@ export default function AnalyticsTab({
             <div key={index} className="flex flex-col items-center flex-1 group h-full justify-end">
               {/* Tooltip */}
               <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-[#21314d] text-white text-xs font-bold px-3 py-1.5 rounded-lg mb-2 pointer-events-none shadow-xl transform translate-y-2 group-hover:translate-y-0">
-                {data.sales} د.أ
+                {data.sales} JOD
               </div>
               
               {/* Bar */}
