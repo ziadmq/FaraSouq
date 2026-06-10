@@ -161,17 +161,6 @@ export default function AnalyticsTab({
         </div>
       </div>
 
-      {/* Quick System Alerts Inside Admin panel */}
-      <div className="bg-[#191f2f] rounded-2xl p-5 border-r-4 border-rose-500/80 border-t border-b border-l border-[#4f4633]/30 flex items-start gap-4 text-right">
-        <ShieldAlert className="w-6 h-6 text-rose-500 flex-shrink-0 mt-0.5 animate-pulse" />
-        <div className="space-y-1">
-          <h4 className="font-bold text-white text-sm">تنبيهات الأنظمة والمخزون</h4>
-          <p className="text-xs text-[#9c8f79] leading-relaxed">
-            نظام الكشف الآلي يشير إلى وجود 5 طلبات تحويل تأخر معالجتها لعدم تحميل العميل الإيصال الصحيح، يرجى مراجعة كشوفات CliQ البنكية لمطابقة حوالات FAARA-SHOP-99.
-          </p>
-        </div>
-      </div>
-
     </div>
   );
 }
