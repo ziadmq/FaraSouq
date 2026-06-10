@@ -27,7 +27,7 @@ export function useAppState() {
   
   // Dynamic list of games state
   const [gamesList, setGamesList] = useState<Game[]>(() => {
-    const saved = localStorage.getItem("fara_games_list");
+    const saved = localStorage.getItem("fara_games_list_v2");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -46,7 +46,7 @@ export function useAppState() {
 
   // Game selected for detail page
   const [selectedGame, setSelectedGame] = useState<Game>(() => {
-    const saved = localStorage.getItem("fara_games_list");
+    const saved = localStorage.getItem("fara_games_list_v2");
     let initialGames = GAMES_DATA;
     if (saved) {
       try {
@@ -698,7 +698,7 @@ export function useAppState() {
   // Save games list helper
   const saveGamesList = (updated: Game[]) => {
     setGamesList(updated);
-    localStorage.setItem("fara_games_list", JSON.stringify(updated));
+    localStorage.setItem("fara_games_list_v2", JSON.stringify(updated));
   };
 
   // Submit handler for adding or editing a game/item

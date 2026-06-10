@@ -116,7 +116,7 @@ export default function App() {
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
   return (
-    <div className="min-h-screen bg-[#0c1322] text-[#dce2f7] flex flex-col antialiased selection:bg-amber-400 selection:text-[#402d00] font-sans pb-16 md:pb-0">
+    <div className="min-h-screen bg-[#0c1322] text-[#dce2f7] flex flex-col antialiased selection:bg-emerald-500 selection:text-white font-sans pb-16 md:pb-0">
       
       {/* Toast notifications portal */}
       <ToastContainer toasts={toasts} />

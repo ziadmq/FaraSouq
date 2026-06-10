@@ -59,7 +59,7 @@ export default function GameDetailScreen({
       <div className="flex justify-end">
         <button 
           onClick={() => setActiveTab("home")}
-          className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition-colors cursor-pointer group"
+          className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer group"
         >
           <span>العودة للمتجر</span>
           <ArrowRight className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -85,12 +85,12 @@ export default function GameDetailScreen({
 
       {/* Player ID Section */}
       <section className="bg-[#111827] rounded-2xl p-6 md:p-8 border border-slate-800 shadow-sm space-y-4">
-        <div className="flex items-center justify-end gap-2 text-white">
-          <h2 className="font-bold text-lg">معرف اللاعب (Player ID)</h2>
-          <UserIcon className="w-5 h-5 text-amber-500" />
+        <div className="flex items-center justify-start gap-2 text-white">
+          <UserIcon className="w-5 h-5 text-emerald-500" />
+          <h2 className="font-bold text-lg">رقم اللاعب (Player Number)</h2>
         </div>
 
-        <div className="flex flex-col sm:flex-row-reverse gap-4 items-start sm:items-center">
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
           <div className="flex-1 w-full relative">
             <input 
               type="text" 
@@ -99,8 +99,8 @@ export default function GameDetailScreen({
                 setPlayerId(e.target.value);
                 if (e.target.value.trim()) setPlayerIdError("");
               }}
-              placeholder="أدخل رقم الـ ID هنا"
-              className={`w-full bg-slate-900 border rounded-xl px-4 py-3 text-right text-white font-mono outline-none focus:border-amber-500 transition-colors ${
+              placeholder="مثال: 1560982341"
+              className={`w-full bg-slate-900 border rounded-xl px-4 py-3 text-right text-white font-mono placeholder:font-sans placeholder:text-slate-500 placeholder:text-sm outline-none focus:border-emerald-500 transition-colors ${
                 playerIdError ? "border-red-500" : "border-slate-800"
               }`}
             />
@@ -112,10 +112,10 @@ export default function GameDetailScreen({
           <button 
             type="button"
             onClick={() => setShowIdHelp(!showIdHelp)}
-            className="text-sm text-slate-400 hover:text-white transition-colors flex items-center justify-end gap-1 shrink-0 px-2"
+            className="text-sm text-slate-400 hover:text-white transition-colors flex items-center justify-start gap-1 shrink-0 px-2"
           >
-            <span>أين أجد المعرف؟</span>
             <Info className="w-4 h-4" />
+            <span>أين أجد الرقم؟</span>
           </button>
         </div>
 
@@ -127,7 +127,7 @@ export default function GameDetailScreen({
               exit={{ opacity: 0, height: 0 }}
               className="bg-slate-900/50 rounded-xl p-4 border border-slate-800 text-sm text-slate-400 text-right leading-relaxed"
             >
-              قم بفتح اللعبة، اذهب إلى ملفك الشخصي بالزاوية، وانسخ الرقم المجاور لكلمة ID.
+              للعثور على رقم اللاعب الخاص بك، يرجى فتح اللعبة والتوجه إلى قائمة الإعدادات، ثم قم بنسخ الرقم الموجود بجانب خيار (Player Number).
             </motion.div>
           )}
         </AnimatePresence>
@@ -148,7 +148,7 @@ export default function GameDetailScreen({
                 onClick={() => setSelectedPackage(p)}
                 className={`cursor-pointer p-5 rounded-2xl border transition-all duration-200 flex flex-col items-center justify-center gap-3 relative overflow-hidden ${
                   isSelected 
-                    ? "bg-amber-500/10 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.1)]" 
+                    ? "bg-emerald-500/10 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.15)]" 
                     : "bg-[#111827] border-slate-800 hover:border-slate-600"
                 }`}
               >
@@ -157,12 +157,12 @@ export default function GameDetailScreen({
                     +{p.bonusPercent}%
                   </div>
                 )}
-                <Coins className={`w-8 h-8 ${isSelected ? "text-amber-500" : "text-slate-500"}`} />
+                <Coins className={`w-8 h-8 ${isSelected ? "text-emerald-500" : "text-slate-500"}`} />
                 <div className="text-center w-full">
                   <p className={`font-bold text-sm truncate ${isSelected ? "text-white" : "text-slate-300"}`}>
                     {p.name}
                   </p>
-                  <p className={`text-xs mt-1 font-mono ${isSelected ? "text-amber-400" : "text-slate-400"}`}>
+                  <p className={`text-xs mt-1 font-mono ${isSelected ? "text-emerald-400" : "text-slate-400"}`}>
                     {p.price.toFixed(2)} {selectedGame.currency}
                   </p>
                 </div>
@@ -184,7 +184,7 @@ export default function GameDetailScreen({
 
         <button 
           onClick={handlePurchasePackage}
-          className="w-full sm:w-auto px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
         >
           <span>تأكيد الشراء</span>
           <ShoppingBag className="w-5 h-5" />
