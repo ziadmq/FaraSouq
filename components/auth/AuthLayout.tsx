@@ -51,17 +51,11 @@ export default function AuthLayout({ children, emailOrNameForCard, isRegister = 
           
           {/* Header Branding */}
           <div className="space-y-3">
-            <div className="flex items-center gap-3 justify-end">
-              <span className="bg-amber-400/10 text-amber-300 text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-full border border-amber-400/20 uppercase">
-                بوابة اللاعبين المعتمدة 🎮
-              </span>
-            </div>
             <div className="flex items-center gap-4 justify-end">
               <div>
                 <h1 className="text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(251,191,36,0.3)]">
                   فارة | سوق
                 </h1>
-                <p className="text-[#8e9fbc] text-xs font-medium mt-1">تداول آمن للأصول الرقمية وبطاقات الألعاب</p>
               </div>
               <div className="p-3 bg-[#152033] border border-[#2b3952] rounded-2xl shadow-xl hover:border-amber-400/40 hover:rotate-6 transition-all duration-300">
                 <Gamepad2 className="w-8 h-8 text-amber-400" />

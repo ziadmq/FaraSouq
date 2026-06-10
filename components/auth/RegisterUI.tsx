@@ -78,9 +78,7 @@ export default function RegisterUI({
               <span>إنشاء حساب لاعب جديد</span>
               <Award className="w-5 h-5 text-amber-400" />
             </h2>
-            <p className="text-xs text-[#8da1c5] mt-1.5">
-              سجل مجاناً للتسوق الفوري والحصول على 75 د.أ ترحيبية
-            </p>
+
           </div>
 
           {/* Mode Selector slider tab */}
@@ -171,9 +169,7 @@ export default function RegisterUI({
               />
               <Mail className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-amber-400 transition-colors" />
             </div>
-            <p className="text-[10px] text-slate-500 text-right">
-              💡 يمكنك إدخال كلمة واحدة فقط وسيتم تهيئتها كعنوان فرعي آمن تلقائياً.
-            </p>
+
           </div>
 
           <div className="space-y-1.5">
