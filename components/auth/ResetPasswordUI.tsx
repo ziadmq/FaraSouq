@@ -31,20 +31,22 @@ export default function ResetPasswordUI({
         transition={{ duration: 0.5 }}
         className="w-full bg-[#11192a]/90 backdrop-blur-2xl border border-emerald-500/15 p-5 sm:p-8 md:p-10 rounded-3xl shadow-2xl relative overflow-hidden"
       >
-        {/* Styled Gold Top Header Ring */}
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(251,191,36,0.5)]" />
+        {/* Styled Green Top Header Ring */}
+        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
 
         {/* Title Block */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-5 border-b border-[#21314d]/60">
-          <div className="text-right w-full">
-            <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-1.5 justify-end">
-              <span>استعادة كلمة المرور</span>
-              <KeyRound className="w-5 h-5 text-emerald-400" />
+        <div className="mb-8 pb-6 border-b border-[#21314d]/60 flex flex-col items-start justify-start text-right w-full">
+          <div className="flex items-center justify-start gap-3 mb-3">
+            <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.15)] shrink-0">
+              <KeyRound className="w-6 h-6 text-emerald-400" />
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              استعادة كلمة المرور
             </h2>
-            <p className="text-xs text-[#8da1c5] mt-1.5">
-              أدخل بريدك الإلكتروني لتلقي رابط إعادة التعيين
-            </p>
           </div>
+          <p className="text-sm text-[#8da1c5] leading-relaxed w-full">
+            أدخل بريدك الإلكتروني المسجل أدناه وسنرسل لك رابطاً آمناً لإعادة تعيين كلمة المرور.
+          </p>
         </div>
 
         {/* Error and Success notifications inside Form */}
@@ -75,40 +77,44 @@ export default function ResetPasswordUI({
         </AnimatePresence>
 
         {/* Form */}
-        <form onSubmit={handleResetPassword} className="space-y-4">
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#b0bfdb] block text-right">
+        <form onSubmit={handleResetPassword} className="space-y-6 pt-2">
+          
+          {/* Email Field with Floating Label */}
+          <div className="relative group/input">
+            <input
+              id="email"
+              type="text"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder=" "
+              className="peer w-full bg-[#070e1d] border border-[#21314d] focus:border-emerald-500 text-white rounded-xl pr-12 pl-4 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 text-right font-mono transition-all"
+            />
+            <label 
+              htmlFor="email"
+              className="absolute text-[#5e7193] bg-[#070e1d] px-2 right-10 top-0 -translate-y-1/2 text-xs transition-all duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs peer-focus:text-emerald-500 pointer-events-none"
+            >
               البريد الإلكتروني
             </label>
-            <div className="relative group/input">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="email@domain.com"
-                className="w-full bg-[#070e1d] border border-[#21314d] group-hover/input:border-emerald-400/40 focus:border-emerald-400 text-white rounded-xl pr-10 pl-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-400 text-right font-mono transition-all"
-              />
-              <Mail className="w-5 h-5 text-[#5e7193] absolute right-3.5 top-1/2 -translate-y-1/2 group-focus-within/input:text-emerald-400 transition-colors" />
-            </div>
+            <Mail className="w-5 h-5 text-[#5e7193] absolute right-4 top-1/2 -translate-y-1/2 peer-focus:text-emerald-500 transition-colors pointer-events-none" />
           </div>
 
           <button
             type="submit"
             disabled={isLoading || !!successMessage}
-            className={`w-full bg-emerald-400 hover:bg-emerald-300 disabled:bg-[#1f283d] text-slate-950 font-black py-3.5 rounded-xl cursor-pointer transition-all active:scale-98 text-sm shadow-xl mt-3 flex items-center justify-center gap-2 ${
-              isLoading || !!successMessage ? "pointer-events-none opacity-60" : "glow-primary"
+            className={`w-full bg-emerald-500/10 hover:bg-emerald-500/20 backdrop-blur-md border border-emerald-500 text-emerald-400 font-black py-4 rounded-xl cursor-pointer transition-all active:scale-98 text-sm shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center justify-center gap-2 mt-2 ${
+              isLoading || !!successMessage ? "pointer-events-none opacity-60" : ""
             }`}
           >
             {isLoading ? (
-              <div className="flex items-center gap-2 text-slate-950">
-                <RefreshCw className="w-4 h-4 animate-spin" />
+              <div className="flex items-center gap-2">
+                <RefreshCw className="w-5 h-5 animate-spin" />
                 <span>جاري إرسال الرابط...</span>
               </div>
             ) : (
               <>
                 <span>إرسال رابط إعادة التعيين</span>
-                <Mail className="w-4 h-4 text-slate-950" />
+                <Mail className="w-5 h-5" />
               </>
             )}
           </button>
