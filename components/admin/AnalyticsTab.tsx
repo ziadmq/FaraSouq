@@ -51,10 +51,6 @@ export default function AnalyticsTab({
             <Coins className="w-5 h-5 text-amber-400" />
           </div>
           <p className="font-mono text-xl sm:text-2xl font-black text-white">{totalSalesToDisplay.toFixed(2)} د.أ</p>
-          <p className="text-[10px] text-emerald-400 font-medium flex items-center gap-0.5 justify-end">
-            <span>مباشرة من قاعدة البيانات Firestore</span>
-            <TrendingUp className="w-3.5 h-3.5" />
-          </p>
         </div>
 
         <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 text-right space-y-1 hover:border-rose-500/20 transition-all shadow-sm">
@@ -65,7 +61,6 @@ export default function AnalyticsTab({
           <p className="font-mono text-xl sm:text-2xl font-black text-rose-400">
             {pendingDepositsToDisplay} طلبات
           </p>
-          <p className="text-[10px] text-rose-400 font-bold">تتطلب تدقيق يدوي فوري</p>
         </div>
 
         <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 text-right space-y-1 hover:border-sky-500/20 transition-all shadow-sm">
@@ -74,7 +69,6 @@ export default function AnalyticsTab({
             <Users className="w-5 h-5 text-sky-400" />
           </div>
           <p className="font-mono text-xl sm:text-2xl font-black text-white">{totalMembersToDisplay} لاعب</p>
-          <p className="text-[10px] text-sky-400 font-bold">مسجلين في Firebase Auth</p>
         </div>
 
         <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/30 text-right space-y-1 hover:border-amber-400/30 transition-all shadow-sm">
@@ -83,7 +77,6 @@ export default function AnalyticsTab({
             <Wallet className="w-5 h-5 text-amber-300" />
           </div>
           <p className="font-mono text-xl sm:text-2xl font-black text-white">{totalInstantDepositsToDisplay.toFixed(2)} د.أ</p>
-          <p className="text-[10px] text-[#9c8f79]">تأكيد مباشر ومزامن</p>
         </div>
 
       </div>
@@ -158,17 +151,6 @@ export default function AnalyticsTab({
               </div>
             ))
           )}
-        </div>
-      </div>
-
-      {/* Quick System Alerts Inside Admin panel */}
-      <div className="bg-[#191f2f] rounded-2xl p-5 border-r-4 border-rose-500/80 border-t border-b border-l border-[#4f4633]/30 flex items-start gap-4 text-right">
-        <ShieldAlert className="w-6 h-6 text-rose-500 flex-shrink-0 mt-0.5 animate-pulse" />
-        <div className="space-y-1">
-          <h4 className="font-bold text-white text-sm">تنبيهات الأنظمة والمخزون</h4>
-          <p className="text-xs text-[#9c8f79] leading-relaxed">
-            نظام الكشف الآلي يشير إلى وجود 5 طلبات تحويل تأخر معالجتها لعدم تحميل العميل الإيصال الصحيح، يرجى مراجعة كشوفات CliQ البنكية لمطابقة حوالات FAARA-SHOP-99.
-          </p>
         </div>
       </div>
 

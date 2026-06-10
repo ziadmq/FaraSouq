@@ -27,14 +27,13 @@ export default function DepositsTab({
       <div className="bg-[#191f2f] p-6 rounded-2xl border border-[#4f4633]/30 text-right space-y-4">
         <div>
           <h3 className="font-black text-xl text-white">إدارة طلبات شحن الرصيد المعلقة</h3>
-          <p className="text-xs text-[#9c8f79] mt-0.5">يمكنك هنا تأكيد ومراجعة إيصالات دفع CliQ والمحافظ الإلكترونية لإيداع الأموال للعملاء بالريال.</p>
         </div>
 
         <div className="space-y-3 pt-3">
           {pendingOrders.length === 0 ? (
             <div className="text-center p-12 text-[#9c8f79]">
               <Wallet className="w-12 h-12 mx-auto text-amber-500 opacity-20 mb-2" />
-              <p className="font-bold">أحسنت! لا توجد طلبات إيداع معلقة متبقية.</p>
+              <p className="font-bold">لا توجد طلبات إيداع معلقة متبقية.</p>
             </div>
           ) : (
             pendingOrders.map(order => (
