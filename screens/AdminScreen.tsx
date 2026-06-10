@@ -139,19 +139,18 @@ export default function AdminScreen({
         <div className="bg-[#191f2f] rounded-2xl p-5 border border-[#4f4633]/40 flex flex-col gap-5">
           <div className="flex items-center gap-3 justify-end mb-2">
             <div>
-              <h2 className="font-bold text-base text-emerald-400">لوحة الإشراف</h2>
-              <p className="text-[10px] text-[#9c8f79]">إدارة محتويات المتجر</p>
+              <h2 className="font-bold text-base text-emerald-400">لوحة تحكم الأدمن</h2>
             </div>
             <Sliders className="w-5 h-5 text-emerald-400" />
           </div>
 
           <nav className="flex flex-col gap-2">
             {[
-              { id: "analytics", label: "التحليلات والمبيعات", icon: TrendingUp },
-              { id: "deposits", label: "مراقبة الإيداعات المعلقة", icon: Wallet },
-              { id: "users", label: "إدارة اللاعبين المعتمدين", icon: Users },
-              { id: "items", label: "إدارة المنتجات والألعاب", icon: Gamepad2 },
-              { id: "settings", label: "إعدادات واجهة المتجر (CMS)", icon: Settings }
+              { id: "analytics", label: "الرئيسية", icon: TrendingUp },
+              { id: "deposits", label: "الطلبات المعلقة", icon: Wallet },
+              { id: "users", label: "المستخدمين", icon: Users },
+              { id: "items", label: "المنتجات", icon: Gamepad2 },
+              { id: "settings", label: "إعدادات المتجر", icon: Settings }
             ].map(menu => {
               const Icon = menu.icon;
               const isSelected = activeAdminTab === menu.id;

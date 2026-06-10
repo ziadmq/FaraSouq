@@ -268,7 +268,7 @@ export default function RegisterUI({
             {isLoading ? (
               <div className="flex items-center gap-2">
                 <RefreshCw className="w-5 h-5 animate-spin" />
-                <span>جاري معالجة الطلب سحابياً...</span>
+                <span>جاري إنشاء الحساب...</span>
               </div>
             ) : (
               <>
