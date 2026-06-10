@@ -89,3 +89,8 @@ export interface PasswordStrength {
   color: string;
 }
 
+export interface JoPaySettings {
+  token: string;
+  quantityMap: Record<string, number>;
+}
+

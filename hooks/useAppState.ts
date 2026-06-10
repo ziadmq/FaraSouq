@@ -5,19 +5,9 @@
 
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { 
-  collection, 
-  onSnapshot, 
-  doc, 
-  setDoc, 
-  updateDoc, 
-  deleteDoc, 
-  getDocs,
-  getDoc,
-  query,
-  where
-} from "firebase/firestore";
-import { auth, db, handleFirestoreError, OperationType } from "../lib/firebase";
+import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot, query, where, deleteDoc } from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
+import { auth, db, functions, handleFirestoreError, OperationType } from "../lib/firebase";
 import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, User, AppNotification } from "../types";
 import { GAMES_DATA, INITIAL_ORDERS, INITIAL_USERS, INITIAL_NOTIFICATIONS } from "../data";
 
@@ -91,6 +81,43 @@ export function useAppState() {
   const [cmsBannerUrl, setCmsBannerUrl] = useState<string>("");
   const [cmsBannerImage, setCmsBannerImage] = useState<string>("https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=1200&auto=format&fit=crop");
   const [cmsPopupText, setCmsPopupText] = useState<string>("");
+
+  const [joPaySettings, setJoPaySettings] = useState<JoPaySettings>({
+    token: "",
+    quantityMap: {
+      "jw_50k": 50000,
+      "jw_100k": 100000,
+      "jw_250k": 250000,
+      "jw_750k": 750000,
+      "jw_1.5m": 1500000,
+      "jw_3m": 3000000
+    }
+  });
+
+  useEffect(() => {
+    const fetchJoPay = async () => {
+      try {
+        const docSnap = await getDoc(doc(db, "settings", "jopay"));
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setJoPaySettings({
+            token: data.token || "",
+            quantityMap: data.quantityMap || {
+              "jw_50k": 50000,
+              "jw_100k": 100000,
+              "jw_250k": 250000,
+              "jw_750k": 750000,
+              "jw_1.5m": 1500000,
+              "jw_3m": 3000000
+            }
+          });
+        }
+      } catch (e) {
+        console.error("Error fetching jopay settings:", e);
+      }
+    };
+    fetchJoPay();
+  }, []);
 
   // States for Package Selection Screen (Screen 2)
   const [playerId, setPlayerId] = useState<string>("");
@@ -490,7 +517,6 @@ export function useAppState() {
     };
     setNotifications(prev => [newNot, ...prev]);
   };
-
   // Purchase charging package selection
   const handlePurchasePackage = async () => {
     if (!playerId.trim()) {
@@ -511,59 +537,128 @@ export function useAppState() {
       return;
     }
 
-    const finalBalance = walletBalance - packagePrice;
-    const gainedXp = Math.floor(packagePrice * 10);
-    setLoyaltyXp(prev => prev + gainedXp);
-
-    const newId = `FA-${Math.floor(87000 + Math.random() * 999)}`;
-    const newOrder: Order = {
-      id: newId,
-      product: `${selectedPackage.name} - ${selectedGame.name}`,
-      date: "اليوم",
-      price: packagePrice,
-      currency: "JD",
-      status: OrderStatus.COMPLETED,
-      user: loggedUser?.name || "لاعب فارة",
-      playerId: playerId,
-      paymentMethod: "رصيد المحفظة",
-      userId: loggedUser?.id || undefined,
-      timestamp: Date.now()
-    };
+    setIsDepositing(true);
 
     try {
-      if (loggedUser?.id) {
-        await updateDoc(doc(db, "users", loggedUser.id), { balance: finalBalance });
-      }
-      await setDoc(doc(db, "orders", newId), newOrder);
-      setUserOrders(prev => {
-        if (!prev.some(o => o.id === newOrder.id)) {
-          return [newOrder, ...prev];
-        }
-        return prev;
-      });
-      showToast(`تم شراء شحنة ${selectedPackage.name} بنجاح لـ ${selectedGame.name}!`, "success");
-    } catch (err) {
-      console.error("Firestore buy package error:", err);
-      setWalletBalance(finalBalance);
-      setUserOrders(prev => {
-        if (!prev.some(o => o.id === newOrder.id)) {
-          return [newOrder, ...prev];
-        }
-        return prev;
-      });
-      showToast(`تم شراء شحنة ${selectedPackage.name} بنجاح (محلياً)!`, "success");
-    }
+      if (selectedGame.id === "jawaker") {
+        const joPayToken = joPaySettings.token;
 
-    const newNotification: AppNotification = {
-      id: Math.random().toString(),
-      title: "عملية شراء ناجحة ✅",
-      description: `تم شحن ${selectedPackage.name} بنجاح إلى المعرف ${playerId}. تم خصم ${packagePrice} د.أ.`,
-      time: "الآن",
-      type: "success",
-      isRead: false
-    };
-    setNotifications(prev => [newNotification, ...prev]);
-    setPlayerId("");
+        if (!joPayToken) {
+          throw new Error("لم يتم إعداد مفتاح API في قاعدة البيانات!");
+        }
+
+        const quantity = joPaySettings.quantityMap[selectedPackage.id];
+        if (!quantity) throw new Error(`باقة جواكر غير صالحة! المعرف: ${selectedPackage.id} غير مربوط بكمية.`);
+
+        const response = await fetch("https://jo-pay.azurewebsites.net/jopay/Api/CreateOrder", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Token": joPayToken
+          },
+          body: JSON.stringify({
+            productId: 470,
+            quantity: quantity,
+            extraData: playerId.toString()
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error("فشلت عملية الربط مع موفر الخدمة (Jo-Pay)");
+        }
+
+        const finalBalance = walletBalance - packagePrice;
+        const gainedXp = Math.floor(packagePrice * 10);
+        setLoyaltyXp(prev => prev + gainedXp);
+
+        const newId = `FA-${Math.floor(87000 + Math.random() * 999)}`;
+        const newOrder: Order = {
+          id: newId,
+          product: `${selectedPackage.name} - ${selectedGame.name}`,
+          date: "اليوم",
+          price: packagePrice,
+          currency: "JD",
+          status: OrderStatus.COMPLETED,
+          user: loggedUser?.name || "لاعب فارة",
+          playerId: playerId,
+          paymentMethod: "رصيد المحفظة",
+          userId: loggedUser?.id || undefined,
+          timestamp: Date.now()
+        };
+
+        if (loggedUser?.id) {
+          await updateDoc(doc(db, "users", loggedUser.id), { balance: finalBalance });
+        }
+        await setDoc(doc(db, "orders", newId), newOrder);
+        setUserOrders(prev => {
+          if (!prev.some(o => o.id === newOrder.id)) {
+            return [newOrder, ...prev];
+          }
+          return prev;
+        });
+
+        showToast(`تم شحن ${selectedPackage.name} بنجاح عبر API!`, "success");
+
+        const newNotification: AppNotification = {
+          id: Math.random().toString(),
+          title: "عملية شحن جواكر ناجحة! 🎉",
+          description: `تم شحن ${selectedPackage.name} بنجاح للرقم ${playerId}. تم خصم ${packagePrice} د.أ.`,
+          time: "الآن",
+          type: "success",
+          isRead: false
+        };
+        setNotifications(prev => [newNotification, ...prev]);
+        setPlayerId("");
+
+      } else {
+        const finalBalance = walletBalance - packagePrice;
+        const gainedXp = Math.floor(packagePrice * 10);
+        setLoyaltyXp(prev => prev + gainedXp);
+
+        const newId = `FA-${Math.floor(87000 + Math.random() * 999)}`;
+        const newOrder: Order = {
+          id: newId,
+          product: `${selectedPackage.name} - ${selectedGame.name}`,
+          date: "اليوم",
+          price: packagePrice,
+          currency: "JD",
+          status: OrderStatus.COMPLETED,
+          user: loggedUser?.name || "لاعب فارة",
+          playerId: playerId,
+          paymentMethod: "رصيد المحفظة",
+          userId: loggedUser?.id || undefined,
+          timestamp: Date.now()
+        };
+
+        if (loggedUser?.id) {
+          await updateDoc(doc(db, "users", loggedUser.id), { balance: finalBalance });
+        }
+        await setDoc(doc(db, "orders", newId), newOrder);
+        setUserOrders(prev => {
+          if (!prev.some(o => o.id === newOrder.id)) {
+            return [newOrder, ...prev];
+          }
+          return prev;
+        });
+        showToast(`تم شراء شحنة ${selectedPackage.name} بنجاح لـ ${selectedGame.name}!`, "success");
+
+        const newNotification: AppNotification = {
+          id: Math.random().toString(),
+          title: "عملية شراء ناجحة ✅",
+          description: `تم شحن ${selectedPackage.name} بنجاح إلى المعرف ${playerId}. تم خصم ${packagePrice} د.أ.`,
+          time: "الآن",
+          type: "success",
+          isRead: false
+        };
+        setNotifications(prev => [newNotification, ...prev]);
+        setPlayerId("");
+      }
+    } catch (err: any) {
+      console.error("Purchase error:", err);
+      showToast(err.message || "حدث خطأ أثناء الشراء.", "error");
+    } finally {
+      setIsDepositing(false);
+    }
   };
 
   // Interactive Admin Dashboard Controls
@@ -899,6 +994,8 @@ export function useAppState() {
     setCmsBannerImage,
     cmsPopupText,
     setCmsPopupText,
+    joPaySettings,
+    setJoPaySettings,
     playerId,
     setPlayerId,
     selectedPackage,
