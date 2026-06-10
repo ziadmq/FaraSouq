@@ -161,7 +161,8 @@ export function useAppState() {
     .reduce((sum, o) => sum + o.price, 0);
 
   // Admin email check defined by user request
-  const isAdmin = loggedUser?.email?.trim().toLowerCase() === "kafehazyad5@gmail.com";
+  const adminEmails = ["kafehazyad5@gmail.com", "eeyad610@gmail.com"];
+  const isAdmin = loggedUser?.email ? adminEmails.includes(loggedUser.email.trim().toLowerCase()) : false;
 
   // Toast show helper
   const showToast = (text: string, type: "success" | "error" | "info" = "success") => {
@@ -292,7 +293,8 @@ export function useAppState() {
             };
             setLoggedUser(appUser);
             setWalletBalance(appUser.balance);
-            const isUserAdmin = appUser.email?.trim().toLowerCase() === "kafehazyad5@gmail.com";
+            const adminEmails = ["kafehazyad5@gmail.com", "eeyad610@gmail.com"];
+            const isUserAdmin = appUser.email ? adminEmails.includes(appUser.email.trim().toLowerCase()) : false;
             setActiveTab(isUserAdmin ? "admin" : "home");
           }
         } catch (e) {
@@ -365,7 +367,8 @@ export function useAppState() {
   const handleLoginSuccess = (user: User, isNew?: boolean) => {
     setLoggedUser(user);
     setWalletBalance(user.balance);
-    const isUserAdmin = user.email?.trim().toLowerCase() === "kafehazyad5@gmail.com";
+    const adminEmails = ["kafehazyad5@gmail.com", "eeyad610@gmail.com"];
+    const isUserAdmin = user.email ? adminEmails.includes(user.email.trim().toLowerCase()) : false;
     setActiveTab(isUserAdmin ? "admin" : "home");
     if (isNew) {
       setAdminUsers(prev => [user, ...prev]);

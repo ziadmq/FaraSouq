@@ -106,41 +106,22 @@ export default function Header({
         {/* Right Header Navigation Widgets */}
         <div className="flex items-center gap-2 sm:gap-4">
           
-          {/* Live Search bar for games (hidden on mobile header or for admin) */}
-          {!isAdmin && (
-            <div className="relative hidden md:block">
-              <input 
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  if (activeTab !== "home") navigateToTab("home");
-                }}
-                type="text" 
-                placeholder="ابحث عن شدات أو ألعاب..."
-                className="bg-[#191f2f] text-[#dce2f7] border border-[#4f4633]/30 rounded-full pr-10 pl-4 py-1.5 text-sm outline-none focus:ring-2 focus:ring-emerald-400 w-52 focus:w-64 transition-all placeholder:text-[#9c8f79]/50 text-right"
-              />
-              <Search className="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 text-[#d3c5ac]" />
-              {searchQuery && (
-                <X 
-                  onClick={() => setSearchQuery("")}
-                  className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#d3c5ac] cursor-pointer hover:text-white"
-                />
-              )}
-            </div>
-          )}
+
 
           {/* Wallet Quick Balance Card (hidden for admin) */}
           {loggedUser && !isAdmin && (
             <div 
               onClick={() => navigateToTab("wallet")}
-              className="flex items-center gap-2 bg-slate-900 border border-emerald-500/20 active:border-emerald-400/50 hover:bg-slate-900/80 px-3 py-1.5 rounded-full cursor-pointer transition-all active:scale-95"
+              className="flex items-center gap-2.5 bg-gradient-to-r from-[#0a1a15] to-[#111827] border border-emerald-500/40 hover:border-emerald-400/80 px-3 sm:px-4 py-1.5 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-[0_0_15px_rgba(16,185,129,0.2)] active:scale-95 group"
             >
-              <Wallet className="w-4 h-4 text-emerald-400 shadow-glow flex-shrink-0" />
-              <div className="flex items-baseline gap-1 font-mono">
-                <span className="text-emerald-400 font-bold text-xs sm:text-sm">
+              <div className="bg-emerald-500/10 p-1.5 rounded-lg group-hover:bg-emerald-500/20 transition-colors">
+                <Wallet className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="flex items-baseline gap-1">
+                <span className="text-emerald-400 font-black text-sm sm:text-base tracking-tight drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]">
                   {walletBalance.toFixed(2)}
                 </span>
-                <span className="text-[10px] text-[#adc6ff] font-sans">JD</span>
+                <span className="text-[10px] text-emerald-100/70 font-bold tracking-wider">JD</span>
               </div>
             </div>
           )}
@@ -219,7 +200,7 @@ export default function Header({
             </AnimatePresence>
           </div>
 
-          {/* User Profile & Logout Segment */}
+          {/* User Profile Segment (Click to Logout) */}
           <div className="flex items-center gap-3 border-r border-[#4f4633]/20 pr-3 mr-1">
             {!loggedUser ? (
               <button
@@ -229,52 +210,44 @@ export default function Header({
                 تسجيل الدخول
               </button>
             ) : (
-              <>
-                {/* Profile Details (Name & Avatar Letter) */}
-                <div 
-                  onClick={() => isAdmin ? navigateToTab("admin") : navigateToTab("wallet")}
-                  className="flex items-center gap-2 cursor-pointer group"
-                  title={isAdmin ? "لوحة الإدارة والحساب" : "المحفظة والحساب"}
-                >
-                  <div className="hidden sm:flex flex-col items-end text-right">
-                    <span className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
-                      {loggedUser.name}
+              <div 
+                onClick={handleLogout}
+                className="flex items-center gap-2 cursor-pointer group hover:bg-rose-500/5 p-1.5 rounded-2xl transition-all"
+                title="تسجيل الخروج"
+              >
+                <div className="hidden sm:flex flex-col items-end text-right">
+                  <span className="text-xs font-bold text-white group-hover:text-rose-400 transition-colors">
+                    {loggedUser.name}
+                  </span>
+                  <span className="text-[9px] text-emerald-400/80 font-mono flex items-center gap-1 group-hover:text-rose-400/80 transition-colors">
+                    <span className="group-hover:hidden">{loggedUser.status === "نشط" ? "لاعب نشط" : "لاعب محظور"}</span>
+                    <span className="hidden group-hover:flex items-center gap-1">
+                      <LogOut className="w-2.5 h-2.5" />
+                      تسجيل خروج
                     </span>
-                    <span className="text-[9px] text-emerald-400/80 font-mono">
-                      {loggedUser.status === "نشط" ? "لاعب نشط" : "لاعب محظور"}
-                    </span>
-                  </div>
-
-                  {/* Avatar circle */}
-                  <div className="w-9 h-9 rounded-full border border-emerald-400 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-emerald-400 to-emerald-600 font-bold text-slate-950 text-xs shadow-glow transition-all duration-300 group-hover:scale-105">
-                    {loggedUser.imageUrl ? (
-                      <img 
-                        src={loggedUser.imageUrl} 
-                        alt={loggedUser.name} 
-                        className="w-full h-full object-cover"
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : loggedUser.name === "خالد العتيبي" || loggedUser.name === "محمد الأحمد" || loggedUser.name === "سارة الغامدي" ? (
-                      <img 
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuClUyDMeNNz5EDpcJCOarsYRF7voJzugEoI4HSCJS8V4iCWY2D1b0aqGI39rnvy3R_NzKhUWZGjFxX_Hg4wqxLsxLCmy7ISBL2ETVyqF6a5fsYgxg_k-xnilnmvbLYKxP9tg7mt_hqE_kSeGnb5OCMZRozlfoKPxzTNEP573bGAn7kcgrPD2H6VC6jAEZebbpWLOp0bHJ-VX39y98II53ZCHIUzq4O5oydK6_1jVabzn9Q9FRf2bhwX51c-bjsnHlYSx4z77O--pWg" 
-                        alt={loggedUser.name} 
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span>{loggedUser.avatarLetter || "👤"}</span>
-                    )}
-                  </div>
+                  </span>
                 </div>
 
-                {/* Logout Button */}
-                <button
-                  onClick={handleLogout}
-                  className="p-1.5 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-full transition-all cursor-pointer active:scale-95"
-                  title="تسجيل الخروج"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-              </>
+                {/* Avatar circle */}
+                <div className="w-9 h-9 rounded-full border border-emerald-400 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-emerald-400 to-emerald-600 font-bold text-slate-950 text-xs shadow-glow transition-all duration-300 group-hover:border-rose-400 group-hover:scale-105">
+                  {loggedUser.imageUrl ? (
+                    <img 
+                      src={loggedUser.imageUrl} 
+                      alt={loggedUser.name} 
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : loggedUser.name === "خالد العتيبي" || loggedUser.name === "محمد الأحمد" || loggedUser.name === "سارة الغامدي" ? (
+                    <img 
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuClUyDMeNNz5EDpcJCOarsYRF7voJzugEoI4HSCJS8V4iCWY2D1b0aqGI39rnvy3R_NzKhUWZGjFxX_Hg4wqxLsxLCmy7ISBL2ETVyqF6a5fsYgxg_k-xnilnmvbLYKxP9tg7mt_hqE_kSeGnb5OCMZRozlfoKPxzTNEP573bGAn7kcgrPD2H6VC6jAEZebbpWLOp0bHJ-VX39y98II53ZCHIUzq4O5oydK6_1jVabzn9Q9FRf2bhwX51c-bjsnHlYSx4z77O--pWg" 
+                      alt={loggedUser.name} 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span>{loggedUser.avatarLetter || "👤"}</span>
+                  )}
+                </div>
+              </div>
             )}
           </div>
 

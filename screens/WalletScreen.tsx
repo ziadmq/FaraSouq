@@ -54,15 +54,16 @@ export default function WalletScreen({
       className="max-w-3xl mx-auto w-full space-y-8 text-right font-sans"
     >
       {/* Wallet Balance Card */}
-      <div className="bg-[#111827] rounded-2xl p-8 border border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="flex flex-col items-start w-full">
+      <div className="bg-gradient-to-r from-[#0a1a15] to-[#111827] rounded-2xl p-8 border border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.15)] flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden">
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col items-start w-full relative z-10">
           <div className="flex items-center gap-2 mb-2">
-            <Wallet className="w-5 h-5 text-emerald-500" />
-            <span className="text-slate-400 text-sm font-medium">الرصيد المتاح</span>
+            <Wallet className="w-5 h-5 text-emerald-400" />
+            <span className="text-emerald-100/80 text-sm font-bold tracking-wide">الرصيد المتاح</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-4xl font-bold text-white tracking-tight">{walletBalance.toFixed(2)}</span>
-            <span className="text-emerald-500 font-medium">JOD</span>
+            <span className="text-4xl font-black text-emerald-400 tracking-tight drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">{walletBalance.toFixed(2)}</span>
+            <span className="text-emerald-100/70 font-bold tracking-widest">JD</span>
           </div>
         </div>
       </div>
