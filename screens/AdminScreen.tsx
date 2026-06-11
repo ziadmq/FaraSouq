@@ -66,6 +66,7 @@ interface AdminScreenProps {
   handleUpdatePackageField: (id: string, field: keyof GamePackage, value: any) => void;
   handleUpdateJawakerPackage: (oldId: string, newId: string, newName: string) => void;
   gamesList: Game[];
+  showToast: (text: string, type: "success" | "error" | "info") => void;
 }
 
 export default function AdminScreen({
@@ -98,6 +99,7 @@ export default function AdminScreen({
   joPaySettings,
   setJoPaySettings,
   handleSaveCMS,
+  showToast,
   formPackages,
   handleSavePackages,
   handleAddPackage,
@@ -226,6 +228,7 @@ export default function AdminScreen({
             joPaySettings={joPaySettings}
             setJoPaySettings={setJoPaySettings}
             handleSaveCMS={handleSaveCMS}
+            showToast={showToast}
           />
         )}
       </div>

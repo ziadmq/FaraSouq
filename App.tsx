@@ -238,6 +238,7 @@ export default function App() {
               gamesList={gamesList}
               joPaySettings={joPaySettings}
               setJoPaySettings={setJoPaySettings}
+              showToast={showToast}
             />
           )}
 

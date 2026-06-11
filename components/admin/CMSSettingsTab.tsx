@@ -25,6 +25,7 @@ interface CMSSettingsTabProps {
   joPaySettings: JoPaySettings;
   setJoPaySettings: React.Dispatch<React.SetStateAction<JoPaySettings>>;
   handleSaveCMS: (e: React.FormEvent) => void;
+  showToast: (text: string, type: "success" | "error" | "info") => void;
 }
 
 export default function CMSSettingsTab({
@@ -42,7 +43,8 @@ export default function CMSSettingsTab({
   setCmsBannerUrl,
   joPaySettings,
   setJoPaySettings,
-  handleSaveCMS
+  handleSaveCMS,
+  showToast
 }: CMSSettingsTabProps) {
 
   const [newRowId, setNewRowId] = useState("");
@@ -73,10 +75,10 @@ export default function CMSSettingsTab({
   const handleSaveJoPay = async () => {
     try {
       await setDoc(doc(db, "settings", "jopay"), joPaySettings);
-      alert("تم حفظ إعدادات جواكر Jo-Pay بنجاح!");
+      showToast("تم حفظ إعدادات جواكر Jo-Pay بنجاح!", "success");
     } catch (err) {
       console.error(err);
-      alert("حدث خطأ أثناء حفظ إعدادات Jo-Pay");
+      showToast("حدث خطأ أثناء حفظ إعدادات Jo-Pay", "error");
     }
   };
 

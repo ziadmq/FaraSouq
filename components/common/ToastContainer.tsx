@@ -19,7 +19,7 @@ interface ToastContainerProps {
 
 export default function ToastContainer({ toasts }: ToastContainerProps) {
   return (
-    <div className="fixed top-24 left-4 z-50 flex flex-col gap-2 max-w-sm pointer-events-none">
+    <div className="fixed top-24 left-4 sm:left-6 z-50 flex flex-col gap-2 w-[calc(100vw-32px)] sm:w-auto sm:max-w-md pointer-events-none" dir="rtl">
       <AnimatePresence>
         {toasts.map(toast => (
           <motion.div
@@ -32,14 +32,14 @@ export default function ToastContainer({ toasts }: ToastContainerProps) {
                 ? "bg-slate-900/95 text-emerald-400 border-emerald-500/30 shadow-emerald-950/25" 
                 : toast.type === "error"
                 ? "bg-slate-900/95 text-rose-400 border-rose-500/30 shadow-rose-950/25"
-                : "bg-slate-900/95 text-emerald-400 border-emerald-500/30 shadow-emerald-950/25"
+                : "bg-slate-900/95 text-sky-400 border-sky-500/30 shadow-sky-950/25"
             }`}
           >
             <div className="flex items-center gap-2">
               {toast.type === "success" && <CheckCircle2 className="w-5 h-5 flex-shrink-0" />}
               {toast.type === "error" && <XCircle className="w-5 h-5 flex-shrink-0" />}
               {toast.type === "info" && <Zap className="w-5 h-5 flex-shrink-0" />}
-              <span>{toast.text}</span>
+              <span className="leading-relaxed text-right">{toast.text}</span>
             </div>
           </motion.div>
         ))}
