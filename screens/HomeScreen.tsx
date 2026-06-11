@@ -19,8 +19,12 @@ import {
 import { GameCategory, Game, User } from "../types";
 
 interface HomeScreenProps {
+  cmsBannerBadgeText: string;
   cmsBannerImage: string;
   cmsBannerText: string;
+  cmsBannerSubtitle: string;
+  cmsBannerButtonText: string;
+  cmsBannerUrl: string;
   gamesList: Game[];
   setSelectedGame: (game: Game) => void;
   navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login") => void;
@@ -34,8 +38,12 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({
+  cmsBannerBadgeText,
   cmsBannerImage,
   cmsBannerText,
+  cmsBannerSubtitle,
+  cmsBannerButtonText,
+  cmsBannerUrl,
   gamesList,
   setSelectedGame,
   navigateToTab,
@@ -80,22 +88,34 @@ export default function HomeScreen({
           >
             <div className="absolute top-0 right-0 w-1/2 h-1 bg-gradient-to-r from-emerald-400 to-transparent" />
             
-            <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-bold text-xs uppercase px-4 py-1.5 rounded-full w-fit shadow-[0_0_15px_rgba(16,185,129,0.3)] animate-pulse flex items-center gap-1.5">
-              <Flame className="w-3.5 h-3.5" />
-              عرض لفترة محدودة
-            </span>
+            {cmsBannerBadgeText && (
+              <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-bold text-xs uppercase px-4 py-1.5 rounded-full w-fit shadow-[0_0_15px_rgba(16,185,129,0.3)] animate-pulse flex items-center gap-1.5">
+                <Flame className="w-3.5 h-3.5" />
+                {cmsBannerBadgeText}
+              </span>
+            )}
             
             <h1 className="font-headline-xl text-3xl sm:text-4xl lg:text-5xl text-white font-black leading-tight drop-shadow-lg">
               {cmsBannerText}
             </h1>
             
-            <p className="text-sm sm:text-lg text-slate-300 drop-shadow-md leading-relaxed">
-              أقوى العروض على بطاقات الهدايا وشحن الألعاب في الشرق الأوسط. اشحن الآن ونافس المحترفين بأفضل وأرخص الأسعار المتوفرة.
-            </p>
+            {cmsBannerSubtitle && (
+              <p className="text-sm sm:text-lg text-slate-300 drop-shadow-md leading-relaxed">
+                {cmsBannerSubtitle}
+              </p>
+            )}
             
             <div className="flex gap-4 mt-2">
               <button 
                 onClick={() => {
+                  if (cmsBannerUrl) {
+                    if (cmsBannerUrl.startsWith('http')) {
+                      window.open(cmsBannerUrl, '_blank');
+                    } else {
+                      window.location.href = cmsBannerUrl;
+                    }
+                    return;
+                  }
                   const jwGame = gamesList.find(g => g.id.includes("jw")) || gamesList[0];
                   if (jwGame) {
                     setSelectedGame(jwGame);
@@ -104,7 +124,7 @@ export default function HomeScreen({
                 }}
                 className="bg-gradient-to-r from-emerald-600 to-emerald-400 hover:from-emerald-500 hover:to-emerald-300 text-white font-black px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 text-sm sm:text-base shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)] flex items-center justify-center gap-2 cursor-pointer group"
               >
-                <span>اشحن جواكر الآن</span>
+                <span>{cmsBannerButtonText || "اشحن جواكر الآن"}</span>
                 <Flame className="w-5 h-5 text-yellow-300 group-hover:scale-125 transition-transform" />
               </button>
             </div>

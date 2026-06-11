@@ -39,14 +39,18 @@ export default function App() {
     setSearchQuery,
     selectedCategory,
     setSelectedCategory,
+    cmsBannerBadgeText,
+    setCmsBannerBadgeText,
     cmsBannerText,
-    cmsBannerUrl,
-    cmsBannerImage,
-    cmsPopupText,
     setCmsBannerText,
-    setCmsBannerImage,
+    cmsBannerSubtitle,
+    setCmsBannerSubtitle,
+    cmsBannerButtonText,
+    setCmsBannerButtonText,
+    cmsBannerUrl,
     setCmsBannerUrl,
-    setCmsPopupText,
+    cmsBannerImage,
+    setCmsBannerImage
     playerId,
     setPlayerId,
     selectedPackage,
@@ -110,14 +114,6 @@ export default function App() {
       {/* Toast notifications portal */}
       <ToastContainer toasts={toasts} />
 
-      {/* Dynamic Popups based on Admin Settings */}
-      {cmsPopupText && (
-        <div className="bg-emerald-400 text-slate-950 text-xs sm:text-sm py-1.5 px-4 font-bold text-center relative flex justify-center items-center gap-2">
-          <Sparkles className="w-4 h-4 animate-bounce" />
-          <span>{cmsPopupText}</span>
-        </div>
-      )}
-
       {/* Top Header Navigation Bar */}
       <Header
         activeTab={activeTab}
@@ -145,7 +141,11 @@ export default function App() {
           {activeTab === "home" && (
             <HomeScreen 
               cmsBannerImage={cmsBannerImage}
+              cmsBannerBadgeText={cmsBannerBadgeText}
               cmsBannerText={cmsBannerText}
+              cmsBannerSubtitle={cmsBannerSubtitle}
+              cmsBannerButtonText={cmsBannerButtonText}
+              cmsBannerUrl={cmsBannerUrl}
               gamesList={gamesList}
               setSelectedGame={setSelectedGame}
               navigateToTab={navigateToTab}
@@ -216,14 +216,18 @@ export default function App() {
               adminUsers={adminUsers}
               handleToggleUserStatus={handleToggleUserStatus}
               handleDeleteUser={handleDeleteUser}
+              cmsBannerBadgeText={cmsBannerBadgeText}
+              setCmsBannerBadgeText={setCmsBannerBadgeText}
               cmsBannerText={cmsBannerText}
               setCmsBannerText={setCmsBannerText}
+              cmsBannerSubtitle={cmsBannerSubtitle}
+              setCmsBannerSubtitle={setCmsBannerSubtitle}
+              cmsBannerButtonText={cmsBannerButtonText}
+              setCmsBannerButtonText={setCmsBannerButtonText}
               cmsBannerImage={cmsBannerImage}
               setCmsBannerImage={setCmsBannerImage}
               cmsBannerUrl={cmsBannerUrl}
               setCmsBannerUrl={setCmsBannerUrl}
-              cmsPopupText={cmsPopupText}
-              setCmsPopupText={setCmsPopupText}
               handleSaveCMS={handleSaveCMS}
               formPackages={formPackages}
               handleSavePackages={handleSavePackages}

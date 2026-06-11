@@ -42,14 +42,18 @@ interface AdminScreenProps {
   handleDeleteUser: (userId: string, userName: string) => void;
 
   // CMS
+  cmsBannerBadgeText: string;
+  setCmsBannerBadgeText: (text: string) => void;
   cmsBannerText: string;
   setCmsBannerText: (text: string) => void;
+  cmsBannerSubtitle: string;
+  setCmsBannerSubtitle: (text: string) => void;
+  cmsBannerButtonText: string;
+  setCmsBannerButtonText: (text: string) => void;
   cmsBannerImage: string;
   setCmsBannerImage: (img: string) => void;
   cmsBannerUrl: string;
   setCmsBannerUrl: (url: string) => void;
-  cmsPopupText: string;
-  setCmsPopupText: (text: string) => void;
   joPaySettings: any;
   setJoPaySettings: (settings: any) => void;
   handleSaveCMS: (e: React.FormEvent) => void;
@@ -79,14 +83,18 @@ export default function AdminScreen({
   adminUsers,
   handleToggleUserStatus,
   handleDeleteUser,
+  cmsBannerBadgeText,
+  setCmsBannerBadgeText,
   cmsBannerText,
   setCmsBannerText,
+  cmsBannerSubtitle,
+  setCmsBannerSubtitle,
+  cmsBannerButtonText,
+  setCmsBannerButtonText,
   cmsBannerImage,
   setCmsBannerImage,
   cmsBannerUrl,
   setCmsBannerUrl,
-  cmsPopupText,
-  setCmsPopupText,
   joPaySettings,
   setJoPaySettings,
   handleSaveCMS,
@@ -203,14 +211,18 @@ export default function AdminScreen({
 
         {activeAdminTab === "settings" && (
           <CMSSettingsTab
+            cmsBannerBadgeText={cmsBannerBadgeText}
+            setCmsBannerBadgeText={setCmsBannerBadgeText}
             cmsBannerText={cmsBannerText}
             setCmsBannerText={setCmsBannerText}
+            cmsBannerSubtitle={cmsBannerSubtitle}
+            setCmsBannerSubtitle={setCmsBannerSubtitle}
+            cmsBannerButtonText={cmsBannerButtonText}
+            setCmsBannerButtonText={setCmsBannerButtonText}
             cmsBannerImage={cmsBannerImage}
             setCmsBannerImage={setCmsBannerImage}
             cmsBannerUrl={cmsBannerUrl}
             setCmsBannerUrl={setCmsBannerUrl}
-            cmsPopupText={cmsPopupText}
-            setCmsPopupText={setCmsPopupText}
             joPaySettings={joPaySettings}
             setJoPaySettings={setJoPaySettings}
             handleSaveCMS={handleSaveCMS}
