@@ -31,30 +31,23 @@ export default function ProductsTab({
   return (
     <div className="space-y-6">
       <div className="bg-[#191f2f] rounded-2xl p-6 border border-[#4f4633]/30 shadow-md">
-        <div className="flex justify-between items-center border-b border-[#4f4633]/20 pb-3 mb-4">
-          <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">
-            إدارة المنتجات
-          </span>
-          <h3 className="font-extrabold text-base text-emerald-200">
-            إدارة باقات وعروض جواكر ({jawakerGame?.name || "جواكر"})
-          </h3>
-        </div>
+
 
         <form onSubmit={handleSavePackages} className="space-y-5">
           <div className="space-y-3 pt-2">
             <div className="flex justify-between items-center border-b border-[#4f4633]/15 pb-3">
+              <div className="flex items-center gap-2">
+                <Coins className="w-5 h-5 text-emerald-400" />
+                <h4 className="font-extrabold text-emerald-200 text-sm sm:text-base">إدارة باقات الشحن</h4>
+              </div>
               <button 
                 type="button"
                 onClick={handleAddPackage}
                 className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer transition-colors active:scale-95 shadow-sm"
               >
-                <Plus className="w-4 h-4" />
                 <span>إضافة باقة شحن جديدة</span>
+                <Plus className="w-4 h-4" />
               </button>
-              <div className="flex items-center gap-2">
-                <h4 className="font-extrabold text-[#d3c5ac] text-xs sm:text-sm">باقات وحزم الشحن المتاحة للبيع</h4>
-                <Coins className="w-5 h-5 text-emerald-400 animate-pulse" />
-              </div>
             </div>
 
             {formPackages.length === 0 ? (
