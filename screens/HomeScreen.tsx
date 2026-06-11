@@ -16,7 +16,7 @@ import {
   Trophy,
   Wallet
 } from "lucide-react";
-import { GameCategory, Game } from "../types";
+import { GameCategory, Game, User } from "../types";
 
 interface HomeScreenProps {
   cmsBannerImage: string;
@@ -30,6 +30,7 @@ interface HomeScreenProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   filteredGames: Game[];
+  loggedUser: User | null;
 }
 
 export default function HomeScreen({
@@ -43,7 +44,8 @@ export default function HomeScreen({
   showToast,
   searchQuery,
   setSearchQuery,
-  filteredGames
+  filteredGames,
+  loggedUser
 }: HomeScreenProps) {
   return (
     <motion.div
@@ -111,20 +113,22 @@ export default function HomeScreen({
       </section>
 
       {/* Quick Access Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <button 
-          onClick={() => navigateToTab("wallet")}
-          className="group relative overflow-hidden rounded-3xl bg-[#191f2f] border border-[#4f4633]/30 p-8 text-right flex flex-col items-start gap-4 hover:border-emerald-500/50 transition-all duration-300 shadow-xl hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] cursor-pointer"
-        >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-all" />
-          <div className="bg-slate-900/80 p-4 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform shadow-lg z-10">
-            <Wallet className="w-8 h-8 text-emerald-400" />
-          </div>
-          <div className="z-10 mt-2">
-            <h3 className="text-2xl font-black text-white mb-2">إدارة الرصيد</h3>
-            <p className="text-[#d3c5ac] text-sm">قم بشحن رصيد محفظتك، ومتابعة حوالاتك ومعرفة رصيدك المتاح للشراء فوراً.</p>
-          </div>
-        </button>
+      <div className={`grid grid-cols-1 ${loggedUser ? "sm:grid-cols-2" : ""} gap-6`}>
+        {loggedUser && (
+          <button 
+            onClick={() => navigateToTab("wallet")}
+            className="group relative overflow-hidden rounded-3xl bg-[#191f2f] border border-[#4f4633]/30 p-8 text-right flex flex-col items-start gap-4 hover:border-emerald-500/50 transition-all duration-300 shadow-xl hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] cursor-pointer"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-all" />
+            <div className="bg-slate-900/80 p-4 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform shadow-lg z-10">
+              <Wallet className="w-8 h-8 text-emerald-400" />
+            </div>
+            <div className="z-10 mt-2">
+              <h3 className="text-2xl font-black text-white mb-2">إدارة الرصيد</h3>
+              <p className="text-[#d3c5ac] text-sm">قم بشحن رصيد محفظتك، ومتابعة حوالاتك ومعرفة رصيدك المتاح للشراء فوراً.</p>
+            </div>
+          </button>
+        )}
 
         <button 
           onClick={() => {
@@ -140,7 +144,7 @@ export default function HomeScreen({
           </div>
           <div className="z-10 mt-2">
             <h3 className="text-2xl font-black text-white mb-2">باقات الشحن</h3>
-            <p className="text-[#d3c5ac] text-sm">تصفح باقات وتوكنز جواكر، واختر الباقة الأنسب لك لتشحنها مباشرة وتستمتع باللعب.</p>
+            <p className="text-[#d3c5ac] text-sm">تصفح الباقات المتوفرة، واختر الباقة الأنسب لك لتشحنها مباشرة وتستمتع باللعب.</p>
           </div>
         </button>
       </div>

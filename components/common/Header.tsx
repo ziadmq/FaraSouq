@@ -73,12 +73,14 @@ export default function Header({
                 >
                   الرئيسية
                 </a>
-                <a 
-                  onClick={() => navigateToTab("wallet")}
-                  className={`cursor-pointer pb-1 transition-all ${activeTab === "wallet" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
-                >
-                  إدارة الرصيد
-                </a>
+                {loggedUser && (
+                  <a 
+                    onClick={() => navigateToTab("wallet")}
+                    className={`cursor-pointer pb-1 transition-all ${activeTab === "wallet" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
+                  >
+                    إدارة الرصيد
+                  </a>
+                )}
                 <a 
                   onClick={() => {
                     if (gamesList.length > 0) {
@@ -136,78 +138,74 @@ export default function Header({
           )}
 
           {/* Notifications Popover Bell */}
-          <div className="relative">
-            <button 
-              onClick={() => {
-                if (!loggedUser) {
-                  navigateToTab("login");
-                } else {
-                  setShowNotificationDropdown(!showNotificationDropdown);
-                }
-              }}
-              className="p-2 text-[#d3c5ac] hover:text-white hover:bg-white/5 rounded-full relative transition-all active:scale-95 cursor-pointer"
-            >
-              <Bell className="w-5 h-5" />
-              {loggedUser && unreadCount > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-rose-500 border border-[#0c1322] text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-bounce">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
+          {loggedUser && (
+            <div className="relative">
+              <button 
+                onClick={() => setShowNotificationDropdown(!showNotificationDropdown)}
+                className="p-2 text-[#d3c5ac] hover:text-white hover:bg-white/5 rounded-full relative transition-all active:scale-95 cursor-pointer"
+              >
+                <Bell className="w-5 h-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-1 right-1 w-4 h-4 bg-rose-500 border border-[#0c1322] text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-bounce">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
 
-            {/* Notification Popover content */}
-            <AnimatePresence>
-              {loggedUser && showNotificationDropdown && (
-                <>
-                  <div className="fixed inset-0 z-40" onClick={() => setShowNotificationDropdown(false)} />
-                  <motion.div 
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 15 }}
-                    className="absolute left-0 mt-3 w-80 bg-[#141b2b] border border-[#4f4633]/40 rounded-2xl shadow-2xl z-50 text-right overflow-hidden shadow-black"
-                  >
-                    <div className="p-4 bg-[#191f2f] border-b border-[#4f4633]/30 flex justify-between items-center">
-                      <h4 className="font-bold text-sm text-emerald-400">آخر التنبيهات والإشعارات ({notifications.length})</h4>
-                      {unreadCount > 0 && (
-                        <button 
-                          onClick={handleMarkAllNotificationsRead}
-                          className="text-xs text-[#adc6ff] hover:text-[#e6ecff] underline"
-                        >
-                          تحديد كالمقروءة
-                        </button>
-                      )}
-                    </div>
-                    <div className="max-h-64 overflow-y-auto divide-y divide-[#4f4633]/20">
-                      {notifications.length === 0 ? (
-                        <div className="p-6 text-center text-[#9c8f79] text-xs">
-                          <BellRing className="w-8 h-8 mx-auto mb-2 opacity-30" />
-                          لا توجد إشعارات حالياً
-                        </div>
-                      ) : (
-                        notifications.map(item => (
-                          <div 
-                            key={item.id} 
-                            className={`p-3 text-xs leading-relaxed transition-colors ${!item.isRead ? "bg-emerald-400/5 hover:bg-emerald-400/10" : "hover:bg-slate-900"}`}
+              {/* Notification Popover content */}
+              <AnimatePresence>
+                {showNotificationDropdown && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setShowNotificationDropdown(false)} />
+                    <motion.div 
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 15 }}
+                      className="absolute left-0 mt-3 w-80 bg-[#141b2b] border border-[#4f4633]/40 rounded-2xl shadow-2xl z-50 text-right overflow-hidden shadow-black"
+                    >
+                      <div className="p-4 bg-[#191f2f] border-b border-[#4f4633]/30 flex justify-between items-center">
+                        <h4 className="font-bold text-sm text-emerald-400">آخر التنبيهات والإشعارات ({notifications.length})</h4>
+                        {unreadCount > 0 && (
+                          <button 
+                            onClick={handleMarkAllNotificationsRead}
+                            className="text-xs text-[#adc6ff] hover:text-[#e6ecff] underline"
                           >
-                            <div className="flex justify-between items-start mb-1 gap-2">
-                              <span className={`font-bold flex items-center gap-1.5 ${item.type === "success" ? "text-emerald-400" : item.type === "warning" ? "text-rose-400" : "text-emerald-400"}`}>
-                                {item.type === "success" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
-                                {item.type === "warning" && <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />}
-                                {item.type === "info" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
-                                {item.title}
-                              </span>
-                              <span className="text-[10px] text-[#9c8f79] font-mono">{item.time}</span>
-                            </div>
-                            <p className="text-[#dce2f7] opacity-80">{item.description}</p>
+                            تحديد كالمقروءة
+                          </button>
+                        )}
+                      </div>
+                      <div className="max-h-64 overflow-y-auto divide-y divide-[#4f4633]/20">
+                        {notifications.length === 0 ? (
+                          <div className="p-6 text-center text-[#9c8f79] text-xs">
+                            <BellRing className="w-8 h-8 mx-auto mb-2 opacity-30" />
+                            لا توجد إشعارات حالياً
                           </div>
-                        ))
-                      )}
-                    </div>
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
-          </div>
+                        ) : (
+                          notifications.map(item => (
+                            <div 
+                              key={item.id} 
+                              className={`p-3 text-xs leading-relaxed transition-colors ${!item.isRead ? "bg-emerald-400/5 hover:bg-emerald-400/10" : "hover:bg-slate-900"}`}
+                            >
+                              <div className="flex justify-between items-start mb-1 gap-2">
+                                <span className={`font-bold flex items-center gap-1.5 ${item.type === "success" ? "text-emerald-400" : item.type === "warning" ? "text-rose-400" : "text-emerald-400"}`}>
+                                  {item.type === "success" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
+                                  {item.type === "warning" && <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />}
+                                  {item.type === "info" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
+                                  {item.title}
+                                </span>
+                                <span className="text-[10px] text-[#9c8f79] font-mono">{item.time}</span>
+                              </div>
+                              <p className="text-[#dce2f7] opacity-80">{item.description}</p>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
 
           {/* User Profile Segment (Click to Logout) */}
           <div className="flex items-center gap-3 border-r border-[#4f4633]/20 pr-3 mr-1">

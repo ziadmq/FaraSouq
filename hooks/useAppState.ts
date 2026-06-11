@@ -8,7 +8,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot, query, where, deleteDoc } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { auth, db, functions, handleFirestoreError, OperationType } from "../lib/firebase";
-import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, User, AppNotification } from "../types";
+import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, User, AppNotification, JoPaySettings } from "../types";
 import { GAMES_DATA, INITIAL_ORDERS, INITIAL_USERS, INITIAL_NOTIFICATIONS } from "../data";
 
 export function useAppState() {
@@ -329,16 +329,16 @@ export function useAppState() {
   // Centralized navigation guard
   const navigateToTab = (tab: "home" | "game-detail" | "wallet" | "admin" | "login") => {
     if (isAdmin) {
-      if (tab === "login") {
-        setActiveTab("login");
-      } else {
-        setActiveTab("admin");
-      }
+      setActiveTab(tab);
       return;
     }
 
     if (tab === "home") {
       setActiveTab("home");
+      return;
+    }
+    if (tab === "game-detail") {
+      setActiveTab("game-detail");
       return;
     }
     if (tab === "login") {
@@ -765,199 +765,16 @@ export function useAppState() {
     setUserToDelete(null);
   };
 
-  // Newsletter subscription action
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail || !newsletterEmail.includes("@")) {
-      showToast("الرجاء إدخال بريد إلكتروني صالح للاشتراك!", "error");
-      return;
+  const confirmDeleteItem = () => {
+    if (!itemToDelete) return;
+    if (itemToDelete.id.startsWith("jw_")) {
+      handleRemovePackage(itemToDelete.id);
+    } else {
+      const updatedGames = gamesList.filter(g => g.id !== itemToDelete.id);
+      saveGamesList(updatedGames);
+      showToast("تم الحذف بنجاح!", "info");
     }
-    setNewsletterSubscribed(true);
-    showToast("تهانينا! تم اشتراكك في مجتمع فارة لتلقي العروض الحصرية مجاناً.", "success");
-    setNewsletterEmail("");
-  };
-
-  // CMS Settings Save Actions
-  const handleSaveCMS = (e: React.FormEvent) => {
-    e.preventDefault();
-    showToast("تم حفظ جميع التعديلات وإعدادات واجهة فارة (CMS) بنجاح!", "success");
-  };
-
-  // Notifications Helpers
-  const unreadCount = notifications.filter(n => !n.isRead).length;
-  const handleMarkAllNotificationsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-    showToast("تم فرز جميع الإشعارات كمقروءة.", "success");
-    setShowNotificationDropdown(false);
-  };
-
-  // Save games list helper
-  const saveGamesList = (updated: Game[]) => {
-    setGamesList(updated);
-    localStorage.setItem("fara_games_list_v2", JSON.stringify(updated));
-  };
-
-  // Save Jawaker packages
-  const handleSavePackages = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formPackages.length === 0) {
-      showToast("الرجاء إضافة حزمة شحن واحدة على الأقل ⚠️", "error");
-      return;
-    }
-
-    const jawakerIndex = gamesList.findIndex(g => g.id === "jawaker");
-    const indexToUpdate = jawakerIndex > -1 ? jawakerIndex : 0;
-
-    const updated = [...gamesList];
-    updated[indexToUpdate] = {
-      ...updated[indexToUpdate],
-      packages: formPackages.map((pkg, idx) => ({
-        ...pkg,
-        price: Number(pkg.price) || 0,
-        bonusPercent: pkg.bonusPercent ? Number(pkg.bonusPercent) : undefined
-      }))
-    };
-    saveGamesList(updated);
-    showToast("تم تحديث باقات الشحن لجواكر بنجاح! ✨", "success");
-    
-          playerId: playerId,
-          paymentMethod: "رصيد المحفظة",
-          userId: loggedUser?.id || undefined,
-          timestamp: Date.now()
-        };
-
-        if (loggedUser?.id) {
-          await updateDoc(doc(db, "users", loggedUser.id), { balance: finalBalance });
-        }
-        await setDoc(doc(db, "orders", newId), newOrder);
-        setUserOrders(prev => {
-          if (!prev.some(o => o.id === newOrder.id)) {
-            return [newOrder, ...prev];
-          }
-          return prev;
-        });
-        showToast(`تم شراء شحنة ${selectedPackage.name} بنجاح لـ ${selectedGame.name}!`, "success");
-
-        const newNotification: AppNotification = {
-          id: Math.random().toString(),
-          title: "عملية شراء ناجحة ✅",
-          description: `تم شحن ${selectedPackage.name} بنجاح إلى المعرف ${playerId}. تم خصم ${packagePrice} د.أ.`,
-          time: "الآن",
-          type: "success",
-          isRead: false
-        };
-        setNotifications(prev => [newNotification, ...prev]);
-        setPlayerId("");
-      }
-    } catch (err: any) {
-      console.error("Purchase error:", err);
-      showToast(err.message || "حدث خطأ أثناء الشراء.", "error");
-    } finally {
-      setIsDepositing(false);
-    }
-  };
-
-  // Interactive Admin Dashboard Controls
-  const handleAdminAcceptDeposit = async (orderId: string, amount: number) => {
-    const targetOrder = userOrders.find(o => o.id === orderId);
-    if (!targetOrder) return;
-
-    try {
-      await updateDoc(doc(db, "orders", orderId), { status: OrderStatus.COMPLETED });
-
-      const targetUserId = targetOrder.userId || adminUsers.find(u => u.name === targetOrder.user)?.id;
-      if (targetUserId) {
-        const targetUserObj = adminUsers.find(u => u.id === targetUserId);
-        const currentBalance = targetUserObj ? targetUserObj.balance : 0;
-        const nextBalance = currentBalance + amount;
-        
-        await updateDoc(doc(db, "users", targetUserId), { balance: nextBalance });
-        
-        if (loggedUser && loggedUser.id === targetUserId) {
-          setLoyaltyXp(prev => prev + Math.floor(amount * 15));
-        }
-      } else {
-        if (loggedUser) {
-          setWalletBalance(prev => prev + amount);
-          setLoyaltyXp(prev => prev + Math.floor(amount * 15));
-        }
-      }
-
-      showToast(`تم قبول طلب الإيداع بقيمة ${amount} JD وإيداعه للعميل!`, "success");
-    } catch (err) {
-      console.error("Firestore admin accept deposit failed:", err);
-      setUserOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: OrderStatus.COMPLETED } : o));
-      setWalletBalance(prev => prev + amount);
-      showToast(`تم قبول طلب الإيداع بقيمة ${amount} JD (محلياً)!`, "success");
-    }
-
-    const newNot: AppNotification = {
-      id: Math.random().toString(),
-      title: "تم شحن المحفظة بنجاح 💰",
-      description: `وافقت الإدارة على إيداعك بقيمة ${amount} JD. تم إضافة القيمة كاملة في محفظتك بالدينار الأردني.`,
-      time: "الآن",
-      type: "success",
-      isRead: false
-    };
-    setNotifications(prev => [newNot, ...prev]);
-  };
-
-  const handleAdminRejectDeposit = async (orderId: string) => {
-    try {
-      await updateDoc(doc(db, "orders", orderId), { status: OrderStatus.REJECTED });
-      showToast("تم رفض طلب الإيداع وتبليغ العميل للتحقق من صحة الإيصال.", "info");
-    } catch (err) {
-      console.error("Firestore admin reject deposit failed:", err);
-      setUserOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: OrderStatus.REJECTED } : o));
-      showToast("تم رفض طلب الإيداع (محلياً).", "info");
-    }
-
-    const newNot: AppNotification = {
-      id: Math.random().toString(),
-      title: "تم رفض طلب إيداعك ❌",
-      description: `تم رفض الإيداع الخاص بالطلب رقم ${orderId}. يرجى التواصل مع الدعم الفني وتأكيد صحة إيصال الحوالة.`,
-      time: "الآن",
-      type: "warning",
-      isRead: false
-    };
-    setNotifications(prev => [newNot, ...prev]);
-  };
-
-  const handleToggleUserStatus = async (userId: string) => {
-    const targetUser = adminUsers.find(u => u.id === userId);
-    if (!targetUser) return;
-    const nextStatus = targetUser.status === "نشط" ? "محظور" : "نشط";
-    try {
-      await updateDoc(doc(db, "users", userId), { status: nextStatus });
-      showToast(nextStatus === "محظور" ? `تم حظر العميل ${targetUser.name} بنجاح!` : `تم تفعيل حساب العميل ${targetUser.name}!`, nextStatus === "محظور" ? "error" : "success");
-    } catch (err) {
-      console.error("Firestore toggle status failed:", err);
-      setAdminUsers(prev => prev.map(u => {
-        if (u.id === userId) {
-          return { ...u, status: nextStatus };
-        }
-        return u;
-      }));
-      showToast(nextStatus === "محظور" ? `تم حظر العميل ${targetUser.name} بنجاح!` : `تم تفعيل حساب العميل ${targetUser.name}!`, nextStatus === "محظور" ? "error" : "success");
-    }
-  };
-
-  const handleDeleteUser = (userId: string, userName: string) => {
-    setUserToDelete({ id: userId, name: userName });
-  };
-
-  const confirmDeleteUser = async () => {
-    if (!userToDelete) return;
-    const { id, name } = userToDelete;
-    try {
-      await deleteDoc(doc(db, "users", id));
-      showToast(`تم حذف حساب اللاعب "${name}" بنجاح من قاعدة البيانات.`, "info");
-    } catch (err) {
-      console.error("Firestore user delete failed:", err);
-      setAdminUsers(prev => prev.filter(u => u.id !== id));
-      showToast(`تم حذف حساب اللاعب "${name}" بنجاح (محلياً).`, "info");
-    }
-    setUserToDelete(null);
+    setItemToDelete(null);
   };
 
   // Newsletter subscription action
@@ -1167,5 +984,6 @@ export function useAppState() {
     handleRemovePackage,
     handleUpdatePackageField,
     handleUpdateJawakerPackage,
+    confirmDeleteItem,
   };
 }

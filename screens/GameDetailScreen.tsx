@@ -46,7 +46,9 @@ export default function GameDetailScreen({
   setPlayerIdError,
   showIdHelp,
   setShowIdHelp,
-  handlePurchasePackage
+  handlePurchasePackage,
+  loggedUser,
+  navigateToTab
 }: GameDetailScreenProps) {
   return (
     <motion.div
@@ -57,15 +59,17 @@ export default function GameDetailScreen({
       transition={{ duration: 0.2 }}
       className="max-w-4xl mx-auto w-full space-y-6 text-right font-sans"
     >
-      <div className="flex justify-start">
-        <button 
-          onClick={() => setActiveTab("home")}
-          className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer group"
-        >
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          <span>العودة للمتجر</span>
-        </button>
-      </div>
+      {loggedUser && (
+        <div className="flex justify-start">
+          <button 
+            onClick={() => setActiveTab("home")}
+            className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer group"
+          >
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span>العودة للمتجر</span>
+          </button>
+        </div>
+      )}
 
       {/* Game Info Header */}
       <div className="bg-[#111827] rounded-2xl border border-slate-800 overflow-hidden shadow-sm flex flex-col md:flex-row-reverse">
@@ -85,59 +89,71 @@ export default function GameDetailScreen({
       </div>
 
       {/* Player ID Section */}
-      <section className="bg-[#111827] rounded-2xl p-6 md:p-8 border border-slate-800 shadow-sm space-y-4">
-        <div className="flex items-center justify-start gap-2 text-white">
-          <UserIcon className="w-5 h-5 text-emerald-500" />
-          <h2 className="font-bold text-lg">رقم اللاعب (Player Number)</h2>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-          <div className="flex-1 w-full relative">
-            <input 
-              type="text" 
-              value={playerId}
-              onChange={(e) => {
-                setPlayerId(e.target.value);
-                if (e.target.value.trim()) setPlayerIdError("");
-              }}
-              placeholder="مثال: 1560982341"
-              className={`w-full bg-slate-900 border rounded-xl px-4 py-3 text-right text-white font-mono placeholder:font-sans placeholder:text-slate-500 placeholder:text-sm outline-none focus:border-emerald-500 transition-colors ${
-                playerIdError ? "border-red-500" : "border-slate-800"
-              }`}
-            />
-            {playerIdError && (
-              <p className="text-xs text-red-500 mt-2 text-right">{playerIdError}</p>
-            )}
+      {loggedUser ? (
+        <section className="bg-[#111827] rounded-2xl p-6 md:p-8 border border-slate-800 shadow-sm space-y-4">
+          <div className="flex items-center justify-start gap-2 text-white">
+            <UserIcon className="w-5 h-5 text-emerald-500" />
+            <h2 className="font-bold text-lg">رقم اللاعب (Player Number)</h2>
           </div>
 
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <div className="flex-1 w-full relative">
+              <input 
+                type="text" 
+                value={playerId}
+                onChange={(e) => {
+                  setPlayerId(e.target.value);
+                  if (e.target.value.trim()) setPlayerIdError("");
+                }}
+                placeholder="مثال: 1560982341"
+                className={`w-full bg-slate-900 border rounded-xl px-4 py-3 text-right text-white font-mono placeholder:font-sans placeholder:text-slate-500 placeholder:text-sm outline-none focus:border-emerald-500 transition-colors ${
+                  playerIdError ? "border-red-500" : "border-slate-800"
+                }`}
+              />
+              {playerIdError && (
+                <p className="text-xs text-red-500 mt-2 text-right">{playerIdError}</p>
+              )}
+            </div>
+
+            <button 
+              type="button"
+              onClick={() => setShowIdHelp(!showIdHelp)}
+              className="text-sm text-slate-400 hover:text-white transition-colors flex items-center justify-start gap-1 shrink-0 px-2 cursor-pointer"
+            >
+              <Info className="w-4 h-4" />
+              <span>أين أجد الرقم؟</span>
+            </button>
+          </div>
+
+          <AnimatePresence>
+            {showIdHelp && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="bg-slate-900/50 rounded-xl p-4 border border-slate-800 text-sm text-slate-400 text-right leading-relaxed"
+              >
+                للعثور على رقم اللاعب الخاص بك، يرجى فتح اللعبة والتوجه إلى قائمة الإعدادات، ثم قم بنسخ الرقم الموجود بجانب خيار (Player Number).
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+      ) : (
+        <div className="w-full bg-[#111827] border border-slate-800 rounded-2xl px-6 py-6 text-center shadow-sm flex flex-col items-center justify-center gap-4">
+          <p className="text-slate-300 text-sm font-medium">يجب عليك تسجيل الدخول لتتمكن من اختيار الباقة المناسبة وإتمام الشراء.</p>
           <button 
-            type="button"
-            onClick={() => setShowIdHelp(!showIdHelp)}
-            className="text-sm text-slate-400 hover:text-white transition-colors flex items-center justify-start gap-1 shrink-0 px-2"
+            onClick={() => navigateToTab("login")}
+            className="bg-emerald-500 hover:bg-emerald-400 text-slate-900 px-10 py-3 rounded-xl text-sm font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.2)] active:scale-95 cursor-pointer"
           >
-            <Info className="w-4 h-4" />
-            <span>أين أجد الرقم؟</span>
+            تسجيل الدخول الآن
           </button>
         </div>
-
-        <AnimatePresence>
-          {showIdHelp && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="bg-slate-900/50 rounded-xl p-4 border border-slate-800 text-sm text-slate-400 text-right leading-relaxed"
-            >
-              للعثور على رقم اللاعب الخاص بك، يرجى فتح اللعبة والتوجه إلى قائمة الإعدادات، ثم قم بنسخ الرقم الموجود بجانب خيار (Player Number).
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </section>
+      )}
 
       {/* Packages Section */}
       <section className="space-y-4">
         <h3 className="font-bold text-lg text-white text-right px-2">
-          اختر باقة الشحن
+          الباقات المتوفرة
         </h3>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -219,36 +235,38 @@ export default function GameDetailScreen({
       </section>
 
       {/* Checkout Footer */}
-      <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden mt-8">
-        {/* Subtle background glow */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+      {loggedUser && (
+        <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden mt-8">
+          {/* Subtle background glow */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
 
-        <div className="flex flex-col items-center sm:items-start w-full sm:w-auto z-10">
-          <span className="text-sm text-slate-400 font-medium mb-1">الإجمالي المستحق</span>
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-3xl font-bold font-mono text-white tracking-tight">
-              {selectedPackage ? selectedPackage.price.toFixed(2) : "0.00"}
-            </span>
-            <span className="text-emerald-500 font-bold text-lg">
-              {selectedGame.currency}
-            </span>
+          <div className="flex flex-col items-center sm:items-start w-full sm:w-auto z-10">
+            <span className="text-sm text-slate-400 font-medium mb-1">الإجمالي المستحق</span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-3xl font-bold font-mono text-white tracking-tight">
+                {selectedPackage ? selectedPackage.price.toFixed(2) : "0.00"}
+              </span>
+              <span className="text-emerald-500 font-bold text-lg">
+                {selectedGame.currency}
+              </span>
+            </div>
+            <div className="text-xs text-slate-500 mt-2 flex items-center gap-1">
+              <span>الرصيد المتاح:</span>
+              <span className="font-mono text-slate-400">{walletBalance.toFixed(2)}</span>
+              <span className="text-slate-400">{selectedGame.currency}</span>
+            </div>
           </div>
-          <div className="text-xs text-slate-500 mt-2 flex items-center gap-1">
-            <span>الرصيد المتاح:</span>
-            <span className="font-mono text-slate-400">{walletBalance.toFixed(2)}</span>
-            <span className="text-slate-400">{selectedGame.currency}</span>
-          </div>
+
+          <button 
+            onClick={handlePurchasePackage}
+            disabled={!selectedPackage || !playerId.trim()}
+            className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 disabled:from-slate-700 disabled:to-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)] active:scale-95 z-10 cursor-pointer"
+          >
+            <ShoppingBag className="w-5 h-5" />
+            <span className="text-base">تأكيد الشراء</span>
+          </button>
         </div>
-
-        <button 
-          onClick={handlePurchasePackage}
-          disabled={!selectedPackage || !playerId.trim()}
-          className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 disabled:from-slate-700 disabled:to-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)] active:scale-95 z-10"
-        >
-          <ShoppingBag className="w-5 h-5" />
-          <span className="text-base">تأكيد الشراء</span>
-        </button>
-      </div>
+      )}
 
     </motion.div>
   );

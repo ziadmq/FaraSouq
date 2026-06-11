@@ -97,7 +97,9 @@ export default function App() {
     handleUpdatePackageField,
     handleUpdateJawakerPackage,
     confirmDeleteItem,
-    handleSaveCMS
+    handleSaveCMS,
+    joPaySettings,
+    setJoPaySettings
   } = useAppState();
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
@@ -141,7 +143,7 @@ export default function App() {
           
           {/* SCREEN 1: Home Store Dashboard */}
           {activeTab === "home" && (
-            <HomeScreen
+            <HomeScreen 
               cmsBannerImage={cmsBannerImage}
               cmsBannerText={cmsBannerText}
               gamesList={gamesList}
@@ -153,6 +155,7 @@ export default function App() {
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               filteredGames={filteredGames}
+              loggedUser={loggedUser}
             />
           )}
 
@@ -229,6 +232,8 @@ export default function App() {
               handleUpdatePackageField={handleUpdatePackageField}
               handleUpdateJawakerPackage={handleUpdateJawakerPackage}
               gamesList={gamesList}
+              joPaySettings={joPaySettings}
+              setJoPaySettings={setJoPaySettings}
             />
           )}
 
