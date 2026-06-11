@@ -63,7 +63,7 @@ export default function WalletScreen({
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-4xl font-black text-emerald-400 tracking-tight drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">{walletBalance.toFixed(2)}</span>
-            <span className="text-emerald-100/70 font-bold tracking-widest">JD</span>
+            <span className="text-emerald-100/70 font-bold tracking-widest">JOD</span>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@ export default function WalletScreen({
                   <div className="text-right w-full sm:w-auto">
                     <p className="text-sm text-slate-400 mb-2">اسم الحساب (Alias) - CliQ:</p>
                     <div className="flex items-center justify-start">
-                      <span className="text-2xl sm:text-3xl font-mono font-bold text-emerald-400 tracking-wider">FAARA-SHOP-99</span>
+                      <span className="text-2xl sm:text-3xl font-bold text-emerald-400 tracking-wider">FAARA-SHOP-99</span>
                     </div>
                   </div>
                   <button 
@@ -132,10 +132,10 @@ export default function WalletScreen({
                     required
                     min="0.1"
                     step="0.01"
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-16 pr-4 py-4 text-right font-mono text-xl text-white outline-none focus:border-emerald-500 transition-colors shadow-inner"
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-16 pr-4 py-4 text-right font-bold text-xl text-white outline-none focus:border-emerald-500 transition-colors shadow-inner"
                   />
                   <div className="absolute left-0 top-0 bottom-0 px-4 flex items-center bg-slate-800/50 rounded-l-xl border-r border-slate-800">
-                    <span className="text-emerald-500 font-bold font-mono">JOD</span>
+                    <span className="text-emerald-500 font-bold">JOD</span>
                   </div>
                 </div>
               </div>
