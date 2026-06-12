@@ -122,8 +122,14 @@ export function useAppState() {
   // Handlers
   const showToast = (message: string, type: "success" | "error" | "info" = "info") => {};
   const navigateToTab = (tab: any) => setActiveTab(tab);
-  const handleLoginSuccess = (user: User) => setLoggedUser(user);
-  const handleLogout = () => setLoggedUser(null);
+  const handleLoginSuccess = (user: User) => {
+    setLoggedUser(user);
+    setActiveTab("home");
+  };
+  const handleLogout = () => {
+    setLoggedUser(null);
+    setActiveTab("home");
+  };
   const handleCopyText = (text: string) => {};
   const handleReceiptUpload = (e: any) => {};
   const handleDepositSubmit = () => {};
