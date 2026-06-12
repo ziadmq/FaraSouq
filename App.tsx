@@ -50,7 +50,7 @@ export default function App() {
     cmsBannerUrl,
     setCmsBannerUrl,
     cmsBannerImage,
-    setCmsBannerImage
+    setCmsBannerImage,
     playerId,
     setPlayerId,
     selectedPackage,
