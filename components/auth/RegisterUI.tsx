@@ -11,11 +11,11 @@ import {
   User as UserIcon,
   Eye, 
   EyeOff, 
-  Sparkles, 
   Check, 
   Award,
   RefreshCw,
-  ShieldAlert
+  ShieldAlert,
+  UserPlus
 } from "lucide-react";
 import AuthLayout from "./AuthLayout";
 import { PasswordStrength } from "../../types";
@@ -196,30 +196,34 @@ export default function RegisterUI({
             </button>
 
             {/* Password Strength indicator bar */}
-            {password.length > 0 && (
-              <div className="absolute -bottom-4 left-0 w-full pt-1">
-                <div className="flex justify-between items-center text-[9px] font-bold px-1 mb-0.5">
-                  <span className="text-[#8da1c5]">
-                    القوة: <span className="text-emerald-300 font-bold">{strength.label}</span>
-                  </span>
-                  <span className="text-[#5e7193] font-mono">{strength.score * 20}%</span>
-                </div>
-                <div className="h-1 bg-[#070e1d] rounded-full overflow-hidden flex gap-0.5 w-full">
-                  {[1, 2, 3, 4, 5].map((lvl) => (
-                    <div
-                      key={lvl}
-                      className={`h-full flex-1 transition-all duration-500 ${
-                        lvl <= strength.score ? strength.color : "bg-slate-800"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
+          {password.length > 0 && (
+            <div className="w-full mt-3 bg-[#0a1224]/80 backdrop-blur-sm border border-[#21314d]/50 rounded-xl p-3 shadow-inner transition-all duration-300">
+              <div className="flex justify-between items-center text-xs font-bold mb-2.5 px-1">
+                <div className="flex items-center gap-2 text-[#8da1c5]">
+                  <ShieldAlert className={`w-4 h-4 ${strength.score > 2 ? 'text-emerald-400' : strength.score > 1 ? 'text-amber-400' : 'text-red-400'}`} />
+                  <span>قوة كلمة المرور: <span className={`${strength.score > 2 ? 'text-emerald-400' : strength.score > 1 ? 'text-amber-400' : 'text-red-400'} font-black ml-1`}>{strength.label}</span></span>
+                </div>
+                <span className={`${strength.score > 2 ? 'text-emerald-400' : strength.score > 1 ? 'text-amber-400' : 'text-red-400'} font-mono bg-[#070e1d] px-2 py-0.5 rounded-md border border-[#21314d]/50`}>{strength.score * 20}%</span>
+              </div>
+              <div className="h-2 bg-[#070e1d] rounded-full overflow-hidden flex gap-1 w-full p-0.5 border border-[#21314d]/30">
+                {[1, 2, 3, 4, 5].map((lvl) => (
+                  <div
+                    key={lvl}
+                    className={`h-full flex-1 rounded-full transition-all duration-500 ${
+                      lvl <= strength.score 
+                        ? `${strength.color} shadow-[0_0_10px_currentColor] opacity-90` 
+                        : "bg-[#16233b]/40"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Confirm Password Field with Floating Label */}
-          <div className="relative group/input mt-2">
+          <div className="relative group/input mt-4">
             <input
               id="confirmPassword"
               type={showPassword ? "text" : "password"}
@@ -273,7 +277,7 @@ export default function RegisterUI({
             ) : (
               <>
                 <span>إنشاء حساب</span>
-                <Sparkles className="w-5 h-5" />
+                <UserPlus className="w-5 h-5" />
               </>
             )}
           </button>

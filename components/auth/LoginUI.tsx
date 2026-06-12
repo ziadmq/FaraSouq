@@ -14,7 +14,8 @@ import {
   Check, 
   Award,
   RefreshCw,
-  ShieldAlert
+  ShieldAlert,
+  LogIn
 } from "lucide-react";
 import AuthLayout from "./AuthLayout";
 
@@ -191,7 +192,7 @@ export default function LoginUI({
             ) : (
               <>
                 <span>تسجيل الدخول</span>
-                <Sparkles className="w-5 h-5" />
+                <LogIn className="w-5 h-5" />
               </>
             )}
           </button>
