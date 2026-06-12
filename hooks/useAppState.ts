@@ -74,67 +74,124 @@ export function useAppState() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<GameCategory>(GameCategory.ALL);
 
-  // States for CMS & alert configurations (loaded into memory)
-    playerIdError,
-    setPlayerIdError,
-    showIdHelp,
-    setShowIdHelp,
-    paymentMethod,
-    setPaymentMethod,
-    depositAmount,
-    setDepositAmount,
-    copiedText,
-    setCopiedText,
-    receiptFile,
-    setReceiptFile,
-    receiptFileName,
-    setReceiptFileName,
-    receiptPreviewUrl,
-    setReceiptPreviewUrl,
-    isDepositing,
-    setIsDepositing,
-    toasts,
-    setToasts,
-    activeAdminTab,
-    setActiveAdminTab,
-    zoomReceiptUrl,
-    setZoomReceiptUrl,
-    itemToDelete,
-    setItemToDelete,
-    userToDelete,
-    setUserToDelete,
-    newsletterEmail,
-    setNewsletterEmail,
-    newsletterSubscribed,
-    setNewsletterSubscribed,
-    totalSalesToDisplay,
-    pendingDepositsToDisplay,
-    totalMembersToDisplay,
-    totalInstantDepositsToDisplay,
-    isAdmin,
-    filteredGames,
-    showToast,
-    navigateToTab,
-    handleLoginSuccess,
-    handleLogout,
-    handleCopyText,
-    handleReceiptUpload,
-    handleDepositSubmit,
-    handlePurchasePackage,
-    handleAdminAcceptDeposit,
-    handleAdminRejectDeposit,
-    handleToggleUserStatus,
-    handleDeleteUser,
-    confirmDeleteUser,
-    handleNewsletterSubmit,
-    handleSaveCMS,
-    handleMarkAllNotificationsRead,
-    saveGamesList,
-    handleSavePackages,
-    handleAddPackage,
-    handleRemovePackage,
-    handleUpdatePackageField,
-    handleUpdateJawakerPackage,
-    confirmDeleteItem,
+  // CMS & Banner States
+  const [cmsBannerBadgeText, setCmsBannerBadgeText] = useState("");
+  const [cmsBannerText, setCmsBannerText] = useState("");
+  const [cmsBannerSubtitle, setCmsBannerSubtitle] = useState("");
+  const [cmsBannerButtonText, setCmsBannerButtonText] = useState("");
+  const [cmsBannerUrl, setCmsBannerUrl] = useState("");
+  const [cmsBannerImage, setCmsBannerImage] = useState("");
+
+  // Game/Package States
+  const [playerId, setPlayerId] = useState("");
+  const [selectedPackage, setSelectedPackage] = useState<GamePackage | null>(null);
+  const [playerIdError, setPlayerIdError] = useState("");
+  const [showIdHelp, setShowIdHelp] = useState(false);
+
+  // Deposit/Wallet States
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | "">("");
+  const [depositAmount, setDepositAmount] = useState("");
+  const [copiedText, setCopiedText] = useState("");
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [receiptFileName, setReceiptFileName] = useState("");
+  const [receiptPreviewUrl, setReceiptPreviewUrl] = useState("");
+  const [isDepositing, setIsDepositing] = useState(false);
+
+  // UI/Admin States
+  const [toasts, setToasts] = useState<any[]>([]);
+  const [activeAdminTab, setActiveAdminTab] = useState("dashboard");
+  const [zoomReceiptUrl, setZoomReceiptUrl] = useState("");
+  const [itemToDelete, setItemToDelete] = useState<any>(null);
+  const [userToDelete, setUserToDelete] = useState<any>(null);
+
+  // Newsletter
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+
+  // Admin Dashboard Stats
+  const totalSalesToDisplay = 0;
+  const pendingDepositsToDisplay = 0;
+  const totalMembersToDisplay = 0;
+  const totalInstantDepositsToDisplay = 0;
+  const isAdmin = loggedUser?.role === "admin";
+  const filteredGames = gamesList;
+
+  // Settings
+  const [joPaySettings, setJoPaySettings] = useState<JoPaySettings | null>(null);
+
+  // Handlers
+  const showToast = (message: string, type: "success" | "error" | "info" = "info") => {};
+  const navigateToTab = (tab: any) => setActiveTab(tab);
+  const handleLoginSuccess = (user: User) => setLoggedUser(user);
+  const handleLogout = () => setLoggedUser(null);
+  const handleCopyText = (text: string) => {};
+  const handleReceiptUpload = (e: any) => {};
+  const handleDepositSubmit = () => {};
+  const handlePurchasePackage = () => {};
+  const handleAdminAcceptDeposit = () => {};
+  const handleAdminRejectDeposit = () => {};
+  const handleToggleUserStatus = () => {};
+  const handleDeleteUser = () => {};
+  const confirmDeleteUser = () => {};
+  const handleNewsletterSubmit = (e: any) => {};
+  const handleSaveCMS = () => {};
+  const handleMarkAllNotificationsRead = () => {};
+  const saveGamesList = () => {};
+  const handleSavePackages = () => {};
+  const handleAddPackage = () => {};
+  const handleRemovePackage = () => {};
+  const handleUpdatePackageField = () => {};
+  const handleUpdateJawakerPackage = () => {};
+  const confirmDeleteItem = () => {};
+
+  return {
+    activeTab, setActiveTab,
+    gamesList, setGamesList,
+    selectedGame, setSelectedGame,
+    formPackages, setFormPackages,
+    adminUsers, setAdminUsers,
+    loggedUser, setLoggedUser,
+    walletBalance, setWalletBalance,
+    loyaltyXp, setLoyaltyXp,
+    userOrders, setUserOrders,
+    notifications, setNotifications,
+    showNotificationDropdown, setShowNotificationDropdown,
+    searchQuery, setSearchQuery,
+    selectedCategory, setSelectedCategory,
+    cmsBannerBadgeText, setCmsBannerBadgeText,
+    cmsBannerText, setCmsBannerText,
+    cmsBannerSubtitle, setCmsBannerSubtitle,
+    cmsBannerButtonText, setCmsBannerButtonText,
+    cmsBannerUrl, setCmsBannerUrl,
+    cmsBannerImage, setCmsBannerImage,
+    playerId, setPlayerId,
+    selectedPackage, setSelectedPackage,
+    playerIdError, setPlayerIdError,
+    showIdHelp, setShowIdHelp,
+    paymentMethod, setPaymentMethod,
+    depositAmount, setDepositAmount,
+    copiedText, setCopiedText,
+    receiptFile, setReceiptFile,
+    receiptFileName, setReceiptFileName,
+    receiptPreviewUrl, setReceiptPreviewUrl,
+    isDepositing, setIsDepositing,
+    toasts, setToasts,
+    activeAdminTab, setActiveAdminTab,
+    zoomReceiptUrl, setZoomReceiptUrl,
+    itemToDelete, setItemToDelete,
+    userToDelete, setUserToDelete,
+    newsletterEmail, setNewsletterEmail,
+    newsletterSubscribed, setNewsletterSubscribed,
+    totalSalesToDisplay, pendingDepositsToDisplay,
+    totalMembersToDisplay, totalInstantDepositsToDisplay,
+    isAdmin, filteredGames, showToast, navigateToTab,
+    handleLoginSuccess, handleLogout, handleCopyText,
+    handleReceiptUpload, handleDepositSubmit, handlePurchasePackage,
+    handleAdminAcceptDeposit, handleAdminRejectDeposit,
+    handleToggleUserStatus, handleDeleteUser, confirmDeleteUser,
+    handleNewsletterSubmit, handleSaveCMS, handleMarkAllNotificationsRead,
+    saveGamesList, handleSavePackages, handleAddPackage, handleRemovePackage,
+    handleUpdatePackageField, handleUpdateJawakerPackage, confirmDeleteItem,
+    joPaySettings, setJoPaySettings
   };
 }
