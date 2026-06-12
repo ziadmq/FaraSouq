@@ -25,7 +25,7 @@ export default function UsersTab({
   const getStatusIcon = (status: string) => {
     switch (status) {
       case OrderStatus.COMPLETED:
-        return <CheckCircle2 className="w-4 h-4 text-emerald-400" />;
+        return <CheckCircle2 className="w-4 h-4 text-amber-400" />;
       case OrderStatus.REJECTED:
         return <XCircle className="w-4 h-4 text-rose-400" />;
       case OrderStatus.PROCESSING:
@@ -38,7 +38,7 @@ export default function UsersTab({
   const getStatusColor = (status: string) => {
     switch (status) {
       case OrderStatus.COMPLETED:
-        return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        return "bg-amber-500/10 text-amber-400 border-amber-500/20";
       case OrderStatus.REJECTED:
         return "bg-rose-500/10 text-rose-400 border-rose-500/20";
       case OrderStatus.PROCESSING:
@@ -72,7 +72,7 @@ export default function UsersTab({
 
         <div className="bg-[#191f2f] rounded-2xl border border-[#4f4633]/30 p-6 shadow-lg">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-            <div className="w-24 h-24 rounded-full bg-emerald-500/10 text-emerald-400 font-black text-4xl flex items-center justify-center select-none uppercase border-2 border-emerald-500/20 shadow-inner shrink-0">
+            <div className="w-24 h-24 rounded-full bg-amber-500/10 text-amber-400 font-black text-4xl flex items-center justify-center select-none uppercase border-2 border-amber-500/20 shadow-inner shrink-0">
               {selectedUser.avatarLetter.substr(0, 1)}
             </div>
             
@@ -83,7 +83,7 @@ export default function UsersTab({
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
                 <div className="bg-[#11192a] border border-[#21314d] rounded-xl p-3 px-5 flex flex-col items-center">
                   <span className="text-xs text-[#5e7193] mb-1">الرصيد</span>
-                  <div className="font-sans text-emerald-400 font-black text-lg">
+                  <div className="font-sans text-amber-400 font-black text-lg">
                     {selectedUser.balance.toFixed(2)} <span className="text-xs">JOD</span>
                   </div>
                 </div>
@@ -97,7 +97,7 @@ export default function UsersTab({
                   <span className="text-xs text-[#5e7193] mb-1">حالة الحساب</span>
                   <span className={`px-3 py-1 rounded-md text-xs font-bold mt-1 ${
                     selectedUser.status === "نشط" 
-                      ? "text-emerald-400" 
+                      ? "text-amber-400" 
                       : "text-rose-400"
                   }`}>
                     {selectedUser.status}
@@ -112,7 +112,7 @@ export default function UsersTab({
                 className={`w-full py-3 px-6 rounded-xl text-sm font-bold transition-all cursor-pointer ${
                   selectedUser.status === "نشط" 
                     ? "bg-rose-600/20 border border-rose-500/30 text-rose-400 hover:bg-rose-600 hover:text-white" 
-                    : "bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-600 hover:text-white"
+                    : "bg-amber-600/20 border border-amber-500/30 text-amber-400 hover:bg-amber-600 hover:text-white"
                 }`}
               >
                 {selectedUser.status === "نشط" ? "حظر حساب اللاعب" : "تفعيل حساب اللاعب"}
@@ -149,11 +149,11 @@ export default function UsersTab({
                       <td className="px-5 py-4 align-middle text-center font-mono text-[#8da1c5]">{order.id}</td>
                       <td className="px-5 py-4 align-middle">
                         <div className="flex items-center gap-2 justify-start">
-                          <Gamepad2 className="w-4 h-4 text-emerald-500/70" />
+                          <Gamepad2 className="w-4 h-4 text-amber-500/70" />
                           <span className="font-bold text-white text-sm">{order.product || (order as any).gameName}</span>
                         </div>
                       </td>
-                      <td className="px-5 py-4 align-middle text-center font-mono font-bold text-emerald-400">
+                      <td className="px-5 py-4 align-middle text-center font-mono font-bold text-amber-400">
                         {order.playerId || "-"}
                       </td>
                       <td className="px-5 py-4 align-middle text-center text-[#8da1c5]" dir="ltr">
@@ -161,7 +161,7 @@ export default function UsersTab({
                       </td>
                       <td className="px-5 py-4 align-middle text-center">
                         <div className="font-sans text-white font-black flex items-baseline gap-1 justify-center">
-                          <span className="text-emerald-400 text-[10px]">JOD</span>
+                          <span className="text-amber-400 text-[10px]">JOD</span>
                           <span>{Number(order.price).toFixed(2)}</span>
                         </div>
                       </td>
@@ -209,11 +209,11 @@ export default function UsersTab({
                       onClick={() => setSelectedUserId(user.id)}
                       className="flex items-center gap-4 justify-center cursor-pointer group"
                     >
-                      <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-400 font-black text-xl flex items-center justify-center select-none uppercase border border-emerald-500/20 shrink-0 shadow-inner group-hover:bg-emerald-500/20 group-hover:scale-110 transition-all duration-300">
+                      <div className="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 font-black text-xl flex items-center justify-center select-none uppercase border border-amber-500/20 shrink-0 shadow-inner group-hover:bg-amber-500/20 group-hover:scale-110 transition-all duration-300">
                         {user.avatarLetter.substr(0, 1)}
                       </div>
-                      <div className="flex flex-col text-right justify-center group-hover:text-emerald-400 transition-colors">
-                        <span className="font-bold text-white text-base whitespace-nowrap group-hover:text-emerald-400 transition-colors">{user.name}</span>
+                      <div className="flex flex-col text-right justify-center group-hover:text-amber-400 transition-colors">
+                        <span className="font-bold text-white text-base whitespace-nowrap group-hover:text-amber-400 transition-colors">{user.name}</span>
                         <span className="text-xs text-[#8da1c5] mt-0.5 whitespace-nowrap font-medium">{(user as any).email || user.name.toLowerCase().replace(/\s+/g, '') + '@gmail.com'}</span>
                       </div>
                     </div>
@@ -223,7 +223,7 @@ export default function UsersTab({
                   <td className="px-6 py-4 align-middle text-center">
                     <span className={`px-3 py-1 rounded-md text-xs font-bold border inline-block ${
                       user.status === "نشط" 
-                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" 
+                        ? "bg-amber-500/10 text-amber-400 border-amber-500/20" 
                         : "bg-rose-500/10 text-rose-400 border-rose-500/20"
                     }`}>
                       {user.status}
@@ -240,7 +240,7 @@ export default function UsersTab({
                   {/* Balance */}
                   <td className="px-6 py-4 align-middle text-center">
                     <div className="font-sans text-white font-black text-xl flex items-baseline gap-1.5 justify-center">
-                      <span className="text-emerald-400 text-xs">JOD</span>
+                      <span className="text-amber-400 text-xs">JOD</span>
                       <span>{user.balance.toFixed(2)}</span>
                     </div>
                   </td>
@@ -253,7 +253,7 @@ export default function UsersTab({
                         className={`w-20 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer ${
                           user.status === "نشط" 
                             ? "bg-rose-600/20 border border-rose-500/30 text-rose-400 hover:bg-rose-600 hover:text-white" 
-                            : "bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-600 hover:text-white"
+                            : "bg-amber-600/20 border border-amber-500/30 text-amber-400 hover:bg-amber-600 hover:text-white"
                         }`}
                       >
                         {user.status === "نشط" ? "حظر" : "تفعيل"}

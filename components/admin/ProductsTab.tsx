@@ -37,8 +37,8 @@ export default function ProductsTab({
           <div className="space-y-3 pt-2">
             <div className="flex justify-between items-center border-b border-[#4f4633]/15 pb-3">
               <div className="flex items-center gap-2">
-                <Coins className="w-5 h-5 text-emerald-400" />
-                <h4 className="font-extrabold text-emerald-200 text-sm sm:text-base">إدارة باقات الشحن</h4>
+                <Coins className="w-5 h-5 text-amber-400" />
+                <h4 className="font-extrabold text-amber-200 text-sm sm:text-base">إدارة باقات الشحن</h4>
               </div>
               <button 
                 type="button"
@@ -58,7 +58,7 @@ export default function ProductsTab({
             ) : (
               <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
                 {formPackages.map((pkg, idx) => (
-                  <div key={pkg.id} className={`p-4 rounded-xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 transition-all duration-300 ${pkg.isPreferred ? "bg-gradient-to-r from-emerald-500/10 to-[#070e1d] border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "bg-[#0a1120] hover:bg-[#111827] border-[#4f4633]/30"}`}>
+                  <div key={pkg.id} className={`p-4 rounded-xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 transition-all duration-300 ${pkg.isPreferred ? "bg-gradient-to-r from-amber-500/10 to-[#070e1d] border-amber-500/50 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "bg-[#0a1120] hover:bg-[#111827] border-[#4f4633]/30"}`}>
                     
                     {/* Actions side */}
                     <div className="flex items-center gap-2 justify-end md:justify-start w-full md:w-auto shrink-0 order-2 md:order-1 border-t md:border-t-0 md:border-r border-[#4f4633]/20 pt-3 md:pt-0 md:pr-4 mt-2 md:mt-0">
@@ -76,8 +76,8 @@ export default function ProductsTab({
                         onClick={() => handleUpdatePackageField(pkg.id, "isPreferred", !pkg.isPreferred)}
                         className={`px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 border transition-all cursor-pointer active:scale-95 ${
                           pkg.isPreferred 
-                            ? "bg-emerald-400 border-emerald-400 text-slate-950 font-extrabold shadow-md" 
-                            : "bg-[#111827] border-[#4f4633]/40 text-[#9c8f79] hover:text-[#d3c5ac] hover:border-emerald-400/50"
+                            ? "bg-amber-400 border-amber-400 text-slate-950 font-extrabold shadow-md" 
+                            : "bg-[#111827] border-[#4f4633]/40 text-[#9c8f79] hover:text-[#d3c5ac] hover:border-amber-400/50"
                         }`}
                       >
                         <Star className={`w-4 h-4 ${pkg.isPreferred ? "fill-current" : ""}`} />
@@ -93,7 +93,7 @@ export default function ProductsTab({
                         <select 
                           value={pkg.badge || ""}
                           onChange={(e) => handleUpdatePackageField(pkg.id, "badge", e.target.value)}
-                          className="w-full bg-[#111827] border border-[#4f4633]/40 text-white rounded-lg px-3 py-2 text-xs sm:text-sm text-right focus:border-emerald-400 outline-none transition-colors appearance-none"
+                          className="w-full bg-[#111827] border border-[#4f4633]/40 text-white rounded-lg px-3 py-2 text-xs sm:text-sm text-right focus:border-amber-400 outline-none transition-colors appearance-none"
                         >
                           <option value="">بدون شارة</option>
                           <option value="شائع">شائع</option>
@@ -113,7 +113,7 @@ export default function ProductsTab({
                             placeholder="5"
                             value={pkg.bonusPercent === undefined || pkg.bonusPercent === 0 ? "" : pkg.bonusPercent}
                             onChange={(e) => handleUpdatePackageField(pkg.id, "bonusPercent", e.target.value === "" ? undefined : (parseInt(e.target.value) || 0))}
-                            className="w-full bg-[#111827] border border-[#4f4633]/40 text-emerald-400 font-bold rounded-lg px-3 py-2 pr-7 text-xs sm:text-sm text-left font-mono focus:border-emerald-400 outline-none transition-colors placeholder:font-sans placeholder:text-slate-600"
+                            className="w-full bg-[#111827] border border-[#4f4633]/40 text-amber-400 font-bold rounded-lg px-3 py-2 pr-7 text-xs sm:text-sm text-left font-mono focus:border-amber-400 outline-none transition-colors placeholder:font-sans placeholder:text-slate-600"
                           />
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 font-bold">%</span>
                         </div>
@@ -129,7 +129,7 @@ export default function ProductsTab({
                           placeholder="0.00"
                           value={pkg.price}
                           onChange={(e) => handleUpdatePackageField(pkg.id, "price", parseFloat(e.target.value) || 0)}
-                          className="w-full bg-[#111827] border border-[#4f4633]/40 text-white font-bold rounded-lg px-3 py-2 text-xs sm:text-sm text-left font-mono focus:border-emerald-400 outline-none transition-colors"
+                          className="w-full bg-[#111827] border border-[#4f4633]/40 text-white font-bold rounded-lg px-3 py-2 text-xs sm:text-sm text-left font-mono focus:border-amber-400 outline-none transition-colors"
                           required
                         />
                       </div>
@@ -147,7 +147,7 @@ export default function ProductsTab({
                               const newName = amount ? `${parseInt(amount).toLocaleString('en-US')} توكنز` : "";
                               handleUpdatePackageField(pkg.id, "name", newName);
                             }}
-                            className="w-full bg-[#111827] border border-[#4f4633]/40 text-white font-bold rounded-lg pl-12 pr-3 py-2 text-xs sm:text-sm text-right focus:border-emerald-400 outline-none transition-colors"
+                            className="w-full bg-[#111827] border border-[#4f4633]/40 text-white font-bold rounded-lg pl-12 pr-3 py-2 text-xs sm:text-sm text-right focus:border-amber-400 outline-none transition-colors"
                             required
                           />
                           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold pointer-events-none">
@@ -166,7 +166,7 @@ export default function ProductsTab({
           <div className="flex justify-end pt-4 border-t border-[#4f4633]/20">
             <button 
               type="submit"
-              className="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black px-8 py-3 rounded-xl cursor-pointer text-sm shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all active:scale-95 flex items-center gap-2"
+              className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-black px-8 py-3 rounded-xl cursor-pointer text-sm shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all active:scale-95 flex items-center gap-2"
             >
               <Coins className="w-5 h-5" />
               <span>حفظ جميع الباقات وتحديث المتجر</span>

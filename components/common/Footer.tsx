@@ -32,9 +32,9 @@ export default function Footer({
       {/* High contrast responsive Footer */}
       <footer className="relative bg-[#070e1d] mt-24 py-12 text-sm select-none overflow-hidden">
         {/* Decorative Top Border Gradient */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
         {/* Background glow */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-40 bg-emerald-500/5 blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-40 bg-amber-500/5 blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 md:px-8 w-full flex flex-col md:flex-row-reverse justify-between items-center gap-10 text-center relative z-10">
           
@@ -48,16 +48,16 @@ export default function Footer({
               <a 
                 key={idx}
                 onClick={() => showToast("سيتم إضافة البيانات قريباً", "info")} 
-                className="hover:text-emerald-400 cursor-pointer transition-all duration-300 hover:-translate-y-1 relative group"
+                className="hover:text-amber-400 cursor-pointer transition-all duration-300 hover:-translate-y-1 relative group"
               >
                 {link}
-                <span className="absolute -bottom-2 left-1/2 w-0 h-0.5 bg-emerald-400 transition-all duration-300 group-hover:w-full group-hover:left-0" />
+                <span className="absolute -bottom-2 left-1/2 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full group-hover:left-0" />
               </a>
             ))}
           </div>
 
           <div className="flex flex-col items-center md:items-start gap-3">
-            <span className="font-headline-md text-2xl sm:text-3xl text-emerald-400 font-black tracking-tight drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <span className="font-headline-md text-2xl sm:text-3xl text-amber-400 font-black tracking-tight drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
               فارة | سوق
             </span>
             <span className="text-slate-500/70 text-xs font-mono">
@@ -76,7 +76,7 @@ export default function Footer({
             <>
               <button 
                 onClick={() => { navigateToTab("home"); handleMarkAllNotificationsRead(); }}
-                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "home" ? "text-emerald-400" : "text-[#9c8f79]"}`}
+                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "home" ? "text-amber-400" : "text-[#9c8f79]"}`}
               >
                 <Gamepad2 className="w-5 h-5" />
                 <span className="text-[10px] font-bold">الرئيسية</span>
@@ -89,7 +89,7 @@ export default function Footer({
                   }
                   navigateToTab("game-detail");
                 }}
-                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "game-detail" ? "text-emerald-400" : "text-[#9c8f79]"}`}
+                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "game-detail" ? "text-amber-400" : "text-[#9c8f79]"}`}
               >
                 <ShoppingBag className="w-5 h-5" />
                 <span className="text-[10px] font-bold">المتجر</span>
@@ -97,7 +97,7 @@ export default function Footer({
 
               <button 
                 onClick={() => navigateToTab("wallet")}
-                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "wallet" ? "text-emerald-400" : "text-[#9c8f79]"}`}
+                className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "wallet" ? "text-amber-400" : "text-[#9c8f79]"}`}
               >
                 <Wallet className="w-5 h-5" />
                 <span className="text-[10px] font-bold">المحفظة</span>
@@ -106,7 +106,7 @@ export default function Footer({
           ) : (
             <button 
               onClick={() => navigateToTab("admin")}
-              className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "admin" ? "text-emerald-400" : "text-[#9c8f79]"}`}
+              className={`flex flex-col items-center gap-1 transition-all cursor-pointer ${activeTab === "admin" ? "text-amber-400" : "text-[#9c8f79]"}`}
             >
               <Sliders className="w-5 h-5" />
               <span className="text-[10px] font-bold">لوحة التحكم (Admin)</span>

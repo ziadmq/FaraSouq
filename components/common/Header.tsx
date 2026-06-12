@@ -60,7 +60,7 @@ export default function Header({
         <div className="flex items-center gap-6 sm:gap-10">
           <a 
             onClick={() => navigateToTab("home")} 
-            className="font-headline-lg text-2xl sm:text-3xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent cursor-pointer drop-shadow-[0_0_12px_rgba(251,191,36,0.5)] select-none hover:opacity-90 active:scale-95 transition-all"
+            className="font-headline-lg text-2xl sm:text-3xl font-bold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent cursor-pointer drop-shadow-[0_0_12px_rgba(251,191,36,0.5)] select-none hover:opacity-90 active:scale-95 transition-all"
           >
             فارة | سوق
           </a>
@@ -69,14 +69,14 @@ export default function Header({
               <>
                 <a 
                   onClick={() => { navigateToTab("home"); handleMarkAllNotificationsRead(); }}
-                  className={`cursor-pointer pb-1 transition-all ${activeTab === "home" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
+                  className={`cursor-pointer pb-1 transition-all ${activeTab === "home" ? "text-amber-400 border-b-2 border-amber-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
                 >
                   الرئيسية
                 </a>
                 {loggedUser && (
                   <a 
                     onClick={() => navigateToTab("wallet")}
-                    className={`cursor-pointer pb-1 transition-all ${activeTab === "wallet" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
+                    className={`cursor-pointer pb-1 transition-all ${activeTab === "wallet" ? "text-amber-400 border-b-2 border-amber-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
                   >
                     إدارة الرصيد
                   </a>
@@ -88,7 +88,7 @@ export default function Header({
                     }
                     navigateToTab("game-detail");
                   }}
-                  className={`cursor-pointer pb-1 transition-all ${activeTab === "game-detail" ? "text-emerald-400 border-b-2 border-emerald-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
+                  className={`cursor-pointer pb-1 transition-all ${activeTab === "game-detail" ? "text-amber-400 border-b-2 border-amber-400 font-bold" : "text-[#d3c5ac] hover:text-white"}`}
                 >
                   باقات الشحن
                 </a>
@@ -104,7 +104,7 @@ export default function Header({
               ) : (
                 <a 
                   onClick={() => navigateToTab("admin")}
-                  className="cursor-pointer pb-1 transition-all flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold border bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:border-emerald-400 hover:text-white animate-pulse active:scale-95"
+                  className="cursor-pointer pb-1 transition-all flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold border bg-amber-500/10 text-amber-400 border-amber-500/30 hover:border-amber-400 hover:text-white animate-pulse active:scale-95"
                 >
                   <Sliders className="w-4 h-4" />
                   <span>لوحة التحكم (Admin)</span>
@@ -123,16 +123,16 @@ export default function Header({
           {loggedUser && !isAdmin && (
             <div 
               onClick={() => navigateToTab("wallet")}
-              className="flex items-center gap-2.5 bg-gradient-to-r from-[#0a1a15] to-[#111827] border border-emerald-500/40 hover:border-emerald-400/80 px-3 sm:px-4 py-1.5 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-[0_0_15px_rgba(16,185,129,0.2)] active:scale-95 group"
+              className="flex items-center gap-2.5 bg-gradient-to-r from-[#0a1a15] to-[#111827] border border-amber-500/40 hover:border-amber-400/80 px-3 sm:px-4 py-1.5 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-[0_0_15px_rgba(16,185,129,0.2)] active:scale-95 group"
             >
-              <div className="bg-emerald-500/10 p-1.5 rounded-lg group-hover:bg-emerald-500/20 transition-colors">
-                <Wallet className="w-4 h-4 text-emerald-400" />
+              <div className="bg-amber-500/10 p-1.5 rounded-lg group-hover:bg-amber-500/20 transition-colors">
+                <Wallet className="w-4 h-4 text-amber-400" />
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="text-emerald-400 font-black text-sm sm:text-base tracking-tight drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]">
+                <span className="text-amber-400 font-black text-sm sm:text-base tracking-tight drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]">
                   {walletBalance.toFixed(2)}
                 </span>
-                <span className="text-[10px] text-emerald-100/70 font-bold tracking-wider">JD</span>
+                <span className="text-[10px] text-amber-100/70 font-bold tracking-wider">JD</span>
               </div>
             </div>
           )}
@@ -164,7 +164,7 @@ export default function Header({
                       className="absolute left-0 mt-3 w-80 bg-[#141b2b] border border-[#4f4633]/40 rounded-2xl shadow-2xl z-50 text-right overflow-hidden shadow-black"
                     >
                       <div className="p-4 bg-[#191f2f] border-b border-[#4f4633]/30 flex justify-between items-center">
-                        <h4 className="font-bold text-sm text-emerald-400">آخر التنبيهات والإشعارات ({notifications.length})</h4>
+                        <h4 className="font-bold text-sm text-amber-400">آخر التنبيهات والإشعارات ({notifications.length})</h4>
                         {unreadCount > 0 && (
                           <button 
                             onClick={handleMarkAllNotificationsRead}
@@ -184,13 +184,13 @@ export default function Header({
                           notifications.map(item => (
                             <div 
                               key={item.id} 
-                              className={`p-3 text-xs leading-relaxed transition-colors ${!item.isRead ? "bg-emerald-400/5 hover:bg-emerald-400/10" : "hover:bg-slate-900"}`}
+                              className={`p-3 text-xs leading-relaxed transition-colors ${!item.isRead ? "bg-amber-400/5 hover:bg-amber-400/10" : "hover:bg-slate-900"}`}
                             >
                               <div className="flex justify-between items-start mb-1 gap-2">
-                                <span className={`font-bold flex items-center gap-1.5 ${item.type === "success" ? "text-emerald-400" : item.type === "warning" ? "text-rose-400" : "text-emerald-400"}`}>
-                                  {item.type === "success" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
+                                <span className={`font-bold flex items-center gap-1.5 ${item.type === "success" ? "text-amber-400" : item.type === "warning" ? "text-rose-400" : "text-amber-400"}`}>
+                                  {item.type === "success" && <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />}
                                   {item.type === "warning" && <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />}
-                                  {item.type === "info" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />}
+                                  {item.type === "info" && <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />}
                                   {item.title}
                                 </span>
                                 <span className="text-[10px] text-[#9c8f79] font-mono">{item.time}</span>
@@ -212,7 +212,7 @@ export default function Header({
             {!loggedUser ? (
               <button
                 onClick={() => navigateToTab("login")}
-                className="bg-emerald-400 hover:bg-emerald-300 text-slate-950 px-4.5 py-2 rounded-xl font-bold text-xs cursor-pointer shadow-md transition-all active:scale-95"
+                className="bg-amber-400 hover:bg-amber-300 text-slate-950 px-4.5 py-2 rounded-xl font-bold text-xs cursor-pointer shadow-md transition-all active:scale-95"
               >
                 تسجيل الدخول
               </button>
@@ -226,7 +226,7 @@ export default function Header({
                   <span className="text-xs font-bold text-white group-hover:text-rose-400 transition-colors">
                     {loggedUser.name}
                   </span>
-                  <span className="text-[9px] text-emerald-400/80 font-mono flex items-center gap-1 group-hover:text-rose-400/80 transition-colors">
+                  <span className="text-[9px] text-amber-400/80 font-mono flex items-center gap-1 group-hover:text-rose-400/80 transition-colors">
                     <span className="group-hover:hidden">
                       {isAdmin ? "مدير النظام" : (loggedUser.status === "نشط" ? "لاعب نشط" : "لاعب محظور")}
                     </span>
@@ -238,7 +238,7 @@ export default function Header({
                 </div>
 
                 {/* Avatar circle */}
-                <div className="w-9 h-9 rounded-full border border-emerald-400 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-emerald-400 to-emerald-600 font-bold text-slate-950 text-xs shadow-glow transition-all duration-300 group-hover:border-rose-400 group-hover:scale-105">
+                <div className="w-9 h-9 rounded-full border border-amber-400 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-amber-400 to-amber-600 font-bold text-slate-950 text-xs shadow-glow transition-all duration-300 group-hover:border-rose-400 group-hover:scale-105">
                   {loggedUser.imageUrl ? (
                     <img 
                       src={loggedUser.imageUrl} 

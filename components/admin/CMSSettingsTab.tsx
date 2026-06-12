@@ -141,7 +141,7 @@ export default function CMSSettingsTab({
                     type="number"
                     value={value}
                     onChange={(e) => updateQuantityMap(key, parseInt(e.target.value) || 0)}
-                    className="flex-1 bg-[#0c1322] text-emerald-400 font-bold border border-[#4f4633]/30 rounded-xl px-4 py-2.5 text-sm sm:text-base text-center outline-none focus:border-amber-400"
+                    className="flex-1 bg-[#0c1322] text-amber-400 font-bold border border-[#4f4633]/30 rounded-xl px-4 py-2.5 text-sm sm:text-base text-center outline-none focus:border-amber-400"
                     placeholder="الكمية (مثال: 50000)"
                   />
                   <input 
@@ -163,7 +163,7 @@ export default function CMSSettingsTab({
             <button 
               type="button"
               onClick={handleSaveJoPay}
-              className="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black px-6 py-2.5 rounded-xl cursor-pointer text-sm shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all active:scale-95 flex items-center gap-2"
+              className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-black px-6 py-2.5 rounded-xl cursor-pointer text-sm shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all active:scale-95 flex items-center gap-2"
             >
               <Save className="w-5 h-5" />
               <span>حفظ إعدادات Jo-Pay</span>
@@ -175,7 +175,7 @@ export default function CMSSettingsTab({
       <section className="bg-[#191f2f] p-6 rounded-2xl border border-[#4f4633]/30 text-right space-y-6 shadow-md">
         
         <div className="flex items-center gap-3 justify-start border-b border-[#4f4633]/20 pb-4">
-          <Settings className="w-7 h-7 text-emerald-400" />
+          <Settings className="w-7 h-7 text-amber-400" />
           <div>
             <h3 className="font-extrabold text-xl text-white">تخصيص واجهة فارة سوق (CMS Control)</h3>
             <p className="text-sm font-medium text-[#9c8f79] mt-1">يمكنك هنا تغيير صورة البنر الرئيسي، ونصوص الإعلانات المنبثقة بشكل فوري.</p>
@@ -194,7 +194,7 @@ export default function CMSSettingsTab({
               value={cmsBannerBadgeText}
               onChange={(e) => setCmsBannerBadgeText(e.target.value)}
               placeholder="مثال: عرض لفترة محدودة"
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-emerald-400 outline-none"
+              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-amber-400 outline-none"
               dir="rtl"
             />
           </div>
@@ -209,7 +209,7 @@ export default function CMSSettingsTab({
               value={cmsBannerText}
               onChange={(e) => setCmsBannerText(e.target.value)}
               placeholder="العنوان الأساسي بالبنر"
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-emerald-400 outline-none"
+              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-amber-400 outline-none"
               dir="rtl"
             />
           </div>
@@ -224,7 +224,7 @@ export default function CMSSettingsTab({
               onChange={(e) => setCmsBannerSubtitle(e.target.value)}
               rows={2}
               placeholder="وصف العرض الترويجي..."
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-emerald-400 outline-none resize-none leading-relaxed"
+              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-amber-400 outline-none resize-none leading-relaxed"
               dir="rtl"
             />
           </div>
@@ -239,7 +239,7 @@ export default function CMSSettingsTab({
               value={cmsBannerButtonText}
               onChange={(e) => setCmsBannerButtonText(e.target.value)}
               placeholder="مثال: اشحن جواكر الان"
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-emerald-400 outline-none"
+              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-amber-400 outline-none"
               dir="rtl"
             />
           </div>
@@ -270,7 +270,7 @@ export default function CMSSettingsTab({
               <img src={cmsBannerImage} alt="Banner layout" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent flex flex-col justify-end p-4 text-right">
                 {cmsBannerBadgeText && (
-                  <span className="bg-emerald-400 text-slate-950 text-[10px] uppercase font-bold px-2 py-0.5 rounded w-fit mb-1">
+                  <span className="bg-amber-400 text-slate-950 text-[10px] uppercase font-bold px-2 py-0.5 rounded w-fit mb-1">
                     {cmsBannerBadgeText}
                   </span>
                 )}
@@ -280,7 +280,7 @@ export default function CMSSettingsTab({
                 )}
                 {cmsBannerButtonText && (
                   <div className="mt-2">
-                    <span className="bg-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded-full">{cmsBannerButtonText}</span>
+                    <span className="bg-amber-500 text-white text-[10px] font-bold px-3 py-1 rounded-full">{cmsBannerButtonText}</span>
                   </div>
                 )}
               </div>
@@ -306,7 +306,7 @@ export default function CMSSettingsTab({
           <div className="flex justify-end pt-2">
             <button 
               type="submit"
-              className="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black px-6 py-2.5 rounded-xl cursor-pointer text-sm shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all active:scale-95 flex items-center gap-2"
+              className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-black px-6 py-2.5 rounded-xl cursor-pointer text-sm shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all active:scale-95 flex items-center gap-2"
             >
               <Save className="w-5 h-5" />
               <span>حفظ وتطبيق تغييرات التخصيص</span>

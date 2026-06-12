@@ -389,7 +389,7 @@ export function useAppState() {
     setLoggedUser(null);
     setWalletBalance(0);
     setActiveTab("home");
-    showToast("تم تسجيل الخروج بنجاح. ركّز على انتصاراتك القادمة!", "info");
+    showToast("تم تسجيل الخروج بنجاح.", "success");
   };
 
   // Helper inside detail view to automatically preset package
@@ -493,7 +493,7 @@ export function useAppState() {
         }
         return prev;
       });
-      showToast("تم تقديم طلب شحن الرصيد بنجاح! سيتم التحقق من قبل الإدارة.", "info");
+      showToast("تم تقديم طلب شحن الرصيد بنجاح! سيتم التحقق من قبل الإدارة.", "success");
     } catch (err) {
       console.error("Firestore save deposit failed:", err);
       setUserOrders(prev => {
@@ -502,7 +502,7 @@ export function useAppState() {
         }
         return prev;
       });
-      showToast("تم تقديم طلب شحن الرصيد بنجاح (محلياً)! سيتم التحقق من قبل الإدارة.", "info");
+      showToast("تم تقديم طلب شحن الرصيد بنجاح (محلياً)! سيتم التحقق من قبل الإدارة.", "success");
       handleFirestoreError(err, OperationType.WRITE, `orders/${newId}`);
     }
 

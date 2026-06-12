@@ -29,7 +29,7 @@ export default function ToastContainer({ toasts }: ToastContainerProps) {
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
             className={`p-4 rounded-xl shadow-lg border pointer-events-auto flex items-center justify-between gap-3 text-sm font-medium ${
               toast.type === "success" 
-                ? "bg-slate-900/95 text-emerald-400 border-emerald-500/30 shadow-emerald-950/25" 
+                ? "bg-slate-900/95 text-amber-400 border-amber-500/30 shadow-amber-950/25" 
                 : toast.type === "error"
                 ? "bg-slate-900/95 text-rose-400 border-rose-500/30 shadow-rose-950/25"
                 : "bg-slate-900/95 text-sky-400 border-sky-500/30 shadow-sky-950/25"

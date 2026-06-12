@@ -37,8 +37,8 @@ export default function AuthLayout({ children, emailOrNameForCard, isRegister = 
     <div className="w-full h-full flex flex-col items-center justify-center relative overflow-hidden">
       
       {/* Immersive Glowing Neon Orbs in Background */}
-      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-emerald-500/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-[-25%] right-[-10%] w-[60%] h-[60%] bg-emerald-500/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-amber-500/10 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-[-25%] right-[-10%] w-[60%] h-[60%] bg-amber-500/5 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Grid Pattern overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(rgba(16,185,129,0.03)_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-75 pointer-events-none" />
@@ -47,10 +47,10 @@ export default function AuthLayout({ children, emailOrNameForCard, isRegister = 
         
         {/* Header Branding */}
         <div className="mb-6 flex flex-col items-center gap-3">
-          <div className="p-3 bg-[#152033] border border-emerald-500/20 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.15)]">
-            <Gamepad2 className="w-8 h-8 text-emerald-400" />
+          <div className="p-3 bg-[#152033] border border-amber-500/20 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.15)]">
+            <Gamepad2 className="w-8 h-8 text-amber-400" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-emerald-400 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-amber-400 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
             فارة | سوق
           </h1>
           <p className="text-[#6e82a3] text-xs font-medium">البوابة الأولى لخدمات الألعاب الرقمية</p>

@@ -47,8 +47,8 @@ export default function DepositsTab({
         <div className="flex flex-col gap-6 w-full">
           {pendingOrders.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="w-24 h-24 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6 border border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-                <CheckCircle2 className="w-12 h-12 text-emerald-400" />
+              <div className="w-24 h-24 bg-amber-500/10 rounded-full flex items-center justify-center mb-6 border border-amber-500/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+                <CheckCircle2 className="w-12 h-12 text-amber-400" />
               </div>
               <h3 className="text-2xl font-black text-white mb-2">لا توجد طلبات معلقة</h3>
               <p className="text-[#8da1c5] text-base max-w-md mx-auto">
@@ -63,7 +63,7 @@ export default function DepositsTab({
               >
                 {/* 1. Player Info & Avatar */}
                 <div className="flex items-center gap-4 shrink-0 text-right">
-                  <div className="w-14 h-14 bg-emerald-500/10 rounded-full flex items-center justify-center border border-emerald-500/20 text-emerald-400 font-bold text-xl shrink-0">
+                  <div className="w-14 h-14 bg-amber-500/10 rounded-full flex items-center justify-center border border-amber-500/20 text-amber-400 font-bold text-xl shrink-0">
                     {order.user.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex flex-col justify-center">
@@ -76,7 +76,7 @@ export default function DepositsTab({
                 <div className="flex flex-col gap-2 shrink-0 text-right">
                   <div className="flex items-center gap-3 whitespace-nowrap">
                     <span className="text-sm text-[#8da1c5]">رقم الطلب:</span>
-                    <span className="font-mono text-emerald-400 text-sm font-bold select-all" dir="ltr">{order.id}</span>
+                    <span className="font-mono text-amber-400 text-sm font-bold select-all" dir="ltr">{order.id}</span>
                   </div>
                   <div className="flex items-center gap-3 whitespace-nowrap">
                     <span className="text-sm text-[#8da1c5]">تاريخ الطلب:</span>
@@ -96,7 +96,7 @@ export default function DepositsTab({
                 <div className="flex flex-col items-center shrink-0">
                   <span className="text-xs text-[#8da1c5] font-bold mb-1 whitespace-nowrap">مبلغ الإيداع المحول</span>
                   <span className="font-sans text-white font-black text-2xl flex items-baseline gap-1.5 whitespace-nowrap">
-                    <span className="text-emerald-400 text-sm">JOD</span>
+                    <span className="text-amber-400 text-sm">JOD</span>
                     <span>{order.price.toFixed(2)}</span>
                   </span>
                 </div>
@@ -120,7 +120,7 @@ export default function DepositsTab({
                 <div className="flex flex-col items-center gap-3 shrink-0">
                   <button 
                     onClick={() => handleAdminAcceptDeposit(order.id, order.price)}
-                    className="w-28 flex items-center justify-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-lg text-sm transition-colors cursor-pointer"
+                    className="w-28 flex items-center justify-center bg-amber-600 hover:bg-amber-500 text-white font-bold px-4 py-2.5 rounded-lg text-sm transition-colors cursor-pointer"
                   >
                     قبول
                   </button>

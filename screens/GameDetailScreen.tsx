@@ -63,7 +63,7 @@ export default function GameDetailScreen({
         <div className="flex justify-start">
           <button 
             onClick={() => setActiveTab("home")}
-            className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer group"
+            className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition-colors cursor-pointer group"
           >
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             <span>العودة للمتجر</span>
@@ -92,7 +92,7 @@ export default function GameDetailScreen({
       {loggedUser ? (
         <section className="bg-[#111827] rounded-2xl p-6 md:p-8 border border-slate-800 shadow-sm space-y-4">
           <div className="flex items-center justify-start gap-2 text-white">
-            <UserIcon className="w-5 h-5 text-emerald-500" />
+            <UserIcon className="w-5 h-5 text-amber-500" />
             <h2 className="font-bold text-lg">رقم اللاعب (Player Number)</h2>
           </div>
 
@@ -106,7 +106,7 @@ export default function GameDetailScreen({
                   if (e.target.value.trim()) setPlayerIdError("");
                 }}
                 placeholder="مثال: 1560982341"
-                className={`w-full bg-slate-900 border rounded-xl px-4 py-3 text-right text-white font-mono placeholder:font-sans placeholder:text-slate-500 placeholder:text-sm outline-none focus:border-emerald-500 transition-colors ${
+                className={`w-full bg-slate-900 border rounded-xl px-4 py-3 text-right text-white font-mono placeholder:font-sans placeholder:text-slate-500 placeholder:text-sm outline-none focus:border-amber-500 transition-colors ${
                   playerIdError ? "border-red-500" : "border-slate-800"
                 }`}
               />
@@ -143,7 +143,7 @@ export default function GameDetailScreen({
           <p className="text-slate-300 text-sm font-medium">يجب عليك تسجيل الدخول لتتمكن من اختيار الباقة المناسبة وإتمام الشراء.</p>
           <button 
             onClick={() => navigateToTab("login")}
-            className="bg-emerald-500 hover:bg-emerald-400 text-slate-900 px-10 py-3 rounded-xl text-sm font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.2)] active:scale-95 cursor-pointer"
+            className="bg-amber-500 hover:bg-amber-400 text-slate-900 px-10 py-3 rounded-xl text-sm font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.2)] active:scale-95 cursor-pointer"
           >
             تسجيل الدخول الآن
           </button>
@@ -178,12 +178,12 @@ export default function GameDetailScreen({
                 onClick={() => setSelectedPackage(p)}
                 className={`cursor-pointer p-5 rounded-2xl border transition-all duration-300 flex flex-col items-center justify-center gap-3 relative overflow-hidden group ${
                   isSelected 
-                    ? "bg-gradient-to-b from-emerald-500/20 to-transparent border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] scale-[1.02] z-10" 
+                    ? "bg-gradient-to-b from-amber-500/20 to-transparent border-amber-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] scale-[1.02] z-10" 
                     : "bg-[#111827] border-slate-800 hover:border-slate-700 hover:bg-slate-800/50"
                 }`}
               >
                 {isSelected && (
-                  <div className="absolute inset-0 bg-emerald-500/5 mix-blend-overlay pointer-events-none" />
+                  <div className="absolute inset-0 bg-amber-500/5 mix-blend-overlay pointer-events-none" />
                 )}
                 {/* Preferred Star Badge */}
                 {p.isPreferred && (
@@ -200,31 +200,31 @@ export default function GameDetailScreen({
                 )}
                 {/* Bonus Badge */}
                 {p.bonusPercent && (
-                  <div className="absolute top-0 right-0 bg-gradient-to-r from-emerald-400 to-emerald-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl z-20">
+                  <div className="absolute top-0 right-0 bg-gradient-to-r from-amber-400 to-amber-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl z-20">
                     +{p.bonusPercent}%
                   </div>
                 )}
-                <div className={`p-3 rounded-full transition-colors duration-300 z-10 ${isSelected ? "bg-emerald-500/20 shadow-inner" : "bg-slate-800 group-hover:bg-slate-700"}`}>
-                  <Coins className={`w-8 h-8 transition-colors duration-300 ${isSelected ? "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" : "text-slate-400 group-hover:text-emerald-500/70"}`} />
+                <div className={`p-3 rounded-full transition-colors duration-300 z-10 ${isSelected ? "bg-amber-500/20 shadow-inner" : "bg-slate-800 group-hover:bg-slate-700"}`}>
+                  <Coins className={`w-8 h-8 transition-colors duration-300 ${isSelected ? "text-amber-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" : "text-slate-400 group-hover:text-amber-500/70"}`} />
                 </div>
                 <div className="text-center w-full mt-1 z-10">
                   <p className={`font-bold text-sm truncate transition-colors duration-300 overflow-visible ${isSelected ? "text-white" : "text-slate-300 group-hover:text-white"}`}>
                     {p.name} {p.bonusPercent ? (
                       <span className="relative group/tooltip inline-flex items-center justify-center ml-1">
-                        <span className="text-emerald-400 font-black cursor-help flex items-center gap-0.5 bg-emerald-500/10 px-1.5 py-0.5 rounded transition-all active:scale-95">
+                        <span className="text-amber-400 font-black cursor-help flex items-center gap-0.5 bg-amber-500/10 px-1.5 py-0.5 rounded transition-all active:scale-95">
                           + بونص
                           <Info className="w-3 h-3 opacity-70" />
                         </span>
                         {/* Interactive Tooltip */}
                         <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] bg-slate-800 text-white text-[10px] p-2.5 rounded-lg shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible group-active/tooltip:opacity-100 group-active/tooltip:visible transition-all duration-200 z-[100] border border-slate-700 pointer-events-none flex flex-col gap-1.5 text-center font-sans font-normal">
                           <span className="text-slate-400 line-through decoration-rose-500 decoration-2">قبل العرض: {baseTokensStr} توكنز</span>
-                          <span className="text-emerald-400 font-bold whitespace-nowrap">بعد بونص {p.bonusPercent}%: {finalTokensStr} توكنز</span>
+                          <span className="text-amber-400 font-bold whitespace-nowrap">بعد بونص {p.bonusPercent}%: {finalTokensStr} توكنز</span>
                           <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[5px] border-transparent border-t-slate-800"></span>
                         </span>
                       </span>
                     ) : null}
                   </p>
-                  <p className={`text-xs mt-1.5 font-mono font-semibold tracking-wide transition-colors duration-300 ${isSelected ? "text-emerald-400" : "text-slate-400 group-hover:text-emerald-500"}`}>
+                  <p className={`text-xs mt-1.5 font-mono font-semibold tracking-wide transition-colors duration-300 ${isSelected ? "text-amber-400" : "text-slate-400 group-hover:text-amber-500"}`}>
                     {p.price.toFixed(2)} {selectedGame.currency}
                   </p>
                 </div>
@@ -238,7 +238,7 @@ export default function GameDetailScreen({
       {loggedUser && (
         <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden mt-8">
           {/* Subtle background glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
 
           <div className="flex flex-col items-center sm:items-start w-full sm:w-auto z-10">
             <span className="text-sm text-slate-400 font-medium mb-1">الإجمالي المستحق</span>
@@ -246,7 +246,7 @@ export default function GameDetailScreen({
               <span className="text-3xl font-bold font-mono text-white tracking-tight">
                 {selectedPackage ? selectedPackage.price.toFixed(2) : "0.00"}
               </span>
-              <span className="text-emerald-500 font-bold text-lg">
+              <span className="text-amber-500 font-bold text-lg">
                 {selectedGame.currency}
               </span>
             </div>
@@ -260,7 +260,7 @@ export default function GameDetailScreen({
           <button 
             onClick={handlePurchasePackage}
             disabled={!selectedPackage || !playerId.trim()}
-            className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 disabled:from-slate-700 disabled:to-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)] active:scale-95 z-10 cursor-pointer"
+            className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 disabled:from-slate-700 disabled:to-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)] active:scale-95 z-10 cursor-pointer"
           >
             <ShoppingBag className="w-5 h-5" />
             <span className="text-base">تأكيد الشراء</span>
