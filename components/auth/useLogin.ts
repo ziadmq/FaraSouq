@@ -70,7 +70,7 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           balance: Number(data.balance) ?? 0,
           status: data.status || "نشط",
           imageUrl: user.photoURL || undefined,
-          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : (data.role || "user")
+          role: ["kafehazyad5@gmail.com", "ss3222710@gmail.com"].includes(user.email || "") ? "admin" : (data.role || "user")
         };
 
         try {
@@ -88,7 +88,7 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           balance: 0,
           status: "نشط",
           imageUrl: user.photoURL || undefined,
-          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : "user"
+          role: ["kafehazyad5@gmail.com", "ss3222710@gmail.com"].includes(user.email || "") ? "admin" : "user"
         };
 
         try {
@@ -157,7 +157,7 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           joinDate: data.joinDate || "اليوم",
           balance: Number(data.balance) ?? 0,
           status: data.status || "نشط",
-          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : (data.role || "user")
+          role: ["kafehazyad5@gmail.com", "ss3222710@gmail.com"].includes(user.email || "") ? "admin" : (data.role || "user")
         };
         
         try {
@@ -175,7 +175,7 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           joinDate: "اليوم",
           balance: 0,
           status: "نشط",
-          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : "user"
+          role: ["kafehazyad5@gmail.com", "ss3222710@gmail.com"].includes(user.email || "") ? "admin" : "user"
         };
 
         try {
