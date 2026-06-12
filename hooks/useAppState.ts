@@ -133,7 +133,48 @@ export function useAppState() {
   const handleCopyText = (text: string) => {};
   const handleReceiptUpload = (e: any) => {};
   const handleDepositSubmit = () => {};
-  const handlePurchasePackage = () => {};
+  const handlePurchasePackage = async () => {
+    if (!selectedPackage || !playerId) {
+      showToast("الرجاء اختيار باقة وإدخال معرف اللاعب", "error");
+      return;
+    }
+
+    if (selectedGame.id === "jawaker") {
+      try {
+        setIsDepositing(true);
+        const quantity = parseInt(selectedPackage.name.replace(/[^0-9]/g, ""));
+        
+        const response = await fetch("https://jo-pay.azurewebsites.net/jopay/Api/CreateOrder", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Token": "0741f3ea-658b-4fe9-9b8f-9714c5d2163b"
+          },
+          body: JSON.stringify({
+            productId: 470,
+            quantity: quantity,
+            extraData: playerId
+          })
+        });
+
+        if (response.ok) {
+          showToast("تم شحن الحساب بنجاح!", "success");
+          if (loggedUser) {
+            setWalletBalance(prev => prev - selectedPackage.price);
+          }
+        } else {
+          showToast("فشلت عملية الشحن، تأكد من صحة البيانات أو الرصيد", "error");
+        }
+      } catch (error) {
+        console.error("Purchase API error:", error);
+        showToast("حدث خطأ في الاتصال بالخادم", "error");
+      } finally {
+        setIsDepositing(false);
+      }
+    } else {
+      showToast("تم استلام الطلب", "success");
+    }
+  };
   const handleAdminAcceptDeposit = () => {};
   const handleAdminRejectDeposit = () => {};
   const handleToggleUserStatus = () => {};
