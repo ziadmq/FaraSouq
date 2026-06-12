@@ -89,7 +89,8 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
           joinDate: data.joinDate || "نوفمبر 2024",
           balance: Number(data.balance) ?? 100.0,
           status: data.status || "نشط",
-          imageUrl: user.photoURL || undefined
+          imageUrl: user.photoURL || undefined,
+          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : (data.role || "user")
         };
 
         try {
@@ -106,7 +107,8 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
           joinDate: new Date().toISOString().split("T")[0].replace(/-/g, "/"),
           balance: 0,
           status: "نشط",
-          imageUrl: user.photoURL || undefined
+          imageUrl: user.photoURL || undefined,
+          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : "user"
         };
 
         try {
@@ -172,7 +174,8 @@ export function useRegister({ onLoginSuccess }: UseRegisterProps) {
         avatarLetter: fullName.substring(0, 2),
         joinDate: new Date().toISOString().split("T")[0].replace(/-/g, "/"),
         balance: 0,
-        status: "نشط"
+        status: "نشط",
+        role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(formattedEmail) ? "admin" : "user"
       };
 
       const userDocRef = doc(db, "users", user.uid);

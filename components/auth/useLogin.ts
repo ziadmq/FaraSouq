@@ -69,7 +69,8 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           joinDate: data.joinDate || "نوفمبر 2024",
           balance: Number(data.balance) ?? 0,
           status: data.status || "نشط",
-          imageUrl: user.photoURL || undefined
+          imageUrl: user.photoURL || undefined,
+          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : (data.role || "user")
         };
 
         try {
@@ -86,7 +87,8 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           joinDate: new Date().toISOString().split("T")[0].replace(/-/g, "/"),
           balance: 0,
           status: "نشط",
-          imageUrl: user.photoURL || undefined
+          imageUrl: user.photoURL || undefined,
+          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : "user"
         };
 
         try {
@@ -154,7 +156,8 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           avatarLetter: (data.name || "👤").substring(0, 2),
           joinDate: data.joinDate || "اليوم",
           balance: Number(data.balance) ?? 0,
-          status: data.status || "نشط"
+          status: data.status || "نشط",
+          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : (data.role || "user")
         };
         
         try {
@@ -171,7 +174,8 @@ export function useLogin({ onLoginSuccess }: UseLoginProps) {
           avatarLetter: cleanName.substring(0, 2),
           joinDate: "اليوم",
           balance: 0,
-          status: "نشط"
+          status: "نشط",
+          role: ["kafehazyad5@gmail.com", "s3222710@gmail.com"].includes(user.email || "") ? "admin" : "user"
         };
 
         try {
