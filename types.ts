@@ -72,6 +72,7 @@ export interface User {
   status: "نشط" | "محظور";
   imageUrl?: string;
   email?: string;
+  role?: "admin" | "user";
 }
 
 export interface AppNotification {
