@@ -196,6 +196,7 @@ export default function AdminScreen({
             adminUsers={adminUsers}
             handleToggleUserStatus={handleToggleUserStatus}
             handleDeleteUser={handleDeleteUser}
+            userOrders={userOrders}
           />
         )}
 
