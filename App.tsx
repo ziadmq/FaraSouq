@@ -16,6 +16,7 @@ import GameDetailScreen from "./screens/GameDetailScreen";
 import WalletScreen from "./screens/WalletScreen";
 import AdminScreen from "./screens/AdminScreen";
 import AuthScreen from "./components/AuthScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import ZoomReceiptModal from "./components/modals/ZoomReceiptModal";
 import { ProductDeleteModal, UserDeleteModal } from "./components/modals/DeleteConfirmModal";
 
@@ -85,6 +86,7 @@ export default function App() {
     navigateToTab,
     handleLoginSuccess,
     handleLogout,
+    handleUpdateProfile,
     handleCopyText,
     handleReceiptUpload,
     handleDepositSubmit,
@@ -247,6 +249,16 @@ export default function App() {
             <AuthScreen 
               onLoginSuccess={handleLoginSuccess} 
               availableDemoUsers={adminUsers} 
+            />
+          )}
+
+          {/* SCREEN 6: User Profile Screen */}
+          {activeTab === "profile" && loggedUser && (
+            <ProfileScreen
+              loggedUser={loggedUser}
+              handleLogout={handleLogout}
+              handleUpdateProfile={handleUpdateProfile}
+              isAdmin={isAdmin}
             />
           )}
 

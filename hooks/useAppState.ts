@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot, query, where, deleteDoc } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { auth, db, functions, handleFirestoreError, OperationType } from "../lib/firebase";
@@ -12,8 +12,8 @@ import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, Use
 import { GAMES_DATA, INITIAL_ORDERS, INITIAL_USERS, INITIAL_NOTIFICATIONS } from "../data";
 
 export function useAppState() {
-  // Navigation tabs: 'home' | 'game-detail' | 'wallet' | 'admin' | 'login'
-  const [activeTab, setActiveTab] = useState<"home" | "game-detail" | "wallet" | "admin" | "login">("home");
+  // Navigation tabs: 'home' | 'game-detail' | 'wallet' | 'admin' | 'login' | 'profile'
+  const [activeTab, setActiveTab] = useState<"home" | "game-detail" | "wallet" | "admin" | "login" | "profile">("home");
   
   // Dynamic list of games state
   const [gamesList, setGamesList] = useState<Game[]>(() => {
@@ -390,6 +390,38 @@ export function useAppState() {
     setWalletBalance(0);
     setActiveTab("home");
     showToast("تم تسجيل الخروج بنجاح.", "success");
+  };
+
+  const handleUpdateProfile = async (name: string, imageUrl: string) => {
+    if (!loggedUser || !auth.currentUser) return;
+    try {
+      // 1. Update Firebase Auth Profile
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: imageUrl || auth.currentUser.photoURL
+      });
+
+      // 2. Update Firestore Document
+      const userRef = doc(db, "users", loggedUser.id);
+      await updateDoc(userRef, {
+        name,
+        imageUrl,
+        avatarLetter: name.charAt(0).toUpperCase()
+      });
+
+      // 3. Update Local State
+      setLoggedUser(prev => prev ? {
+        ...prev,
+        name,
+        imageUrl,
+        avatarLetter: name.charAt(0).toUpperCase()
+      } : null);
+
+      showToast("تم تحديث الملف الشخصي بنجاح!", "success");
+    } catch (error) {
+      console.error("Profile update error:", error);
+      showToast("حدث خطأ أثناء تحديث الملف الشخصي.", "error");
+    }
   };
 
   // Helper inside detail view to automatically preset package
@@ -973,6 +1005,7 @@ export function useAppState() {
     navigateToTab,
     handleLoginSuccess,
     handleLogout,
+    handleUpdateProfile,
     handleCopyText,
     handleReceiptUpload,
     handleDepositSubmit,
