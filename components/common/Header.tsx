@@ -28,7 +28,7 @@ interface HeaderProps {
   notifications: AppNotification[];
   showNotificationDropdown: boolean;
   setShowNotificationDropdown: (show: boolean) => void;
-  navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login") => void;
+  navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login" | "profile") => void;
   handleLogout: () => void;
   handleMarkAllNotificationsRead: () => void;
   setSelectedGame: (game: Game) => void;
@@ -218,27 +218,27 @@ export default function Header({
               </button>
             ) : (
               <div 
-                onClick={handleLogout}
-                className="flex items-center gap-2 cursor-pointer group hover:bg-rose-500/5 p-1.5 rounded-2xl transition-all"
-                title="تسجيل الخروج"
+                onClick={() => navigateToTab("profile")}
+                className="flex items-center gap-2 cursor-pointer group hover:bg-amber-500/10 p-1.5 rounded-2xl transition-all"
+                title="الملف الشخصي"
               >
                 <div className="hidden sm:flex flex-col items-end text-right">
-                  <span className="text-xs font-bold text-white group-hover:text-rose-400 transition-colors">
+                  <span className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors">
                     {loggedUser.name}
                   </span>
-                  <span className="text-[9px] text-amber-400/80 font-mono flex items-center gap-1 group-hover:text-rose-400/80 transition-colors">
+                  <span className="text-[9px] text-amber-400/80 font-mono flex items-center gap-1 transition-colors">
                     <span className="group-hover:hidden">
                       {isAdmin ? "مدير النظام" : (loggedUser.status === "نشط" ? "لاعب نشط" : "لاعب محظور")}
                     </span>
-                    <span className="hidden group-hover:flex items-center gap-1">
-                      <LogOut className="w-2.5 h-2.5" />
-                      تسجيل الخروج
+                    <span className="hidden group-hover:flex items-center gap-1 text-amber-400">
+                      <Star className="w-2.5 h-2.5" />
+                      الملف الشخصي
                     </span>
                   </span>
                 </div>
 
                 {/* Avatar circle */}
-                <div className="w-9 h-9 rounded-full border border-amber-400 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-amber-400 to-amber-600 font-bold text-slate-950 text-xs shadow-glow transition-all duration-300 group-hover:border-rose-400 group-hover:scale-105">
+                <div className="w-9 h-9 rounded-full border border-amber-400 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-amber-400 to-amber-600 font-bold text-slate-950 text-xs shadow-glow transition-all duration-300 group-hover:border-amber-400 group-hover:scale-105">
                   {loggedUser.imageUrl ? (
                     <img 
                       src={loggedUser.imageUrl} 

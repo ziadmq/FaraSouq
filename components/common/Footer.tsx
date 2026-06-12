@@ -11,7 +11,7 @@ interface FooterProps {
   isAdmin: boolean;
   activeTab: string;
   gamesList: Game[];
-  navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login") => void;
+  navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login" | "profile") => void;
   showToast: (text: string, type: "success" | "error" | "info") => void;
   handleMarkAllNotificationsRead: () => void;
   setSelectedGame: (game: Game) => void;

@@ -27,7 +27,7 @@ interface HomeScreenProps {
   cmsBannerUrl: string;
   gamesList: Game[];
   setSelectedGame: (game: Game) => void;
-  navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login") => void;
+  navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login" | "profile") => void;
   selectedCategory: GameCategory;
   setSelectedCategory: (category: GameCategory) => void;
   showToast: (text: string, type?: "success" | "error" | "info") => void;

@@ -21,8 +21,8 @@ interface GameDetailScreenProps {
   setSelectedGame: (game: Game) => void;
   loggedUser: User | null;
   walletBalance: number;
-  navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login") => void;
-  setActiveTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login") => void;
+  navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login" | "profile") => void;
+  setActiveTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login" | "profile") => void;
   playerId: string;
   setPlayerId: (id: string) => void;
   selectedPackage: GamePackage | null;
