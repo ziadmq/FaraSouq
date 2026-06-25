@@ -156,10 +156,13 @@ export default function GameDetailScreen({
           الباقات المتوفرة
         </h3>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {selectedGame.packages.map(p => {
             const isSelected = selectedPackage?.id === p.id;
             
+            // Clean up name duplicate
+            const displayName = p.name.replace(/\s*\+\s*بونص/gi, "").trim();
+
             // Calculate base amount if bonus exists
             const totalTokensStr = p.name.replace(/\D/g, "");
             const totalTokens = parseInt(totalTokensStr);
@@ -176,10 +179,10 @@ export default function GameDetailScreen({
               <div 
                 key={p.id}
                 onClick={() => setSelectedPackage(p)}
-                className={`cursor-pointer p-5 rounded-2xl border transition-all duration-300 flex flex-col items-center justify-center gap-3 relative overflow-hidden group ${
+                className={`cursor-pointer p-5 sm:p-6 rounded-3xl border transition-all duration-300 flex flex-col items-center justify-start gap-4 relative overflow-hidden group min-h-[300px] sm:min-h-[320px] ${
                   isSelected 
-                    ? "bg-gradient-to-b from-amber-500/20 to-transparent border-amber-500 shadow-[0_0_20px_rgba(16,185,129,0.2)] scale-[1.02] z-10" 
-                    : "bg-[#111827] border-slate-800 hover:border-slate-700 hover:bg-slate-800/50"
+                    ? "bg-gradient-to-b from-amber-500/15 to-slate-950/80 border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.25)] scale-[1.03] z-10" 
+                    : "bg-[#111827] border-slate-800/80 hover:border-slate-700 hover:bg-slate-800/40 hover:scale-[1.01]"
                 }`}
               >
                 {isSelected && (
@@ -200,33 +203,55 @@ export default function GameDetailScreen({
                 )}
                 {/* Bonus Badge */}
                 {p.bonusPercent && (
-                  <div className="absolute top-0 right-0 bg-gradient-to-r from-amber-400 to-amber-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl z-20">
-                    +{p.bonusPercent}%
+                  <div className="absolute top-0 right-0 bg-gradient-to-l from-emerald-500 to-teal-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl z-20">
+                    +{p.bonusPercent}% بونص
                   </div>
                 )}
-                <div className={`p-3 rounded-full transition-colors duration-300 z-10 ${isSelected ? "bg-amber-500/20 shadow-inner" : "bg-slate-800 group-hover:bg-slate-700"}`}>
-                  <Coins className={`w-8 h-8 transition-colors duration-300 ${isSelected ? "text-amber-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" : "text-slate-400 group-hover:text-amber-500/70"}`} />
-                </div>
-                <div className="text-center w-full mt-1 z-10">
-                  <p className={`font-bold text-sm truncate transition-colors duration-300 overflow-visible ${isSelected ? "text-white" : "text-slate-300 group-hover:text-white"}`}>
-                    {p.name} {p.bonusPercent ? (
-                      <span className="relative group/tooltip inline-flex items-center justify-center ml-1">
-                        <span className="text-amber-400 font-black cursor-help flex items-center gap-0.5 bg-amber-500/10 px-1.5 py-0.5 rounded transition-all active:scale-95">
-                          + بونص
-                          <Info className="w-3 h-3 opacity-70" />
-                        </span>
-                        {/* Interactive Tooltip */}
-                        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] bg-slate-800 text-white text-[10px] p-2.5 rounded-lg shadow-2xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible group-active/tooltip:opacity-100 group-active/tooltip:visible transition-all duration-200 z-[100] border border-slate-700 pointer-events-none flex flex-col gap-1.5 text-center font-sans font-normal">
-                          <span className="text-slate-400 line-through decoration-rose-500 decoration-2">قبل العرض: {baseTokensStr} توكنز</span>
-                          <span className="text-amber-400 font-bold whitespace-nowrap">بعد بونص {p.bonusPercent}%: {finalTokensStr} توكنز</span>
-                          <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[5px] border-transparent border-t-slate-800"></span>
-                        </span>
+
+                {/* Product Image Section */}
+                {p.imageUrl ? (
+                  <div className="w-full h-24 sm:h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-800/50 relative shrink-0">
+                    <img 
+                      src={p.imageUrl} 
+                      alt={p.name} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent pointer-events-none" />
+                  </div>
+                ) : (
+                  <div className="w-full h-24 sm:h-28 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#1b1509] to-[#0d111d] border border-amber-500/10 relative overflow-hidden shrink-0 transition-all duration-300 group-hover:border-amber-500/20">
+                    <div className="absolute -top-6 -left-6 w-16 h-16 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-all" />
+                    <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-all" />
+                    
+                    <div className={`p-2.5 sm:p-3 rounded-xl transition-all duration-300 ${isSelected ? "bg-amber-500/20" : "bg-slate-900 border border-slate-800"}`}>
+                      <Coins className={`w-7 h-7 sm:w-8 sm:h-8 transition-colors duration-300 ${isSelected ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" : "text-amber-500/80 group-hover:text-amber-400"}`} />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/10 to-transparent pointer-events-none" />
+                  </div>
+                )}
+
+                {/* Card Title & Content */}
+                <div className="text-center w-full flex flex-col items-center justify-center flex-grow gap-2 mt-2">
+                  <h4 className={`font-black text-base sm:text-lg leading-tight transition-colors duration-300 whitespace-normal break-words text-center min-h-[36px] flex items-center justify-center gap-1 ${isSelected ? "text-white" : "text-slate-200 group-hover:text-white"}`}>
+                    {displayName}
+                  </h4>
+                  
+                  {p.bonusPercent ? (
+                    <div className="text-[10px] sm:text-xs text-amber-400 font-bold bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl w-fit mx-auto flex flex-col gap-0.5 shadow-sm">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 line-through">قبل العرض: {baseTokensStr} توكنز</span>
+                      <span className="flex items-center gap-1 font-black text-amber-400">
+                        {finalTokensStr} توكنز (+{p.bonusPercent}% بونص)
                       </span>
-                    ) : null}
-                  </p>
-                  <p className={`text-xs mt-1.5 font-mono font-semibold tracking-wide transition-colors duration-300 ${isSelected ? "text-amber-400" : "text-slate-400 group-hover:text-amber-500"}`}>
-                    {p.price.toFixed(2)} {selectedGame.currency}
-                  </p>
+                    </div>
+                  ) : null}
+                </div>
+
+                {/* Price tag */}
+                <div className="mt-auto pt-3 border-t border-slate-800/60 w-full flex flex-col items-center gap-0.5">
+                  <span className="text-[9px] uppercase font-bold text-slate-500 tracking-wider">السعر الإجمالي</span>
+                  <span className={`text-xl sm:text-2xl font-black font-mono tracking-tight transition-colors duration-300 ${isSelected ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-slate-300 group-hover:text-amber-400"}`}>
+                    {p.price.toFixed(2)} <span className="text-xs font-sans font-bold">{selectedGame.currency}</span>
+                  </span>
                 </div>
               </div>
             );

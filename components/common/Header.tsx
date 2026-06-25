@@ -13,7 +13,8 @@ import {
   Sliders, 
   X, 
   BellRing,
-  Star
+  Star,
+  Menu
 } from "lucide-react";
 import { User, AppNotification, Game } from "../../types";
 
@@ -33,6 +34,7 @@ interface HeaderProps {
   handleMarkAllNotificationsRead: () => void;
   setSelectedGame: (game: Game) => void;
   gamesList: Game[];
+  setIsSidebarOpen: (open: boolean) => void;
 }
 
 export default function Header({
@@ -50,14 +52,23 @@ export default function Header({
   handleLogout,
   handleMarkAllNotificationsRead,
   setSelectedGame,
-  gamesList
+  gamesList,
+  setIsSidebarOpen
 }: HeaderProps) {
   return (
     <header className="bg-[#0c1322]/80 backdrop-blur-xl border-b border-[#4f4633]/30 sticky top-0 z-40 transition-shadow shadow-[0_0_20px_rgba(5,102,217,0.15)]">
       <div className="flex justify-between items-center px-4 md:px-8 py-4 max-w-7xl mx-auto w-full">
         
         {/* Brand Logo & Basic Web Links */}
-        <div className="flex items-center gap-6 sm:gap-10">
+        <div className="flex items-center gap-3 sm:gap-6">
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 text-[#d3c5ac] hover:text-amber-400 hover:bg-white/5 border border-[#4f4633]/20 rounded-xl transition-all active:scale-95 cursor-pointer flex items-center justify-center shrink-0"
+            aria-label="القائمة الجانبية"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+
           <a 
             onClick={() => navigateToTab("home")} 
             className="font-headline-lg text-2xl sm:text-3xl font-bold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent cursor-pointer drop-shadow-[0_0_12px_rgba(251,191,36,0.5)] select-none hover:opacity-90 active:scale-95 transition-all"

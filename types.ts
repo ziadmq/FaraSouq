@@ -46,6 +46,7 @@ export interface GamePackage {
   bonusPercent?: number;
   badge?: string;
   isPreferred?: boolean;
+  imageUrl?: string;
 }
 
 export interface Order {

@@ -842,7 +842,7 @@ export function useAppState() {
   // Save games list helper
   const saveGamesList = (updated: Game[]) => {
     setGamesList(updated);
-    localStorage.setItem("fara_games_list_v2", JSON.stringify(updated));
+    localStorage.setItem("fara_games_list_v3", JSON.stringify(updated));
   };
 
   // Save Jawaker packages

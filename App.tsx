@@ -4,8 +4,18 @@
  */
 
 import React from "react";
-import { AnimatePresence } from "motion/react";
-import { Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { 
+  Sparkles,
+  Home,
+  Gamepad2,
+  CreditCard,
+  Wallet,
+  Phone,
+  X,
+  Coins
+} from "lucide-react";
+import { GameCategory } from "./types";
 
 import { useAppState } from "./hooks/useAppState";
 import Header from "./components/common/Header";
@@ -21,6 +31,10 @@ import ZoomReceiptModal from "./components/modals/ZoomReceiptModal";
 import { ProductDeleteModal, UserDeleteModal } from "./components/modals/DeleteConfirmModal";
 
 export default function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+  const [showPaymentModal, setShowPaymentModal] = React.useState(false);
+  const [showSupportModal, setShowSupportModal] = React.useState(false);
+
   const {
     activeTab,
     setActiveTab,
@@ -133,6 +147,7 @@ export default function App() {
         handleMarkAllNotificationsRead={handleMarkAllNotificationsRead}
         setSelectedGame={setSelectedGame}
         gamesList={gamesList}
+        setIsSidebarOpen={setIsSidebarOpen}
       />
 
       {/* Main Container Router */}
@@ -293,6 +308,270 @@ export default function App() {
         setUserToDelete={setUserToDelete}
         confirmDeleteUser={confirmDeleteUser}
       />
+
+      {/* Sidebar Navigation Drawer */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSidebarOpen(false)}
+              className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[100]"
+            />
+
+            {/* Sidebar Slide-in Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-screen w-[320px] bg-[#0f1626] border-l border-slate-800 shadow-2xl z-[101] flex flex-col text-right"
+            >
+              {/* Header inside Sidebar */}
+              <div className="p-6 border-b border-slate-800/60 flex items-center justify-between bg-[#131b2e]">
+                <div className="font-bold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent text-xl">
+                  فارة | سوق
+                </div>
+                <button
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="p-2 text-slate-400 hover:text-white hover:bg-slate-850 rounded-xl transition-all cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Navigation Links inside Sidebar */}
+              <div className="flex-grow overflow-y-auto p-6 space-y-3">
+                {[
+                  {
+                    label: "الرئيسية",
+                    icon: Home,
+                    onClick: () => {
+                      setSelectedCategory(GameCategory.ALL);
+                      navigateToTab("home");
+                      setIsSidebarOpen(false);
+                    }
+                  },
+                  {
+                    label: "الألعاب",
+                    icon: Gamepad2,
+                    onClick: () => {
+                      setSelectedCategory(GameCategory.ALL);
+                      navigateToTab("home");
+                      setIsSidebarOpen(false);
+                      setTimeout(() => {
+                        const el = document.getElementById("games-section");
+                        if (el) {
+                          el.scrollIntoView({ behavior: "smooth" });
+                        } else {
+                          window.scrollTo({ top: 600, behavior: 'smooth' });
+                        }
+                      }, 100);
+                    }
+                  },
+                  {
+                    label: "ألعاب الجوال",
+                    icon: Gamepad2,
+                    onClick: () => {
+                      setSelectedCategory(GameCategory.JAWAKER);
+                      navigateToTab("home");
+                      setIsSidebarOpen(false);
+                    }
+                  },
+                  {
+                    label: "بطاقات الألعاب",
+                    icon: CreditCard,
+                    onClick: () => {
+                      setSelectedCategory(GameCategory.GIFT_CARDS);
+                      navigateToTab("home");
+                      setIsSidebarOpen(false);
+                    }
+                  },
+                  {
+                    label: "إدارة الرصيد",
+                    icon: Wallet,
+                    onClick: () => {
+                      if (!loggedUser) {
+                        navigateToTab("login");
+                      } else {
+                        navigateToTab("wallet");
+                      }
+                      setIsSidebarOpen(false);
+                    }
+                  },
+                  {
+                    label: "طرق الدفع",
+                    icon: CreditCard,
+                    onClick: () => {
+                      setIsSidebarOpen(false);
+                      setShowPaymentModal(true);
+                    }
+                  },
+                  {
+                    label: "الدعم الفني",
+                    icon: Phone,
+                    onClick: () => {
+                      setIsSidebarOpen(false);
+                      setShowSupportModal(true);
+                    }
+                  }
+                ].map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={item.onClick}
+                      className="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[#dce2f7] hover:text-white hover:bg-amber-500/10 hover:border-amber-500/20 border border-transparent transition-all text-right font-bold text-sm cursor-pointer group"
+                    >
+                      <Icon className="w-5 h-5 text-slate-400 group-hover:text-amber-400 transition-colors animate-none" />
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Footer info inside Sidebar */}
+              <div className="p-6 border-t border-slate-800/60 bg-[#131b2e] text-center text-[10px] text-slate-500 font-mono">
+                جميع الحقوق محفوظة © فارة سوق {new Date().getFullYear()}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Payment Methods Modal */}
+      <AnimatePresence>
+        {showPaymentModal && (
+          <>
+            <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[150]" onClick={() => setShowPaymentModal(false)} />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-[#111827] border border-slate-800/80 rounded-3xl p-6 shadow-2xl z-[151] text-right font-sans"
+            >
+              <div className="flex justify-between items-center mb-6 pb-3 border-b border-slate-800">
+                <h3 className="text-xl font-black text-white flex items-center gap-2">
+                  <CreditCard className="w-6 h-6 text-amber-400" />
+                  طرق الدفع المتاحة
+                </h3>
+                <button
+                  onClick={() => setShowPaymentModal(false)}
+                  className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="p-4 bg-[#191f2f] rounded-2xl border border-amber-500/20 hover:border-amber-500/40 transition-colors flex items-start gap-4">
+                  <div className="bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20 shrink-0">
+                    <Wallet className="w-6 h-6 text-amber-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-extrabold text-white text-base">خدمة CliQ الفورية</h4>
+                    <p className="text-xs text-slate-300 mt-1">أسرع وسيلة للدفع والتحويل المباشر وبدون رسوم إضافية. يمكنك التحويل إلى اسم المستفيد أو رقم الآيبان المعتمد.</p>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-[#191f2f] rounded-2xl border border-slate-800 hover:border-slate-700 transition-colors flex items-start gap-4">
+                  <div className="bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/20 shrink-0">
+                    <Coins className="w-6 h-6 text-emerald-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-extrabold text-white text-base">زين كاش (Zain Cash)</h4>
+                    <p className="text-xs text-slate-300 mt-1">محفظة زين كاش الإلكترونية. يمكنك إتمام الدفع فوراً عبر إرسال المبلغ إلى الرقم المعتمد وإرفاق الإيصال.</p>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-[#191f2f] rounded-2xl border border-slate-800 hover:border-slate-700 transition-colors flex items-start gap-4">
+                  <div className="bg-orange-500/10 p-2.5 rounded-xl border border-orange-500/20 shrink-0">
+                    <CreditCard className="w-6 h-6 text-orange-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-extrabold text-white text-base">أورانج ماني (Orange Money)</h4>
+                    <p className="text-xs text-slate-300 mt-1">محفظة أورانج ماني الإلكترونية. أرسل قيمة الفاتورة أو الإيداع للرقم المعتمد لإجراء العملية مباشرة.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowPaymentModal(false);
+                    if (loggedUser) {
+                      navigateToTab("wallet");
+                    } else {
+                      navigateToTab("login");
+                    }
+                  }}
+                  className="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-900 font-extrabold py-3.5 rounded-2xl transition-all active:scale-[0.98] text-sm text-center shadow-lg cursor-pointer"
+                >
+                  اشحن رصيدك الآن
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Technical Support Modal */}
+      <AnimatePresence>
+        {showSupportModal && (
+          <>
+            <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[150]" onClick={() => setShowSupportModal(false)} />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-[#111827] border border-slate-800/80 rounded-3xl p-6 shadow-2xl z-[151] text-right font-sans"
+            >
+              <div className="flex justify-between items-center mb-6 pb-3 border-b border-slate-800">
+                <h3 className="text-xl font-black text-white flex items-center gap-2">
+                  <Phone className="w-6 h-6 text-amber-400" />
+                  الدعم الفني والمساعدة
+                </h3>
+                <button
+                  onClick={() => setShowSupportModal(false)}
+                  className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-850 rounded-xl transition-all cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-[#191f2f] rounded-2xl p-4 border border-slate-800 text-slate-300 space-y-3 leading-relaxed text-sm">
+                  <p>أهلاً بك في الدعم الفني لمتجر <strong>فارة | سوق</strong>.</p>
+                  <p>فريق الدعم الفني متواجد لمساعدتك في أي استفسارات تخص شحن الحسابات، طلبات الإيداع المعلقة، أو أي مشكلة تقنية تواجهك.</p>
+                  <div className="pt-2 border-t border-slate-800 flex flex-col gap-1 text-xs text-slate-400 font-medium">
+                    <span>⏰ أوقات العمل: يومياً من 10:00 صباحاً وحتى 12:00 منتصف الليل.</span>
+                    <span>⚡ سرعة الاستجابة: خلال دقائق معدودة.</span>
+                  </div>
+                </div>
+
+                <a
+                  href="https://wa.me/962790000000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-2xl transition-all active:scale-[0.98] text-sm text-center shadow-lg cursor-pointer"
+                >
+                  <span>تواصل معنا عبر واتساب</span>
+                </a>
+                
+                <a
+                  href="mailto:support@farasouq.com"
+                  className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-2xl transition-all active:scale-[0.98] text-sm text-center border border-slate-700 cursor-pointer"
+                >
+                  <span>راسلنا عبر البريد الإلكتروني</span>
+                </a>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
     </div>
   );

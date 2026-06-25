@@ -58,10 +58,10 @@ export default function ProductsTab({
             ) : (
               <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
                 {formPackages.map((pkg, idx) => (
-                  <div key={pkg.id} className={`p-4 rounded-xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 transition-all duration-300 ${pkg.isPreferred ? "bg-gradient-to-r from-amber-500/10 to-[#070e1d] border-amber-500/50 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "bg-[#0a1120] hover:bg-[#111827] border-[#4f4633]/30"}`}>
+                  <div key={pkg.id} className={`p-4 rounded-xl border flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4 transition-all duration-300 ${pkg.isPreferred ? "bg-gradient-to-r from-amber-500/10 to-[#070e1d] border-amber-500/50 shadow-[0_0_15px_rgba(16,185,129,0.1)]" : "bg-[#0a1120] hover:bg-[#111827] border-[#4f4633]/30"}`}>
                     
                     {/* Actions side */}
-                    <div className="flex items-center gap-2 justify-end md:justify-start w-full md:w-auto shrink-0 order-2 md:order-1 border-t md:border-t-0 md:border-r border-[#4f4633]/20 pt-3 md:pt-0 md:pr-4 mt-2 md:mt-0">
+                    <div className="flex items-center gap-2 justify-end xl:justify-start w-full xl:w-auto shrink-0 order-3 xl:order-1 border-t xl:border-t-0 xl:border-r border-[#4f4633]/20 pt-3 xl:pt-0 xl:pr-4 mt-2 xl:mt-0">
                       <button 
                         type="button"
                         onClick={() => handleRemovePackage(pkg.id)}
@@ -85,8 +85,89 @@ export default function ProductsTab({
                       </button>
                     </div>
 
+                    {/* Image Upload/Preview Box */}
+                    <div className="flex items-center gap-3 shrink-0 order-2 xl:order-2 bg-[#111827]/40 p-2 rounded-xl border border-[#4f4633]/10">
+                      <div className="relative w-14 h-14 rounded-lg border border-slate-700 bg-slate-900 flex flex-col items-center justify-center overflow-hidden cursor-pointer hover:border-amber-400 group/img transition-all" title="اضغط لرفع صورة للمنتج">
+                        {pkg.imageUrl ? (
+                          <>
+                            <img src={pkg.imageUrl} className="w-full h-full object-cover" alt="" />
+                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity text-[9px] text-white font-bold">
+                              تغيير
+                            </div>
+                          </>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center p-0.5 text-slate-500 group-hover/img:text-amber-400 transition-colors">
+                            <Plus className="w-4 h-4 mb-0.5" />
+                            <span className="text-[8px] font-bold">رفع صورة</span>
+                          </div>
+                        )}
+                        <input 
+                          type="file" 
+                          accept="image/*"
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files.length > 0) {
+                              const file = e.target.files[0];
+                              const reader = new FileReader();
+                              reader.onload = (event) => {
+                                const img = new Image();
+                                img.onload = () => {
+                                  const canvas = document.createElement("canvas");
+                                  const MAX_DIM = 300; 
+                                  let width = img.width;
+                                  let height = img.height;
+                                  if (width > height) {
+                                    if (width > MAX_DIM) {
+                                      height = Math.round((height * MAX_DIM) / width);
+                                      width = MAX_DIM;
+                                    }
+                                  } else {
+                                    if (height > MAX_DIM) {
+                                      width = Math.round((width * MAX_DIM) / height);
+                                      height = MAX_DIM;
+                                    }
+                                  }
+                                  canvas.width = width;
+                                  canvas.height = height;
+                                  const ctx = canvas.getContext("2d");
+                                  if (ctx) {
+                                    ctx.drawImage(img, 0, 0, width, height);
+                                    const compressed = canvas.toDataURL("image/jpeg", 0.7);
+                                    handleUpdatePackageField(pkg.id, "imageUrl", compressed);
+                                  } else {
+                                    handleUpdatePackageField(pkg.id, "imageUrl", event.target?.result as string || "");
+                                  }
+                                };
+                                img.src = event.target?.result as string || "";
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                          className="absolute inset-0 opacity-0 cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1 w-28">
+                        <label className="text-[9px] font-bold text-slate-400 block text-right">أو رابط الصورة</label>
+                        <input 
+                          type="text" 
+                          placeholder="رابط الصورة..."
+                          value={pkg.imageUrl && !pkg.imageUrl.startsWith("data:") ? pkg.imageUrl : ""}
+                          onChange={(e) => handleUpdatePackageField(pkg.id, "imageUrl", e.target.value)}
+                          className="bg-[#111827] border border-[#4f4633]/40 text-white rounded px-2 py-1 text-[10px] focus:border-amber-400 outline-none w-full text-right"
+                        />
+                        {pkg.imageUrl && (
+                          <button 
+                            type="button"
+                            onClick={() => handleUpdatePackageField(pkg.id, "imageUrl", "")}
+                            className="text-[9px] text-rose-400 hover:text-rose-300 hover:underline text-right font-bold mt-0.5"
+                          >
+                            حذف الصورة
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
                     {/* Core fields inputs */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full text-right order-1 md:order-2">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full text-right order-1 xl:order-3">
                       {/* Badge field */}
                       <div className="space-y-1.5">
                         <label className="text-[11px] font-bold text-[#d3c5ac] block">شارة مميزة (اختياري)</label>
