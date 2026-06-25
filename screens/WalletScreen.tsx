@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "motion/react";
 import { 
   Wallet, 
@@ -11,7 +11,10 @@ import {
   Copy, 
   Upload, 
   Send, 
-  History 
+  History,
+  Landmark,
+  CreditCard,
+  CheckCircle2
 } from "lucide-react";
 import { Order, OrderStatus, PaymentMethod } from "../types";
 
@@ -30,6 +33,105 @@ interface WalletScreenProps {
   userOrders: Order[];
 }
 
+const PAYMENT_METHODS = [
+  {
+    id: PaymentMethod.CLIQ,
+    label: "CliQ",
+    icon: Coins,
+    gradientClass: "from-amber-500/20 to-amber-600/10",
+    borderActiveClass: "border-amber-500",
+    iconColorClass: "text-amber-400",
+  },
+  {
+    id: PaymentMethod.ARAB_BANK,
+    label: "البنك العربي",
+    icon: Landmark,
+    gradientClass: "from-blue-500/20 to-blue-600/10",
+    borderActiveClass: "border-blue-500",
+    iconColorClass: "text-blue-400",
+  },
+  {
+    id: PaymentMethod.ORANGE_MONEY,
+    label: "Orange Money",
+    icon: CreditCard,
+    gradientClass: "from-orange-500/20 to-orange-600/10",
+    borderActiveClass: "border-orange-500",
+    iconColorClass: "text-orange-400",
+  },
+] as const;
+
+interface MethodInfo {
+  label: string;
+  accountLabel: string;
+  accountValue: string;
+  extra: { label: string; value: string }[];
+  description: string;
+  accentColorClass: string;
+  borderColorClass: string;
+  glowColorClass: string;
+}
+
+function getMethodInfo(method: PaymentMethod): MethodInfo {
+  switch (method) {
+    case PaymentMethod.CLIQ:
+      return {
+        label: "CliQ",
+        accountLabel: "اسم الحساب (Alias) - CliQ:",
+        accountValue: "FAARA-SHOP-99",
+        extra: [
+          { label: "يجب أن يظهر اسم المستفيد:", value: "مؤسسة فارة (Fara Souq)" },
+          { label: "البنك / المحفظة:", value: "بنك الاتحاد (Bank al Etihad)" },
+        ],
+        description: "لإضافة رصيد إلى محفظتك، يرجى تحويل المبلغ المطلوب عبر تطبيق CliQ إلى الحساب الموضح أدناه، ثم إرفاق صورة الوصل لتأكيد العملية.",
+        accentColorClass: "text-amber-400",
+        borderColorClass: "border-amber-500/20",
+        glowColorClass: "bg-amber-500/5",
+      };
+    case PaymentMethod.ARAB_BANK:
+      return {
+        label: "البنك العربي",
+        accountLabel: "رقم الهاتف - البنك العربي:",
+        accountValue: "0779191371",
+        extra: [
+          { label: "يجب أن يظهر اسم المستفيد:", value: "مؤسسة فارة (Fara Souq)" },
+          { label: "البنك:", value: "البنك العربي (Arab Bank)" },
+        ],
+        description: "لإضافة رصيد إلى محفظتك، يرجى تحويل المبلغ المطلوب عبر البنك العربي إلى رقم الهاتف الموضح أدناه، ثم إرفاق صورة الوصل لتأكيد العملية.",
+        accentColorClass: "text-blue-400",
+        borderColorClass: "border-blue-500/20",
+        glowColorClass: "bg-blue-500/5",
+      };
+    case PaymentMethod.ORANGE_MONEY:
+      return {
+        label: "Orange Money",
+        accountLabel: "اسم المستخدم - Orange Money:",
+        accountValue: "FARASOUQ",
+        extra: [
+          { label: "يجب أن يظهر اسم المستفيد:", value: "مؤسسة فارة (Fara Souq)" },
+          { label: "المحفظة:", value: "Orange Money" },
+        ],
+        description: "لإضافة رصيد إلى محفظتك، يرجى تحويل المبلغ المطلوب عبر Orange Money إلى اسم المستخدم الموضح أدناه، ثم إرفاق صورة الوصل لتأكيد العملية.",
+        accentColorClass: "text-orange-400",
+        borderColorClass: "border-orange-500/20",
+        glowColorClass: "bg-orange-500/5",
+      };
+    default:
+      return {
+        label: "CliQ",
+        accountLabel: "اسم الحساب (Alias) - CliQ:",
+        accountValue: "FAARA-SHOP-99",
+        extra: [
+          { label: "يجب أن يظهر اسم المستفيد:", value: "مؤسسة فارة (Fara Souq)" },
+          { label: "البنك / المحفظة:", value: "بنك الاتحاد (Bank al Etihad)" },
+        ],
+        description: "لإضافة رصيد إلى محفظتك، يرجى تحويل المبلغ المطلوب عبر تطبيق CliQ إلى الحساب الموضح أدناه، ثم إرفاق صورة الوصل لتأكيد العملية.",
+        accentColorClass: "text-amber-400",
+        borderColorClass: "border-amber-500/20",
+        glowColorClass: "bg-amber-500/5",
+      };
+  }
+}
+
 export default function WalletScreen({
   walletBalance,
   depositAmount,
@@ -44,6 +146,17 @@ export default function WalletScreen({
   isDepositing,
   userOrders
 }: WalletScreenProps) {
+  const [localMethod, setLocalMethod] = useState<PaymentMethod>(paymentMethod);
+
+  const handleSelectMethod = (method: PaymentMethod) => {
+    setLocalMethod(method);
+    setPaymentMethod(method);
+  };
+
+  const methodInfo = getMethodInfo(localMethod);
+  const activeMethodConfig = PAYMENT_METHODS.find(m => m.id === localMethod) ?? PAYMENT_METHODS[0];
+  const ActiveIcon = activeMethodConfig.icon;
+
   return (
     <motion.div
       key="wallet"
@@ -73,33 +186,74 @@ export default function WalletScreen({
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-600 to-amber-400" />
         <div className="p-6 sm:p-8 border-b border-slate-800">
           <h2 className="text-xl font-bold text-white flex items-center justify-start gap-2">
-            <Coins className="w-6 h-6 text-amber-500" />
-            <span>شحن المحفظة (CliQ)</span>
+            <ActiveIcon className={`w-6 h-6 ${activeMethodConfig.iconColorClass}`} />
+            <span>شحن المحفظة ({methodInfo.label})</span>
           </h2>
           <p className="text-sm text-slate-400 mt-2 leading-relaxed">
-            لإضافة رصيد إلى محفظتك، يرجى تحويل المبلغ المطلوب عبر تطبيق <b>CliQ</b> إلى الحساب الموضح أدناه، ثم إرفاق صورة الوصل لتأكيد العملية.
+            {methodInfo.description}
           </p>
         </div>
 
         <div className="p-6 sm:p-8">
           <form onSubmit={handleDepositSubmit} className="space-y-8">
-            
+
+            {/* Payment Method Selector */}
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-slate-300 text-right">اختر طريقة الدفع</p>
+              <div className="grid grid-cols-3 gap-3">
+                {PAYMENT_METHODS.map((method) => {
+                  const Icon = method.icon;
+                  const isActive = localMethod === method.id;
+                  return (
+                    <motion.button
+                      key={method.id}
+                      type="button"
+                      onClick={() => handleSelectMethod(method.id)}
+                      whileTap={{ scale: 0.96 }}
+                      className={[
+                        "relative flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer overflow-hidden",
+                        isActive
+                          ? `${method.borderActiveClass} bg-gradient-to-b ${method.gradientClass}`
+                          : "border-slate-700 bg-slate-900/60 hover:border-slate-600 hover:bg-slate-800/50"
+                      ].join(" ")}
+                    >
+                      {isActive && (
+                        <div className="absolute top-2 right-2">
+                          <CheckCircle2 className={`w-3.5 h-3.5 ${method.iconColorClass}`} />
+                        </div>
+                      )}
+                      <Icon className={`w-6 h-6 transition-colors ${isActive ? method.iconColorClass : "text-slate-400"}`} />
+                      <span className={`text-xs font-bold text-center leading-tight transition-colors ${isActive ? "text-white" : "text-slate-400"}`}>
+                        {method.label}
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Payment Details */}
-            <div className="bg-slate-900/50 rounded-2xl p-6 border border-amber-500/20 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-              
+            <motion.div
+              key={localMethod}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+              className={`bg-slate-900/50 rounded-2xl p-6 border ${methodInfo.borderColorClass} relative overflow-hidden group`}
+            >
+              <div className={`absolute top-0 right-0 w-32 h-32 ${methodInfo.glowColorClass} rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none`} />
+
               <div className="flex flex-col gap-5 relative z-10">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="text-right w-full sm:w-auto">
-                    <p className="text-sm text-slate-400 mb-2">اسم الحساب (Alias) - CliQ:</p>
+                    <p className="text-sm text-slate-400 mb-2">{methodInfo.accountLabel}</p>
                     <div className="flex items-center justify-start">
-                      <span className="text-2xl sm:text-3xl font-bold text-amber-400 tracking-wider">FAARA-SHOP-99</span>
+                      <span className={`text-2xl sm:text-3xl font-bold ${methodInfo.accentColorClass} tracking-wider`}>{methodInfo.accountValue}</span>
                     </div>
                   </div>
-                  <button 
+                  <button
                     type="button"
-                    onClick={() => handleCopyText("FAARA-SHOP-99")}
-                    className="w-full sm:w-auto bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 px-6 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shrink-0"
+                    onClick={() => handleCopyText(methodInfo.accountValue)}
+                    className={`w-full sm:w-auto bg-slate-800 hover:bg-slate-700 ${methodInfo.accentColorClass} border border-slate-700 hover:border-slate-600 px-6 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shrink-0`}
                   >
                     <Copy className="w-4 h-4" />
                     <span>{copiedText ? "تم النسخ بنجاح!" : "نسخ للتحويل"}</span>
@@ -107,25 +261,23 @@ export default function WalletScreen({
                 </div>
 
                 <div className="bg-slate-800/50 rounded-xl p-4 flex flex-col sm:flex-row gap-6 sm:gap-12 border border-slate-700/50">
-                  <div>
-                    <p className="text-xs text-slate-500 mb-1">يجب أن يظهر اسم المستفيد:</p>
-                    <p className="text-sm font-bold text-white">مؤسسة فارة (Fara Souq)</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-500 mb-1">البنك / المحفظة:</p>
-                    <p className="text-sm font-bold text-white">بنك الاتحاد (Bank al Etihad)</p>
-                  </div>
+                  {methodInfo.extra.map((item, idx) => (
+                    <div key={idx}>
+                      <p className="text-xs text-slate-500 mb-1">{item.label}</p>
+                      <p className="text-sm font-bold text-white">{item.value}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Amount Input */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-slate-300 block text-right">المبلغ المراد شحنه</label>
                 <div className="relative">
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     value={depositAmount}
                     onChange={(e) => setDepositAmount(e.target.value)}
                     placeholder="0.00"
@@ -150,19 +302,19 @@ export default function WalletScreen({
                       {receiptFileName || "اضغط هنا لاختيار صورة الوصل..."}
                     </span>
                   </div>
-                  <input 
-                    type="file" 
+                  <input
+                    type="file"
                     accept="image/*"
                     onChange={handleReceiptUpload}
                     required
-                    className="hidden" 
+                    className="hidden"
                   />
                 </label>
               </div>
             </div>
 
             {/* Submit Button */}
-            <button 
+            <button
               type="submit"
               disabled={isDepositing || !depositAmount || !receiptFileName}
               className="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 disabled:from-slate-700 disabled:to-slate-800 disabled:text-slate-500 disabled:shadow-none text-white font-bold py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)] active:scale-95"
@@ -219,8 +371,8 @@ export default function WalletScreen({
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
-                        item.status === OrderStatus.COMPLETED 
-                          ? "bg-amber-500/10 text-amber-400 border-amber-500/20" 
+                        item.status === OrderStatus.COMPLETED
+                          ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
                           : item.status === OrderStatus.PENDING
                             ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
                             : item.status === OrderStatus.PROCESSING

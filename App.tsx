@@ -119,7 +119,11 @@ export default function App() {
     confirmDeleteItem,
     handleSaveCMS,
     joPaySettings,
-    setJoPaySettings
+    setJoPaySettings,
+    bannerSlides,
+    handleSaveBannerSlides,
+    shippingProofs,
+    handleSaveShippingProofs
   } = useAppState();
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
@@ -173,6 +177,8 @@ export default function App() {
               setSearchQuery={setSearchQuery}
               filteredGames={filteredGames}
               loggedUser={loggedUser}
+              bannerSlides={bannerSlides}
+              shippingProofs={shippingProofs}
             />
           )}
 
@@ -256,6 +262,10 @@ export default function App() {
               joPaySettings={joPaySettings}
               setJoPaySettings={setJoPaySettings}
               showToast={showToast}
+              bannerSlides={bannerSlides}
+              handleSaveBannerSlides={handleSaveBannerSlides}
+              shippingProofs={shippingProofs}
+              handleSaveShippingProofs={handleSaveShippingProofs}
             />
           )}
 
@@ -358,6 +368,7 @@ export default function App() {
                   {
                     label: "الألعاب",
                     icon: Gamepad2,
+                    comingSoon: true,
                     onClick: () => {
                       setSelectedCategory(GameCategory.ALL);
                       navigateToTab("home");
@@ -374,7 +385,8 @@ export default function App() {
                   },
                   {
                     label: "ألعاب الجوال",
-                    icon: Gamepad2,
+                    icon: Phone,
+                    comingSoon: true,
                     onClick: () => {
                       setSelectedCategory(GameCategory.JAWAKER);
                       navigateToTab("home");
@@ -384,6 +396,7 @@ export default function App() {
                   {
                     label: "بطاقات الألعاب",
                     icon: CreditCard,
+                    comingSoon: true,
                     onClick: () => {
                       setSelectedCategory(GameCategory.GIFT_CARDS);
                       navigateToTab("home");
@@ -427,7 +440,10 @@ export default function App() {
                       className="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[#dce2f7] hover:text-white hover:bg-amber-500/10 hover:border-amber-500/20 border border-transparent transition-all text-right font-bold text-sm cursor-pointer group"
                     >
                       <Icon className="w-5 h-5 text-slate-400 group-hover:text-amber-400 transition-colors animate-none" />
-                      <span>{item.label}</span>
+                      <span className="flex-1">{item.label}</span>
+                      {item.comingSoon && (
+                        <span className="text-[9px] font-black bg-amber-500/15 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full whitespace-nowrap">قريباً</span>
+                      )}
                     </button>
                   );
                 })}
@@ -488,12 +504,23 @@ export default function App() {
                 </div>
 
                 <div className="p-4 bg-[#191f2f] rounded-2xl border border-slate-800 hover:border-slate-700 transition-colors flex items-start gap-4">
+                  <div className="bg-blue-500/10 p-2.5 rounded-xl border border-blue-500/20 shrink-0">
+                    <CreditCard className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-extrabold text-white text-base">البنك العربي (Arab Bank)</h4>
+                    <p className="text-xs text-slate-300 mt-1">تحويل مباشر إلى رقم الجوال:</p>
+                    <p className="text-sm font-black text-blue-400 mt-1 font-mono tracking-wider">0779191371</p>
+                  </div>
+                </div>
+                <div className="p-4 bg-[#191f2f] rounded-2xl border border-slate-800 hover:border-slate-700 transition-colors flex items-start gap-4">
                   <div className="bg-orange-500/10 p-2.5 rounded-xl border border-orange-500/20 shrink-0">
                     <CreditCard className="w-6 h-6 text-orange-400" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <h4 className="font-extrabold text-white text-base">أورانج ماني (Orange Money)</h4>
-                    <p className="text-xs text-slate-300 mt-1">محفظة أورانج ماني الإلكترونية. أرسل قيمة الفاتورة أو الإيداع للرقم المعتمد لإجراء العملية مباشرة.</p>
+                    <p className="text-xs text-slate-300 mt-1">محفظة أورانج ماني. اسم المستخدم:</p>
+                    <p className="text-sm font-black text-orange-400 mt-1 font-mono tracking-wider">FARASOUQ</p>
                   </div>
                 </div>
               </div>

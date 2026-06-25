@@ -20,7 +20,7 @@ export enum OrderStatus {
 
 export enum PaymentMethod {
   CLIQ = "CliQ",
-  ZAIN_CASH = "Zain Cash",
+  ARAB_BANK = "البنك العربي",
   ORANGE_MONEY = "Orange Money"
 }
 
@@ -96,3 +96,19 @@ export interface JoPaySettings {
   quantityMap: Record<string, number>;
 }
 
+export interface BannerSlide {
+  id: string;
+  imageUrl: string;
+  title: string;
+  subtitle: string;
+  badgeText: string;
+  buttonText: string;
+  buttonUrl: string;
+}
+
+export interface ShippingProof {
+  id: string;
+  imageUrl: string;
+  caption: string;
+  date: string;
+}

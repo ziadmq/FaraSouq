@@ -8,7 +8,7 @@ import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot, query, where, deleteDoc } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { auth, db, functions, handleFirestoreError, OperationType } from "../lib/firebase";
-import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, User, AppNotification, JoPaySettings } from "../types";
+import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, User, AppNotification, JoPaySettings, BannerSlide, ShippingProof } from "../types";
 import { GAMES_DATA, INITIAL_ORDERS, INITIAL_USERS, INITIAL_NOTIFICATIONS } from "../data";
 
 export function useAppState() {
@@ -83,6 +83,57 @@ export function useAppState() {
   const [cmsBannerUrl, setCmsBannerUrl] = useState<string>("");
   const [cmsBannerImage, setCmsBannerImage] = useState<string>("https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=1200&auto=format&fit=crop");
   const [cmsPopupText, setCmsPopupText] = useState<string>("");
+
+  // Banner Slider slides state
+  const DEFAULT_BANNER_SLIDES: BannerSlide[] = [
+    {
+      id: "slide_1",
+      imageUrl: "https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=1200&auto=format&fit=crop",
+      title: "اشحن توكنز جواكر بأفضل الأسعار ⭐",
+      subtitle: "خصم يصل إلى 20% على جميع باقات جواكر لفترة محدودة",
+      badgeText: "جديد!",
+      buttonText: "اكتشف العروض",
+      buttonUrl: ""
+    }
+  ];
+
+  const [bannerSlides, setBannerSlides] = useState<BannerSlide[]>(() => {
+    const saved = localStorage.getItem("fara_banner_slides_v1");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch (e) {}
+    }
+    return DEFAULT_BANNER_SLIDES;
+  });
+
+  const handleSaveBannerSlides = (slides: BannerSlide[]) => {
+    // Filter out Base64 images for localStorage size safety
+    const slidesForStorage = slides.map(s => ({
+      ...s,
+      imageUrl: s.imageUrl.startsWith("data:") ? "" : s.imageUrl
+    }));
+    localStorage.setItem("fara_banner_slides_v1", JSON.stringify(slides));
+    setBannerSlides(slides);
+  };
+
+  // Shipping Proofs state
+  const [shippingProofs, setShippingProofs] = useState<ShippingProof[]>(() => {
+    const saved = localStorage.getItem("fara_shipping_proofs_v1");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      } catch (e) {}
+    }
+    return [];
+  });
+
+  const handleSaveShippingProofs = (proofs: ShippingProof[]) => {
+    localStorage.setItem("fara_shipping_proofs_v1", JSON.stringify(proofs));
+    setShippingProofs(proofs);
+  };
 
   const [joPaySettings, setJoPaySettings] = useState<JoPaySettings>({
     token: "",
@@ -1034,5 +1085,11 @@ export function useAppState() {
     handleUpdatePackageField,
     handleUpdateJawakerPackage,
     confirmDeleteItem,
+    bannerSlides,
+    setBannerSlides,
+    handleSaveBannerSlides,
+    shippingProofs,
+    setShippingProofs,
+    handleSaveShippingProofs,
   };
 }
