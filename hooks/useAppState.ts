@@ -395,21 +395,30 @@ export function useAppState() {
   const handleUpdateProfile = async (name: string, imageUrl: string) => {
     if (!loggedUser || !auth.currentUser) return;
     try {
-      // 1. Update Firebase Auth Profile
+      const isBase64 = imageUrl.startsWith("data:");
+
+      // 1. Update Firebase Auth Profile (Base64 not supported in photoURL)
       await updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL: imageUrl || auth.currentUser.photoURL
+        photoURL: isBase64 ? (auth.currentUser.photoURL || "") : (imageUrl || "")
       });
 
-      // 2. Update Firestore Document
+      // 2. Update Firestore Document (Base64 too large, store URL only)
       const userRef = doc(db, "users", loggedUser.id);
       await updateDoc(userRef, {
         name,
-        imageUrl,
+        imageUrl: isBase64 ? "" : imageUrl,
         avatarLetter: name.charAt(0).toUpperCase()
       });
 
-      // 3. Update Local State
+      // 3. If Base64 image, save to localStorage (persists between page reloads)
+      if (isBase64) {
+        localStorage.setItem(`fara_profile_img_${loggedUser.id}`, imageUrl);
+      } else {
+        localStorage.removeItem(`fara_profile_img_${loggedUser.id}`);
+      }
+
+      // 4. Update Local State (always use full imageUrl including Base64)
       setLoggedUser(prev => prev ? {
         ...prev,
         name,

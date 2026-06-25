@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
-import { User, Shield, Calendar, Edit3, LogOut, Check, X, Wallet, Mail } from "lucide-react";
+import { User, Shield, Calendar, Edit3, LogOut, Check, X, Wallet, Mail, Camera } from "lucide-react";
 import { User as UserType } from "../types";
 
 interface ProfileScreenProps {
@@ -19,11 +19,47 @@ export default function ProfileScreen({
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(loggedUser.name);
   const [editImage, setEditImage] = useState(loggedUser.imageUrl || "");
+  const avatarFileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
     if (!editName.trim()) return;
     handleUpdateProfile(editName.trim(), editImage.trim());
     setIsEditing(false);
+  };
+
+  const handleAvatarFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const MAX_DIM = 250;
+          let width = img.width;
+          let height = img.height;
+          if (width > height) {
+            if (width > MAX_DIM) { height = Math.round((height * MAX_DIM) / width); width = MAX_DIM; }
+          } else {
+            if (height > MAX_DIM) { width = Math.round((width * MAX_DIM) / height); height = MAX_DIM; }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, width, height);
+            const compressed = canvas.toDataURL("image/jpeg", 0.7);
+            setEditImage(compressed);
+            if (!isEditing) setIsEditing(true);
+          } else {
+            setEditImage(event.target?.result as string || "");
+            if (!isEditing) setIsEditing(true);
+          }
+        };
+        img.src = event.target?.result as string || "";
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -62,8 +98,17 @@ export default function ProfileScreen({
               <div className="flex-1"></div>
 
               <div className="relative group">
-                <div className="w-32 h-32 rounded-full border-4 border-[#191f2f] bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-4xl font-black text-slate-900 overflow-hidden shadow-[0_0_30px_rgba(251,191,36,0.3)]">
-                  {loggedUser.imageUrl ? (
+                {/* Avatar Circle */}
+                <div className="w-32 h-32 rounded-full border-4 border-[#191f2f] bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-4xl font-black text-slate-900 overflow-hidden shadow-[0_0_30px_rgba(251,191,36,0.3)] relative cursor-pointer group-hover:border-amber-400 transition-all"
+                  onClick={() => avatarFileInputRef.current?.click()}>
+                  {editImage ? (
+                    <img 
+                      src={editImage} 
+                      alt={editName} 
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : loggedUser.imageUrl ? (
                     <img 
                       src={loggedUser.imageUrl} 
                       alt={loggedUser.name} 
@@ -73,7 +118,31 @@ export default function ProfileScreen({
                   ) : (
                     loggedUser.avatarLetter || "👤"
                   )}
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    <Camera className="w-6 h-6 text-white mb-1" />
+                    <span className="text-[10px] text-white font-bold">تغيير الصورة</span>
+                  </div>
                 </div>
+
+                {/* Always-visible camera badge */}
+                <button
+                  type="button"
+                  onClick={() => avatarFileInputRef.current?.click()}
+                  className="absolute bottom-0 right-0 bg-amber-500 hover:bg-amber-400 text-slate-900 p-2 rounded-full border-2 border-[#191f2f] shadow-lg z-30 transition-all active:scale-95 cursor-pointer"
+                  title="تغيير الصورة الشخصية"
+                >
+                  <Camera className="w-4 h-4" />
+                </button>
+
+                {/* Hidden file input triggered by camera badge or overlay */}
+                <input 
+                  ref={avatarFileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarFileChange}
+                  className="hidden"
+                />
               </div>
             </div>
           </div>
@@ -163,18 +232,44 @@ export default function ProfileScreen({
                     </div>
                     
                     <div className="space-y-2">
-                      <label className="text-sm font-bold text-[#d3c5ac] block">رابط الصورة الشخصية (اختياري)</label>
-                      <input 
-                        type="text" 
-                        value={editImage}
-                        onChange={(e) => setEditImage(e.target.value)}
-                        className="w-full bg-[#0a1120] border border-[#21314d] focus:border-amber-400/50 rounded-xl px-4 py-3 text-white outline-none transition-all text-left"
-                        dir="ltr"
-                        placeholder="https://example.com/avatar.png"
-                      />
-                      <p className="text-xs text-[#5e7193] mt-2">
-                        ضع رابط لصورة خارجية، أو اتركه فارغاً لاستخدام صورتك من Google إذا كنت مسجلاً به.
+                      <label className="text-sm font-bold text-[#d3c5ac] block">الصورة الشخصية</label>
+                      <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                        <input 
+                          type="text" 
+                          value={editImage && !editImage.startsWith("data:") ? editImage : ""}
+                          onChange={(e) => setEditImage(e.target.value)}
+                          className="flex-grow bg-[#0a1120] border border-[#21314d] focus:border-amber-400/50 rounded-xl px-4 py-3 text-white outline-none transition-all text-left text-xs sm:text-sm"
+                          dir="ltr"
+                          placeholder="رابط الصورة (URL)..."
+                        />
+                        <div className="relative shrink-0">
+                          <button
+                            type="button"
+                            className="w-full sm:w-auto bg-[#232a3a] hover:bg-[#2d3548] text-white border border-[#21314d] px-5 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2"
+                          >
+                            <Camera className="w-4 h-4" />
+                            <span>تحميل من الاستديو</span>
+                          </button>
+                          <input 
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAvatarFileChange}
+                            className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                          />
+                        </div>
+                      </div>
+                      <p className="text-xs text-[#5e7193] mt-1.5 leading-relaxed">
+                        يمكنك وضع رابط مباشر للصورة، أو الضغط على "تحميل من الاستديو" لرفعها من جهازك، أو تركها فارغة لاستخدام الصورة التلقائية.
                       </p>
+                      {editImage && (
+                        <button 
+                          type="button"
+                          onClick={() => setEditImage("")}
+                          className="text-xs text-rose-400 hover:text-rose-300 hover:underline font-bold mt-1 block text-right cursor-pointer"
+                        >
+                          إزالة الصورة الشخصية
+                        </button>
+                      )}
                     </div>
 
                     <div className="flex gap-3 pt-4 border-t border-[#21314d]">
