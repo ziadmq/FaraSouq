@@ -324,21 +324,21 @@ export default function ProductsTab({
 
                               return (
                                 <div className="w-full p-4 rounded-3xl border text-right flex flex-col items-center justify-start gap-3 relative overflow-hidden bg-[#0f172a]/70 border-slate-800 pointer-events-none shadow-lg">
-                                  {/* Badges */}
-                                  <div className="absolute top-2 right-2 left-2 flex justify-between items-center z-20">
+                                  {/* Badges Container - placed in standard flow above image */}
+                                  <div className="w-full flex justify-between items-center gap-1 min-h-[22px] z-20">
                                     {pkg.isPreferred ? (
-                                      <div className="bg-gradient-to-r from-amber-400 to-amber-600 shadow-md text-slate-950 text-[8px] font-black px-2 py-0.5 rounded flex items-center gap-0.5">
-                                        <Star className="w-2.5 h-2.5 fill-current" />
+                                      <div className="bg-gradient-to-r from-amber-400 to-amber-600 shadow-sm text-slate-950 text-[8px] font-black px-2 py-0.5 rounded flex items-center gap-0.5">
+                                        <Star className="w-2 h-2 fill-current" />
                                         <span>مفضلة</span>
                                       </div>
                                     ) : pkg.badge ? (
-                                      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 shadow-md text-white text-[8px] font-bold px-2 py-0.5 rounded">
+                                      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 shadow-sm text-white text-[8px] font-bold px-2 py-0.5 rounded">
                                         {pkg.badge}
                                       </div>
                                     ) : <div />}
 
                                     {pkg.bonusPercent ? (
-                                      <div className="bg-gradient-to-l from-emerald-500 to-teal-600 shadow-md text-white text-[8px] font-extrabold px-2 py-0.5 rounded">
+                                      <div className="bg-gradient-to-l from-emerald-500 to-teal-600 shadow-sm text-white text-[8px] font-extrabold px-2 py-0.5 rounded">
                                         +{pkg.bonusPercent}% بونص
                                       </div>
                                     ) : <div />}
@@ -368,11 +368,8 @@ export default function ProductsTab({
                                     </h4>
                                     
                                     {pkg.bonusPercent ? (
-                                      <div className="text-[8px] text-amber-400 font-bold bg-amber-500/10 border border-amber-500/15 px-2 py-0.5 rounded w-fit mx-auto flex flex-col gap-0.5 leading-tight">
-                                        <span className="text-[7px] text-slate-400">الأساسي: {baseTokensStr}</span>
-                                        <span className="font-black text-emerald-400 whitespace-nowrap">
-                                          الهدية: +{bonusTokensStr} مجاناً
-                                        </span>
+                                      <div className="text-[8px] text-slate-400 font-bold bg-[#1e293b]/50 border border-slate-800/80 px-2 py-0.5 rounded w-fit mx-auto shadow-sm leading-tight text-center">
+                                        <span className="line-through">الكمية الأساسية: {baseTokensStr}</span>
                                       </div>
                                     ) : (
                                       <div className="text-[8px] text-slate-500 font-bold bg-slate-800/10 border border-slate-800/20 px-2 py-0.5 rounded w-fit mx-auto whitespace-nowrap">

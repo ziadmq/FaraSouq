@@ -203,24 +203,23 @@ export default function GameDetailScreen({
                 {isSelected && (
                   <div className="absolute inset-0 bg-amber-500/[0.03] mix-blend-overlay pointer-events-none" />
                 )}
-                
-                {/* Badges Container */}
-                <div className="absolute top-2 right-2 left-2 flex justify-between items-center z-20 pointer-events-none">
+                {/* Badges Container - placed in standard flow above image */}
+                <div className="w-full flex justify-between items-center gap-1 min-h-[22px] z-20 pointer-events-none">
                   {/* Preferred/Badge label */}
                   {p.isPreferred ? (
-                    <div className="bg-gradient-to-r from-amber-400 to-amber-600 shadow-md text-slate-950 text-[8px] sm:text-[10px] font-black px-2 py-1 rounded-lg flex items-center gap-0.5">
-                      <Star className="w-2.5 h-2.5 fill-current" />
+                    <div className="bg-gradient-to-r from-amber-400 to-amber-600 shadow-sm text-slate-950 text-[8px] sm:text-[9px] font-black px-2 py-0.5 rounded-lg flex items-center gap-0.5">
+                      <Star className="w-2 h-2 fill-current" />
                       <span>مفضلة</span>
                     </div>
                   ) : p.badge ? (
-                    <div className="bg-gradient-to-r from-indigo-500 to-purple-600 shadow-md text-white text-[8px] sm:text-[10px] font-bold px-2 py-1 rounded-lg">
+                    <div className="bg-gradient-to-r from-indigo-500 to-purple-600 shadow-sm text-white text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded-lg">
                       {p.badge}
                     </div>
                   ) : <div />}
 
                   {/* Bonus percentage label */}
                   {p.bonusPercent ? (
-                    <div className="bg-gradient-to-l from-emerald-500 to-teal-600 shadow-md text-white text-[8px] sm:text-[10px] font-extrabold px-2 py-1 rounded-lg">
+                    <div className="bg-gradient-to-l from-emerald-500 to-teal-600 shadow-sm text-white text-[8px] sm:text-[9px] font-extrabold px-2 py-0.5 rounded-lg">
                       +{p.bonusPercent}% بونص
                     </div>
                   ) : <div />}
@@ -254,14 +253,11 @@ export default function GameDetailScreen({
                   </h4>
                   
                   {p.bonusPercent ? (
-                    <div className="text-[9px] sm:text-[11px] text-amber-400 font-bold bg-amber-500/10 border border-amber-500/15 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl w-fit mx-auto flex flex-col gap-0.5 shadow-sm leading-tight">
-                      <span className="text-[8px] sm:text-[9px] text-slate-400 font-medium">الأساسي: {baseTokensStr}</span>
-                      <span className="flex items-center gap-0.5 font-black text-emerald-400 whitespace-nowrap">
-                        الهدية: +{bonusTokensStr} مجاناً
-                      </span>
+                    <div className="text-[9px] sm:text-[10px] text-slate-400 font-bold bg-[#1e293b]/50 border border-slate-800/80 px-2.5 sm:px-3 py-1 rounded-xl w-fit mx-auto shadow-sm leading-tight text-center">
+                      <span className="line-through">الكمية الأساسية: {baseTokensStr}</span>
                     </div>
                   ) : (
-                    <div className="text-[9px] sm:text-[10px] text-slate-500 font-bold bg-slate-800/10 border border-slate-800/20 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl w-fit mx-auto whitespace-nowrap">
+                    <div className="text-[9px] sm:text-[10px] text-slate-500 font-bold bg-slate-800/10 border border-slate-800/20 px-2 sm:px-3 py-1 rounded-xl w-fit mx-auto whitespace-nowrap">
                       شحن آمن وفوري ⚡
                     </div>
                   )}
