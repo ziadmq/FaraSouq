@@ -88,8 +88,12 @@ export default function BannerSlider({ slides, onButtonClick }: BannerSliderProp
         >
           {/* Background image */}
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: slide.imageUrl ? `url(${slide.imageUrl})` : undefined }}
+            className="absolute inset-0 bg-no-repeat"
+            style={{
+              backgroundImage: slide.imageUrl ? `url(${slide.imageUrl})` : undefined,
+              backgroundSize: slide.imageFit === "contain" ? "contain" : "cover",
+              backgroundPosition: slide.imagePosition || "center"
+            }}
           />
 
           {/* Overlay gradient - dark left-to-right (RTL: right is start) */}

@@ -108,6 +108,8 @@ export interface BannerSlide {
   badgeText: string;
   buttonText: string;
   buttonUrl: string;
+  imageFit?: "cover" | "contain";
+  imagePosition?: string;
 }
 
 export interface ShippingProof {

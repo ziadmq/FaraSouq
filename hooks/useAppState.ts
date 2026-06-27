@@ -76,7 +76,7 @@ export function useAppState() {
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [showNotificationDropdown, setShowNotificationDropdown] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<GameCategory>(GameCategory.ALL);
+  const [selectedCategory, setSelectedCategory] = useState<GameCategory>(GameCategory.JAWAKER);
 
   // States for CMS & alert configurations (loaded into memory)
   const [cmsBannerText, setCmsBannerText] = useState<string>("اشحن توكنز جواكر بأفضل الأسعار ⭐");
@@ -1062,12 +1062,6 @@ export function useAppState() {
     setSearchQuery,
     selectedCategory,
     setSelectedCategory,
-    cmsBannerText,
-    setCmsBannerText,
-    cmsBannerUrl,
-    setCmsBannerUrl,
-    cmsBannerImage,
-    setCmsBannerImage,
     cmsPopupText,
     setCmsPopupText,
     joPaySettings,
@@ -1115,9 +1109,6 @@ export function useAppState() {
     isAdmin,
     filteredGames,
     showToast,
-    cmsBannerBadgeText, setCmsBannerBadgeText,
-    cmsBannerSubtitle, setCmsBannerSubtitle,
-    cmsBannerButtonText, setCmsBannerButtonText,
     navigateToTab,
     handleLoginSuccess,
     handleLogout,
@@ -1132,7 +1123,6 @@ export function useAppState() {
     handleDeleteUser,
     confirmDeleteUser,
     handleNewsletterSubmit,
-    handleSaveCMS,
     handleMarkAllNotificationsRead,
     saveGamesList,
     handleSavePackages,

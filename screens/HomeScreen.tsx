@@ -17,12 +17,6 @@ import { GameCategory, Game, User, BannerSlide, ShippingProof } from "../types";
 import BannerSlider from "../components/common/BannerSlider";
 
 interface HomeScreenProps {
-  cmsBannerBadgeText: string;
-  cmsBannerImage: string;
-  cmsBannerText: string;
-  cmsBannerSubtitle: string;
-  cmsBannerButtonText: string;
-  cmsBannerUrl: string;
   gamesList: Game[];
   setSelectedGame: (game: Game) => void;
   navigateToTab: (tab: "home" | "game-detail" | "wallet" | "admin" | "login" | "profile") => void;
@@ -38,12 +32,6 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({
-  cmsBannerBadgeText,
-  cmsBannerImage,
-  cmsBannerText,
-  cmsBannerSubtitle,
-  cmsBannerButtonText,
-  cmsBannerUrl,
   gamesList,
   setSelectedGame,
   navigateToTab,
@@ -59,18 +47,8 @@ export default function HomeScreen({
 }: HomeScreenProps) {
   const [zoomProof, setZoomProof] = React.useState<ShippingProof | null>(null);
 
-  // Build effective slides: use bannerSlides if available, otherwise fallback to single CMS banner
-  const effectiveSlides: BannerSlide[] = bannerSlides && bannerSlides.length > 0
-    ? bannerSlides
-    : [{
-        id: "cms_default",
-        imageUrl: cmsBannerImage,
-        title: cmsBannerText,
-        subtitle: cmsBannerSubtitle,
-        badgeText: cmsBannerBadgeText,
-        buttonText: cmsBannerButtonText || "\u0627\u0643\u062a\u0634\u0641 \u0627\u0644\u0639\u0631\u0648\u0636",
-        buttonUrl: cmsBannerUrl
-      }];
+  // Build effective slides: use bannerSlides directly
+  const effectiveSlides: BannerSlide[] = bannerSlides || [];
 
   const handleSlideButtonClick = (slide: BannerSlide) => {
     if (slide.buttonUrl) {
@@ -160,11 +138,7 @@ export default function HomeScreen({
         {/* Category Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" dir="rtl">
           {[
-            { id: GameCategory.ALL, label: "الكل" },
             { id: GameCategory.JAWAKER, label: "جواكر" },
-            { id: GameCategory.BATTLE_ROYALE, label: "باتل رويال" },
-            { id: GameCategory.MOBA, label: "موبا" },
-            { id: GameCategory.GIFT_CARDS, label: "بطاقات الهدايا" },
           ].map((cat) => {
             const isSelected = selectedCategory === cat.id;
             return (

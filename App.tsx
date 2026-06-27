@@ -54,18 +54,6 @@ export default function App() {
     setSearchQuery,
     selectedCategory,
     setSelectedCategory,
-    cmsBannerBadgeText,
-    setCmsBannerBadgeText,
-    cmsBannerText,
-    setCmsBannerText,
-    cmsBannerSubtitle,
-    setCmsBannerSubtitle,
-    cmsBannerButtonText,
-    setCmsBannerButtonText,
-    cmsBannerUrl,
-    setCmsBannerUrl,
-    cmsBannerImage,
-    setCmsBannerImage,
     playerId,
     setPlayerId,
     selectedPackage,
@@ -117,7 +105,6 @@ export default function App() {
     handleUpdatePackageField,
     handleUpdateJawakerPackage,
     confirmDeleteItem,
-    handleSaveCMS,
     joPaySettings,
     setJoPaySettings,
     bannerSlides,
@@ -162,12 +149,6 @@ export default function App() {
           {/* SCREEN 1: Home Store Dashboard */}
           {activeTab === "home" && (
             <HomeScreen 
-              cmsBannerImage={cmsBannerImage}
-              cmsBannerBadgeText={cmsBannerBadgeText}
-              cmsBannerText={cmsBannerText}
-              cmsBannerSubtitle={cmsBannerSubtitle}
-              cmsBannerButtonText={cmsBannerButtonText}
-              cmsBannerUrl={cmsBannerUrl}
               gamesList={gamesList}
               setSelectedGame={setSelectedGame}
               navigateToTab={navigateToTab}
@@ -240,19 +221,6 @@ export default function App() {
               adminUsers={adminUsers}
               handleToggleUserStatus={handleToggleUserStatus}
               handleDeleteUser={handleDeleteUser}
-              cmsBannerBadgeText={cmsBannerBadgeText}
-              setCmsBannerBadgeText={setCmsBannerBadgeText}
-              cmsBannerText={cmsBannerText}
-              setCmsBannerText={setCmsBannerText}
-              cmsBannerSubtitle={cmsBannerSubtitle}
-              setCmsBannerSubtitle={setCmsBannerSubtitle}
-              cmsBannerButtonText={cmsBannerButtonText}
-              setCmsBannerButtonText={setCmsBannerButtonText}
-              cmsBannerImage={cmsBannerImage}
-              setCmsBannerImage={setCmsBannerImage}
-              cmsBannerUrl={cmsBannerUrl}
-              setCmsBannerUrl={setCmsBannerUrl}
-              handleSaveCMS={handleSaveCMS}
               formPackages={formPackages}
               handleSavePackages={handleSavePackages}
               handleAddPackage={handleAddPackage}

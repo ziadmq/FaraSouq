@@ -10,21 +10,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
 interface CMSSettingsTabProps {
-  cmsBannerBadgeText: string;
-  setCmsBannerBadgeText: (text: string) => void;
-  cmsBannerText: string;
-  setCmsBannerText: (text: string) => void;
-  cmsBannerSubtitle: string;
-  setCmsBannerSubtitle: (text: string) => void;
-  cmsBannerButtonText: string;
-  setCmsBannerButtonText: (text: string) => void;
-  cmsBannerImage: string;
-  setCmsBannerImage: (img: string) => void;
-  cmsBannerUrl: string;
-  setCmsBannerUrl: (url: string) => void;
   joPaySettings: JoPaySettings;
   setJoPaySettings: React.Dispatch<React.SetStateAction<JoPaySettings>>;
-  handleSaveCMS: (e: React.FormEvent) => void;
   showToast: (text: string, type: "success" | "error" | "info") => void;
   bannerSlides: BannerSlide[];
   handleSaveBannerSlides: (slides: BannerSlide[]) => void;
@@ -33,21 +20,8 @@ interface CMSSettingsTabProps {
 }
 
 export default function CMSSettingsTab({
-  cmsBannerBadgeText,
-  setCmsBannerBadgeText,
-  cmsBannerText,
-  setCmsBannerText,
-  cmsBannerSubtitle,
-  setCmsBannerSubtitle,
-  cmsBannerButtonText,
-  setCmsBannerButtonText,
-  cmsBannerImage,
-  setCmsBannerImage,
-  cmsBannerUrl,
-  setCmsBannerUrl,
   joPaySettings,
   setJoPaySettings,
-  handleSaveCMS,
   showToast,
   bannerSlides,
   handleSaveBannerSlides,
@@ -232,148 +206,7 @@ export default function CMSSettingsTab({
         </div>
       </section>
 
-      <section className="bg-[#191f2f] p-6 rounded-2xl border border-[#4f4633]/30 text-right space-y-6 shadow-md">
-        
-        <div className="flex items-center gap-3 justify-start border-b border-[#4f4633]/20 pb-4">
-          <Settings className="w-7 h-7 text-amber-400" />
-          <div>
-            <h3 className="font-extrabold text-xl text-white">تخصيص واجهة فارة سوق (CMS Control)</h3>
-            <p className="text-sm font-medium text-[#9c8f79] mt-1">يمكنك هنا تغيير صورة البنر الرئيسي، ونصوص الإعلانات المنبثقة بشكل فوري.</p>
-          </div>
-        </div>
 
-        <form onSubmit={handleSaveCMS} className="space-y-4">
-          
-          <div className="space-y-1">
-            <label className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-amber-400 mb-1.5">
-              <Tag className="w-4 h-4" />
-              شارة الإشعار العلوية (Badge)
-            </label>
-            <input 
-              type="text" 
-              value={cmsBannerBadgeText}
-              onChange={(e) => setCmsBannerBadgeText(e.target.value)}
-              placeholder="مثال: عرض لفترة محدودة"
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-amber-400 outline-none"
-              dir="rtl"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-amber-400 mb-1.5">
-              <Type className="w-4 h-4" />
-              العنوان الرئيسي للبنر (Headline)
-            </label>
-            <input 
-              type="text" 
-              value={cmsBannerText}
-              onChange={(e) => setCmsBannerText(e.target.value)}
-              placeholder="العنوان الأساسي بالبنر"
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-amber-400 outline-none"
-              dir="rtl"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-amber-400 mb-1.5">
-              <Text className="w-4 h-4" />
-              النص الوصفي التفصيلي (Subtitle)
-            </label>
-            <textarea 
-              value={cmsBannerSubtitle}
-              onChange={(e) => setCmsBannerSubtitle(e.target.value)}
-              rows={2}
-              placeholder="وصف العرض الترويجي..."
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-amber-400 outline-none resize-none leading-relaxed"
-              dir="rtl"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-amber-400 mb-1.5">
-              <MousePointerClick className="w-4 h-4" />
-              النص المكتوب على الزر (Button Text)
-            </label>
-            <input 
-              type="text" 
-              value={cmsBannerButtonText}
-              onChange={(e) => setCmsBannerButtonText(e.target.value)}
-              placeholder="مثال: اشحن جواكر الان"
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-right focus:border-amber-400 outline-none"
-              dir="rtl"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-amber-400 mb-1.5">
-              <ImageIcon className="w-4 h-4" />
-              رابط صورة البنر (Image URL)
-            </label>
-            <input 
-              type="text" 
-              value={cmsBannerImage}
-              onChange={(e) => setCmsBannerImage(e.target.value)}
-              placeholder="رابط الصورة للبنر"
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-left font-mono outline-none focus:border-amber-400"
-              dir="ltr"
-            />
-            <div className="flex flex-col gap-1 mt-1.5 text-xs sm:text-sm text-[#9c8f79] text-right bg-slate-900/50 p-3 rounded-lg border border-[#4f4633]/20">
-              <p>💡 <b>ملاحظة هامة:</b> يجب أن يكون رابطاً مباشراً لصورة مرفوعة على الإنترنت ويبدأ بـ (http/https). مثال: روابط من Imgur أو Discord.</p>
-              <p>💡 <b>الحجم:</b> النظام سيقوم بقص الصورة تلقائياً لتناسب المساحة (ولا يهم الحجم الدقيق)، ولكن للحصول على أفضل مظهر يُفضل استخدام صورة <b>عرضية (Landscape)</b> مثل 1200x400.</p>
-            </div>
-          </div>
-
-          {/* Interactive Banner Preview Image */}
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-[#9c8f79] block">معاينة بنر العروض الترويجي النشط</label>
-            <div className="border border-[#4f4633]/30 rounded-xl overflow-hidden aspect-video relative max-w-md bg-slate-950 mx-auto">
-              <img src={cmsBannerImage} alt="Banner layout" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent flex flex-col justify-end p-4 text-right">
-                {cmsBannerBadgeText && (
-                  <span className="bg-amber-400 text-slate-950 text-[10px] uppercase font-bold px-2 py-0.5 rounded w-fit mb-1">
-                    {cmsBannerBadgeText}
-                  </span>
-                )}
-                <h4 className="text-white text-xs sm:text-sm font-bold truncate">{cmsBannerText}</h4>
-                {cmsBannerSubtitle && (
-                  <p className="text-white/80 text-[9px] mt-1 line-clamp-2">{cmsBannerSubtitle}</p>
-                )}
-                {cmsBannerButtonText && (
-                  <div className="mt-2">
-                    <span className="bg-amber-500 text-white text-[10px] font-bold px-3 py-1 rounded-full">{cmsBannerButtonText}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-1">
-            <label className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-amber-400 mb-1.5">
-              <LinkIcon className="w-4 h-4" />
-              الرابط الموجه عند النقر (Redirect URL)
-            </label>
-            <input 
-              type="text" 
-              value={cmsBannerUrl}
-              onChange={(e) => setCmsBannerUrl(e.target.value)}
-              className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm sm:text-base text-left font-mono outline-none"
-              dir="ltr"
-            />
-          </div>
-
-
-
-          <div className="flex justify-end pt-2">
-            <button 
-              type="submit"
-              className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-black px-6 py-2.5 rounded-xl cursor-pointer text-sm shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all active:scale-95 flex items-center gap-2"
-            >
-              <Save className="w-5 h-5" />
-              <span>حفظ وتطبيق تغييرات التخصيص</span>
-            </button>
-          </div>
-        </form>
-      </section>
 
       {/* SECTION 3: Banner Slides Management */}
       <section className="bg-[#191f2f] p-6 rounded-2xl border border-[#4f4633]/30 text-right space-y-6 shadow-md">
@@ -477,19 +310,52 @@ export default function CMSSettingsTab({
                       className="flex-1 bg-[#0c1322] border border-[#4f4633]/30 text-white rounded-xl px-3 py-3 text-xs focus:border-amber-400 outline-none"
                     />
                   </div>
+
+                  {/* Image Fit and Position Settings */}
+                  <div className="grid grid-cols-2 gap-3 mt-2">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-amber-400">طريقة احتواء الصورة</label>
+                      <select
+                        value={slide.imageFit || "cover"}
+                        onChange={(e) => handleUpdateSlide(slide.id, "imageFit", e.target.value as "cover" | "contain")}
+                        className="w-full bg-[#0c1322] border border-[#4f4633]/30 text-white rounded-xl px-2 py-2 text-[10px] text-right focus:border-amber-400 outline-none cursor-pointer"
+                      >
+                        <option value="cover">قص تلقائي متناسق (Cover)</option>
+                        <option value="contain">احتواء كامل بدون قص (Contain)</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-amber-400">موضع الصورة (التركيز)</label>
+                      <select
+                        value={slide.imagePosition || "center"}
+                        onChange={(e) => handleUpdateSlide(slide.id, "imagePosition", e.target.value)}
+                        className="w-full bg-[#0c1322] border border-[#4f4633]/30 text-white rounded-xl px-2 py-2 text-[10px] text-right focus:border-amber-400 outline-none cursor-pointer"
+                      >
+                        <option value="center">المنتصف (Center)</option>
+                        <option value="top">الأعلى (Top)</option>
+                        <option value="bottom">الأسفل (Bottom)</option>
+                        <option value="left">اليسار (Left)</option>
+                        <option value="right">اليمين (Right)</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Redirect URL */}
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-[#d3c5ac] block">الرابط الموجه (Redirect URL)</label>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-[#d3c5ac] block">الوجهة عند النقر (رابط الصفحة)</label>
                   <input 
                     type="text" 
-                    placeholder="مثال: /game-detail أو رابط خارجي..."
+                    placeholder="أدخل الرابط أو اسم الصفحة هنا..."
                     value={slide.buttonUrl}
                     onChange={(e) => handleUpdateSlide(slide.id, "buttonUrl", e.target.value)}
-                    className="w-full bg-[#0c1322] border border-[#4f4633]/30 text-white rounded-xl px-3 py-3 text-xs focus:border-amber-400 outline-none font-mono"
-                    dir="ltr"
+                    className="w-full bg-[#0c1322] border border-[#4f4633]/30 text-white rounded-xl px-3 py-3 text-xs focus:border-amber-400 outline-none text-right"
+                    dir="rtl"
                   />
+                  <span className="text-[10px] text-[#9c8f79] block mt-1 leading-relaxed">
+                    💡 يحدد أين يذهب الزائر عند الضغط على إعلان السلايدر. لفتح صفحة شحن جواكر اكتب: <code className="bg-slate-900 px-1 py-0.5 rounded text-amber-400 font-mono text-[9px]">game-detail</code> أو ضع رابطاً خارجياً.
+                  </span>
                 </div>
 
                 {/* Title */}
@@ -516,7 +382,7 @@ export default function CMSSettingsTab({
 
                 {/* Badge text */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-[#d3c5ac] block">نص الشارة (Badge)</label>
+                  <label className="text-xs font-bold text-[#d3c5ac] block">نص الشارة</label>
                   <input 
                     type="text" 
                     value={slide.badgeText}
@@ -527,13 +393,61 @@ export default function CMSSettingsTab({
 
                 {/* Button text */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-[#d3c5ac] block">نص الزر (Button Text)</label>
+                  <label className="text-xs font-bold text-[#d3c5ac] block">نص الزر</label>
                   <input 
                     type="text" 
                     value={slide.buttonText}
                     onChange={(e) => handleUpdateSlide(slide.id, "buttonText", e.target.value)}
                     className="w-full bg-[#0c1322] border border-[#4f4633]/30 text-white rounded-xl px-3 py-3 text-xs focus:border-amber-400 outline-none"
                   />
+                </div>
+              </div>
+
+              {/* Live Slide Preview — matches BannerSlider exactly */}
+              <div className="mt-4 rounded-2xl overflow-hidden relative shadow-lg border border-amber-500/20" style={{ height: "180px" }}>
+                <span className="absolute top-2 left-2 z-30 bg-amber-500/80 text-white text-[8px] font-bold px-2 py-0.5 rounded-full backdrop-blur-sm">معاينة حية</span>
+
+                {/* Background image — same method as BannerSlider */}
+                <div
+                  className="absolute inset-0 bg-no-repeat"
+                  style={{
+                    backgroundImage: slide.imageUrl ? `url(${slide.imageUrl})` : undefined,
+                    backgroundSize: slide.imageFit === "contain" ? "contain" : "cover",
+                    backgroundPosition: slide.imagePosition || "center",
+                    backgroundColor: slide.imageUrl ? undefined : "#0f172a"
+                  }}
+                />
+
+                {/* Same gradient overlays as BannerSlider */}
+                <div className="absolute inset-0 bg-gradient-to-l from-black/90 via-black/60 to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
+
+                {!slide.imageUrl && (
+                  <div className="absolute inset-0 flex items-center justify-center text-[10px] text-slate-500 font-bold">
+                    لا توجد صورة
+                  </div>
+                )}
+
+                {/* Content — same side/alignment as BannerSlider (RTL, right side) */}
+                <div className="relative z-10 h-full flex flex-col justify-center px-5 text-right" dir="rtl">
+                  {slide.badgeText && (
+                    <span className="inline-flex items-center gap-1 bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[9px] font-semibold px-2.5 py-1 rounded-full mb-2 w-fit">
+                      🔥 {slide.badgeText}
+                    </span>
+                  )}
+                  <h4 className="text-white text-sm font-bold leading-tight truncate drop-shadow-lg" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }}>
+                    {slide.title || "عنوان الشريحة"}
+                  </h4>
+                  {slide.subtitle && (
+                    <p className="text-slate-300 text-[10px] mt-1 line-clamp-1 leading-relaxed">{slide.subtitle}</p>
+                  )}
+                  {slide.buttonText && (
+                    <div className="mt-2">
+                      <span className="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] font-bold px-3 py-1 rounded-xl shadow-md shadow-amber-500/30 border border-amber-400/30">
+                        {slide.buttonText}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -589,60 +503,75 @@ export default function CMSSettingsTab({
 
               <span className="text-xs font-bold text-slate-500">إثبات #{idx + 1}</span>
 
-              {/* Image Upload Box */}
-              <div className="relative w-full aspect-video rounded-lg border border-slate-700 bg-slate-900 flex flex-col items-center justify-center overflow-hidden cursor-pointer hover:border-amber-400 group/proofimg transition-all">
-                {proof.imageUrl ? (
-                  <>
-                    <img src={proof.imageUrl} className="w-full h-full object-cover" alt="" />
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/proofimg:opacity-100 flex items-center justify-center transition-opacity text-[10px] text-white font-bold">تغيير الصورة</div>
-                  </>
-                ) : (
-                  <div className="flex flex-col items-center justify-center text-slate-500 p-2">
-                    <Upload className="w-6 h-6 mb-1 text-slate-400" />
-                    <span className="text-xs font-bold">اضغط لرفع الإيصال</span>
+              {/* Image Input Container (both File Upload and URL) */}
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-[#d3c5ac] block">صورة الإثبات</label>
+                <div className="flex gap-2 items-center">
+                  {/* Studio File uploader box */}
+                  <div className="relative w-12 h-12 rounded-lg border border-slate-700 bg-slate-900 flex flex-col items-center justify-center overflow-hidden cursor-pointer hover:border-amber-400 group/proofimg transition-all shrink-0 shadow-inner">
+                    {proof.imageUrl ? (
+                      <>
+                        <img src={proof.imageUrl} className="w-full h-full object-cover" alt="" />
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/proofimg:opacity-100 flex items-center justify-center transition-opacity text-[8px] text-white font-bold">تغيير</div>
+                      </>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-slate-500 text-center p-0.5">
+                        <Upload className="w-4 h-4 mb-0.5" />
+                        <span className="text-[7px] font-bold">رفع</span>
+                      </div>
+                    )}
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files.length > 0) {
+                          const file = e.target.files[0];
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            const img = new Image();
+                            img.onload = () => {
+                              const canvas = document.createElement("canvas");
+                              const MAX_DIM = 500; 
+                              let width = img.width;
+                              let height = img.height;
+                              if (width > height) {
+                                if (width > MAX_DIM) {
+                                  height = Math.round((height * MAX_DIM) / width);
+                                  width = MAX_DIM;
+                                }
+                              } else {
+                                if (height > MAX_DIM) {
+                                  width = Math.round((width * MAX_DIM) / height);
+                                  height = MAX_DIM;
+                                }
+                              }
+                              canvas.width = width;
+                              canvas.height = height;
+                              const ctx = canvas.getContext("2d");
+                              if (ctx) {
+                                ctx.drawImage(img, 0, 0, width, height);
+                                const compressed = canvas.toDataURL("image/jpeg", 0.7);
+                                handleUpdateProof(proof.id, "imageUrl", compressed);
+                              }
+                            };
+                            img.src = event.target?.result as string || "";
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
                   </div>
-                )}
-                <input 
-                  type="file" 
-                  accept="image/*"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) {
-                      const file = e.target.files[0];
-                      const reader = new FileReader();
-                      reader.onload = (event) => {
-                        const img = new Image();
-                        img.onload = () => {
-                          const canvas = document.createElement("canvas");
-                          const MAX_DIM = 400; 
-                          let width = img.width;
-                          let height = img.height;
-                          if (width > height) {
-                            if (width > MAX_DIM) {
-                              height = Math.round((height * MAX_DIM) / width);
-                              width = MAX_DIM;
-                            }
-                          } else {
-                            if (height > MAX_DIM) {
-                              width = Math.round((width * MAX_DIM) / height);
-                              height = MAX_DIM;
-                            }
-                          }
-                          canvas.width = width;
-                          canvas.height = height;
-                          const ctx = canvas.getContext("2d");
-                          if (ctx) {
-                            ctx.drawImage(img, 0, 0, width, height);
-                            const compressed = canvas.toDataURL("image/jpeg", 0.7);
-                            handleUpdateProof(proof.id, "imageUrl", compressed);
-                          }
-                        };
-                        img.src = event.target?.result as string || "";
-                      };
-                      reader.readAsDataURL(file);
-                    }
-                  }}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                />
+
+                  {/* URL Text input */}
+                  <input 
+                    type="text" 
+                    placeholder="أو رابط صورة الإثبات المباشر..."
+                    value={proof.imageUrl.startsWith("data:") ? "" : proof.imageUrl}
+                    onChange={(e) => handleUpdateProof(proof.id, "imageUrl", e.target.value)}
+                    className="flex-1 bg-[#0c1322] border border-[#4f4633]/30 text-white rounded-lg px-2.5 py-2 text-[10px] focus:border-amber-400 outline-none"
+                  />
+                </div>
               </div>
 
               {/* Caption */}
