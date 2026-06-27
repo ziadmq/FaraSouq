@@ -238,7 +238,7 @@ export function useAppState() {
   const [toasts, setToasts] = useState<{ id: string; text: string; type: "success" | "error" | "info" }[]>([]);
 
   // Admin states
-  const [activeAdminTab, setActiveAdminTab] = useState<"analytics" | "deposits" | "users" | "settings" | "items">("analytics");
+  const [activeAdminTab, setActiveAdminTab] = useState<"analytics" | "deposits" | "users" | "items" | "banners" | "shipping_proofs" | "support">("analytics");
   const [zoomReceiptUrl, setZoomReceiptUrl] = useState<string | null>(null);
   const [itemToDelete, setItemToDelete] = useState<{ id: string; name: string } | null>(null);
   const [userToDelete, setUserToDelete] = useState<{ id: string; name: string } | null>(null);

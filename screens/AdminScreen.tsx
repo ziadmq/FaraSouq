@@ -10,20 +10,24 @@ import {
   Wallet, 
   Users, 
   Gamepad2, 
-  Settings, 
   LogOut, 
-  Sliders 
+  Sliders,
+  Image as ImageIcon,
+  Calendar,
+  Phone
 } from "lucide-react";
 import { Game, GameCategory, GamePackage, Order, User, BannerSlide, ShippingProof, ContactSettings } from "../types";
 import AnalyticsTab from "../components/admin/AnalyticsTab";
 import DepositsTab from "../components/admin/DepositsTab";
 import UsersTab from "../components/admin/UsersTab";
-import CMSSettingsTab from "../components/admin/CMSSettingsTab";
 import ProductsTab from "../components/admin/ProductsTab";
+import BannersTab from "../components/admin/BannersTab";
+import ShippingProofsTab from "../components/admin/ShippingProofsTab";
+import SupportTab from "../components/admin/SupportTab";
 
 interface AdminScreenProps {
-  activeAdminTab: "analytics" | "deposits" | "users" | "settings" | "items";
-  setActiveAdminTab: (tab: "analytics" | "deposits" | "users" | "settings" | "items") => void;
+  activeAdminTab: "analytics" | "deposits" | "users" | "items" | "banners" | "shipping_proofs" | "support";
+  setActiveAdminTab: (tab: "analytics" | "deposits" | "users" | "items" | "banners" | "shipping_proofs" | "support") => void;
   handleLogout: () => void;
   
   // Analytics
@@ -40,10 +44,6 @@ interface AdminScreenProps {
   adminUsers: User[];
   handleToggleUserStatus: (userId: string) => void;
   handleDeleteUser: (userId: string, userName: string) => void;
-
-  // CMS
-  joPaySettings: any;
-  setJoPaySettings: (settings: any) => void;
 
   // Products
   formPackages: GamePackage[];
@@ -85,8 +85,6 @@ export default function AdminScreen({
   adminUsers,
   handleToggleUserStatus,
   handleDeleteUser,
-  joPaySettings,
-  setJoPaySettings,
   showToast,
   formPackages,
   handleSavePackages,
@@ -129,7 +127,9 @@ export default function AdminScreen({
               { id: "deposits", label: "الطلبات المعلقة", icon: Wallet },
               { id: "users", label: "المستخدمين", icon: Users },
               { id: "items", label: "المنتجات", icon: Gamepad2 },
-              { id: "settings", label: "إعدادات المتجر", icon: Settings }
+              { id: "banners", label: "شرائح البنر", icon: ImageIcon },
+              { id: "shipping_proofs", label: "إثباتات الشحن", icon: Calendar },
+              { id: "support", label: "الدعم الفني", icon: Phone }
             ].map(menu => {
               const Icon = menu.icon;
               const isSelected = activeAdminTab === menu.id;
@@ -208,17 +208,28 @@ export default function AdminScreen({
           />
         )}
 
-        {activeAdminTab === "settings" && (
-          <CMSSettingsTab
-            joPaySettings={joPaySettings}
-            setJoPaySettings={setJoPaySettings}
-            showToast={showToast}
+
+        {activeAdminTab === "banners" && (
+          <BannersTab
             bannerSlides={bannerSlides}
             handleSaveBannerSlides={handleSaveBannerSlides}
+            showToast={showToast}
+          />
+        )}
+
+        {activeAdminTab === "shipping_proofs" && (
+          <ShippingProofsTab
             shippingProofs={shippingProofs}
             handleSaveShippingProofs={handleSaveShippingProofs}
+            showToast={showToast}
+          />
+        )}
+
+        {activeAdminTab === "support" && (
+          <SupportTab
             contactSettings={contactSettings}
             handleSaveContactSettings={handleSaveContactSettings}
+            showToast={showToast}
           />
         )}
       </div>

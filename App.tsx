@@ -231,8 +231,6 @@ export default function App() {
               handleUpdatePackageField={handleUpdatePackageField}
               handleUpdateJawakerPackage={handleUpdateJawakerPackage}
               gamesList={gamesList}
-              joPaySettings={joPaySettings}
-              setJoPaySettings={setJoPaySettings}
               showToast={showToast}
               bannerSlides={bannerSlides}
               handleSaveBannerSlides={handleSaveBannerSlides}
