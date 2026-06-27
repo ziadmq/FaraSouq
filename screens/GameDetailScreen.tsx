@@ -277,7 +277,7 @@ export default function GameDetailScreen({
       </section>
 
       {/* Payment methods guide for checkout */}
-      {loggedUser && (
+      {loggedUser && selectedPackage && walletBalance < selectedPackage.price && (
         <section className="bg-slate-900/60 rounded-3xl p-6 border border-[#4f4633]/20 shadow-xl space-y-4 text-right">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div className="flex items-center gap-2">
@@ -353,9 +353,24 @@ export default function GameDetailScreen({
             </div>
           </div>
           
-          <p className="text-[10px] text-slate-500 leading-relaxed text-right">
-            * بعد إتمام التحويل المالي بأي من الطرق الموضحة أعلاه، يرجى الانتقال إلى صفحة <span className="text-amber-400 font-bold hover:underline cursor-pointer" onClick={() => setActiveTab("wallet")}>إدارة الرصيد</span> لتقديم طلب شحن الرصيد وإرفاق إيصال التحويل ليتم تفعيله فوراً في حسابك.
-          </p>
+          {/* Important Action Alert */}
+          <div className="bg-[#1e1b4b]/60 border border-indigo-500/30 p-5 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 mt-4 text-right">
+            <div className="space-y-1 flex-1">
+              <h5 className="text-indigo-300 font-black text-sm flex items-center gap-1.5 justify-start">
+                <span>⚠️ خطوة هامة جداً لإكمال الشحن!</span>
+              </h5>
+              <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+                التحويل المالي المباشر لا يشحن حسابك تلقائياً. يجب عليك الانتقال لصفحة إدارة الرصيد ورفع صورة إيصال التحويل لتأكيد الدفع، ليتم مراجعة الطلب من قبل الإدارة وشحن رصيدك.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setActiveTab("wallet")}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-6 py-3 rounded-xl text-xs sm:text-sm shadow-[0_0_15px_rgba(99,102,241,0.2)] transition-all active:scale-95 whitespace-nowrap cursor-pointer flex items-center justify-center gap-1.5 self-stretch md:self-auto"
+            >
+              <span>اضغط هنا لرفع الإيصال وتأكيد الدفع 📥</span>
+            </button>
+          </div>
         </section>
       )}
 
@@ -382,14 +397,31 @@ export default function GameDetailScreen({
             </div>
           </div>
 
-          <button 
-            onClick={handlePurchasePackage}
-            disabled={!selectedPackage || !playerId.trim()}
-            className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 disabled:from-slate-700 disabled:to-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.15)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)] active:scale-95 z-10 cursor-pointer"
-          >
-            <ShoppingBag className="w-5 h-5" />
-            <span className="text-base">تأكيد الشراء</span>
-          </button>
+          {(() => {
+            const hasPackage = !!selectedPackage;
+            const hasBalance = selectedPackage ? (walletBalance >= selectedPackage.price) : true;
+            
+            // Disable only if no package is chosen OR if they have insufficient balance
+            const isBtnDisabled = !hasPackage || !hasBalance;
+            
+            let btnText = "تأكيد الشراء";
+            if (!hasPackage) {
+              btnText = "اختر باقة للشراء";
+            } else if (!hasBalance) {
+              btnText = "رصيدك غير كافٍ ⚠️";
+            }
+
+            return (
+              <button 
+                onClick={handlePurchasePackage}
+                disabled={isBtnDisabled}
+                className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 disabled:from-[#1e293b] disabled:to-[#0f172a] disabled:text-slate-500 disabled:border-slate-800 disabled:cursor-not-allowed border border-transparent text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.1)] hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] active:scale-95 z-10 cursor-pointer"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                <span className="text-base">{btnText}</span>
+              </button>
+            );
+          })()}
         </div>
       )}
 
