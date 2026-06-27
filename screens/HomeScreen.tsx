@@ -122,17 +122,6 @@ export default function HomeScreen({
             <h2 className="text-xl font-black text-white">أقسام ألعاب الشحن المتوفرة</h2>
           </div>
 
-          {/* Search bar */}
-          <div className="relative w-full md:w-72">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="ابحث عن لعبة أو بطاقة..."
-              className="w-full bg-slate-900/80 border border-slate-800 focus:border-amber-500 rounded-xl py-2.5 pr-10 pl-4 text-sm text-white placeholder-slate-500 outline-none transition-all text-right"
-            />
-            <Search className="w-4 h-4 text-slate-500 absolute top-1/2 right-3.5 -translate-y-1/2" />
-          </div>
         </div>
 
         {/* Category Tabs */}

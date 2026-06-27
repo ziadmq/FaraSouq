@@ -242,12 +242,12 @@ export default function ProductsTab({
                           </div>
 
                           {/* Bonus percent */}
-                          <div className="space-y-1.5 relative">
-                            <label className="text-[11px] font-bold text-[#d3c5ac] block">نسبة البونص (مثال: 5%)</label>
+                          <div className="flex flex-col justify-end space-y-1.5 relative">
+                            <label className="text-[11px] font-bold text-[#d3c5ac] block">نسبة البونص (%)</label>
                             <div className="relative">
                               <input 
                                 type="number"
-                                placeholder="5"
+                                placeholder="0"
                                 value={pkg.bonusPercent === undefined || pkg.bonusPercent === 0 ? "" : pkg.bonusPercent}
                                 onChange={(e) => handleUpdatePackageField(pkg.id, "bonusPercent", e.target.value === "" ? undefined : (parseInt(e.target.value) || 0))}
                                 className="w-full bg-[#111827] border border-[#4f4633]/40 text-amber-400 font-bold rounded-lg px-3 py-2 pr-7 text-xs sm:text-sm text-left font-mono focus:border-amber-400 outline-none transition-colors placeholder:font-sans placeholder:text-slate-600"
