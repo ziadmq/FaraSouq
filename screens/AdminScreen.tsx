@@ -14,7 +14,7 @@ import {
   LogOut, 
   Sliders 
 } from "lucide-react";
-import { Game, GameCategory, GamePackage, Order, User } from "../types";
+import { Game, GameCategory, GamePackage, Order, User, BannerSlide, ShippingProof } from "../types";
 import AnalyticsTab from "../components/admin/AnalyticsTab";
 import DepositsTab from "../components/admin/DepositsTab";
 import UsersTab from "../components/admin/UsersTab";
@@ -67,6 +67,10 @@ interface AdminScreenProps {
   handleUpdateJawakerPackage: (oldId: string, newId: string, newName: string) => void;
   gamesList: Game[];
   showToast: (text: string, type: "success" | "error" | "info") => void;
+  bannerSlides: BannerSlide[];
+  handleSaveBannerSlides: (slides: BannerSlide[]) => void;
+  shippingProofs: ShippingProof[];
+  handleSaveShippingProofs: (proofs: ShippingProof[]) => void;
 }
 
 export default function AdminScreen({
@@ -106,7 +110,11 @@ export default function AdminScreen({
   handleRemovePackage,
   handleUpdatePackageField,
   handleUpdateJawakerPackage,
-  gamesList
+  gamesList,
+  bannerSlides,
+  handleSaveBannerSlides,
+  shippingProofs,
+  handleSaveShippingProofs
 }: AdminScreenProps) {
   return (
     <motion.div
@@ -230,6 +238,10 @@ export default function AdminScreen({
             setJoPaySettings={setJoPaySettings}
             handleSaveCMS={handleSaveCMS}
             showToast={showToast}
+            bannerSlides={bannerSlides}
+            handleSaveBannerSlides={handleSaveBannerSlides}
+            shippingProofs={shippingProofs}
+            handleSaveShippingProofs={handleSaveShippingProofs}
           />
         )}
       </div>

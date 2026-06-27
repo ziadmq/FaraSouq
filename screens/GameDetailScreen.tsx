@@ -11,7 +11,10 @@ import {
   Coins, 
   ShoppingBag,
   Info,
-  Star
+  Star,
+  Copy,
+  Landmark,
+  CreditCard
 } from "lucide-react";
 import { Game, GamePackage, User } from "../types";
 
@@ -50,6 +53,14 @@ export default function GameDetailScreen({
   loggedUser,
   navigateToTab
 }: GameDetailScreenProps) {
+  const [copiedValue, setCopiedValue] = React.useState<string | null>(null);
+
+  const handleLocalCopy = (text: string, type: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedValue(type);
+    setTimeout(() => setCopiedValue(null), 2000);
+  };
+
   return (
     <motion.div
       key="game-detail"
@@ -156,100 +167,110 @@ export default function GameDetailScreen({
           الباقات المتوفرة
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
           {selectedGame.packages.map(p => {
             const isSelected = selectedPackage?.id === p.id;
             
             // Clean up name duplicate
             const displayName = p.name.replace(/\s*\+\s*بونص/gi, "").trim();
 
-            // Calculate base amount if bonus exists
             const totalTokensStr = p.name.replace(/\D/g, "");
             const totalTokens = parseInt(totalTokensStr);
-            let baseTokensStr = "";
-            let finalTokensStr = totalTokens.toLocaleString('en-US');
-            
+            let baseTokens = totalTokens;
+            let bonusTokens = 0;
             if (p.bonusPercent && !isNaN(totalTokens)) {
               const bonusMultiplier = 1 + (p.bonusPercent / 100);
-              const baseTokens = Math.round(totalTokens / bonusMultiplier);
-              baseTokensStr = baseTokens.toLocaleString('en-US');
+              baseTokens = Math.round(totalTokens / bonusMultiplier);
+              bonusTokens = totalTokens - baseTokens;
             }
+            const baseTokensStr = baseTokens.toLocaleString('en-US');
+            const bonusTokensStr = bonusTokens.toLocaleString('en-US');
+
+            // Image fit and background defaults
+            const imgFit = p.imageFit || "cover";
+            const imgBg = p.imageBg || "bg-slate-900";
 
             return (
               <div 
                 key={p.id}
                 onClick={() => setSelectedPackage(p)}
-                className={`cursor-pointer p-5 sm:p-6 rounded-3xl border transition-all duration-300 flex flex-col items-center justify-start gap-4 relative overflow-hidden group min-h-[300px] sm:min-h-[320px] ${
+                className={`cursor-pointer p-4 sm:p-6 rounded-3xl border transition-all duration-350 flex flex-col items-center justify-start gap-3 sm:gap-4 relative overflow-hidden group min-h-[250px] sm:min-h-[320px] ${
                   isSelected 
-                    ? "bg-gradient-to-b from-amber-500/15 to-slate-950/80 border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.25)] scale-[1.03] z-10" 
-                    : "bg-[#111827] border-slate-800/80 hover:border-slate-700 hover:bg-slate-800/40 hover:scale-[1.01]"
+                    ? "bg-gradient-to-b from-amber-500/12 to-[#0a0f1d] border-amber-500 shadow-[0_0_25px_rgba(245,158,11,0.18)] scale-[1.02] z-10" 
+                    : "bg-[#0f172a]/70 border-slate-800/80 hover:border-slate-700/60 hover:bg-[#1e293b]/50"
                 }`}
               >
                 {isSelected && (
-                  <div className="absolute inset-0 bg-amber-500/5 mix-blend-overlay pointer-events-none" />
+                  <div className="absolute inset-0 bg-amber-500/[0.03] mix-blend-overlay pointer-events-none" />
                 )}
-                {/* Preferred Star Badge */}
-                {p.isPreferred && (
-                  <div className="absolute top-0 left-0 bg-gradient-to-r from-amber-400 to-amber-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-br-xl z-20 flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-current" />
-                    مفضلة
-                  </div>
-                )}
-                {/* Custom Admin Badge */}
-                {p.badge && !p.isPreferred && (
-                  <div className="absolute top-0 left-0 bg-gradient-to-r from-indigo-500 to-purple-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-br-xl z-20">
-                    {p.badge}
-                  </div>
-                )}
-                {/* Bonus Badge */}
-                {p.bonusPercent && (
-                  <div className="absolute top-0 right-0 bg-gradient-to-l from-emerald-500 to-teal-600 shadow-md text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-xl z-20">
-                    +{p.bonusPercent}% بونص
-                  </div>
-                )}
+                
+                {/* Badges Container */}
+                <div className="absolute top-2 right-2 left-2 flex justify-between items-center z-20 pointer-events-none">
+                  {/* Preferred/Badge label */}
+                  {p.isPreferred ? (
+                    <div className="bg-gradient-to-r from-amber-400 to-amber-600 shadow-md text-slate-950 text-[8px] sm:text-[10px] font-black px-2 py-1 rounded-lg flex items-center gap-0.5">
+                      <Star className="w-2.5 h-2.5 fill-current" />
+                      <span>مفضلة</span>
+                    </div>
+                  ) : p.badge ? (
+                    <div className="bg-gradient-to-r from-indigo-500 to-purple-600 shadow-md text-white text-[8px] sm:text-[10px] font-bold px-2 py-1 rounded-lg">
+                      {p.badge}
+                    </div>
+                  ) : <div />}
+
+                  {/* Bonus percentage label */}
+                  {p.bonusPercent ? (
+                    <div className="bg-gradient-to-l from-emerald-500 to-teal-600 shadow-md text-white text-[8px] sm:text-[10px] font-extrabold px-2 py-1 rounded-lg">
+                      +{p.bonusPercent}% بونص
+                    </div>
+                  ) : <div />}
+                </div>
 
                 {/* Product Image Section */}
-                {p.imageUrl ? (
-                  <div className="w-full h-24 sm:h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-800/50 relative shrink-0">
+                <div className={`w-full h-22 sm:h-28 rounded-2xl overflow-hidden relative shrink-0 border border-slate-800/50 ${imgBg}`}>
+                  {p.imageUrl ? (
                     <img 
                       src={p.imageUrl} 
                       alt={p.name} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                      className={`w-full h-full transition-transform duration-500 group-hover:scale-105 ${
+                        imgFit === "contain" ? "object-contain p-1" : "object-cover"
+                      }`} 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent pointer-events-none" />
-                  </div>
-                ) : (
-                  <div className="w-full h-24 sm:h-28 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#1b1509] to-[#0d111d] border border-amber-500/10 relative overflow-hidden shrink-0 transition-all duration-300 group-hover:border-amber-500/20">
-                    <div className="absolute -top-6 -left-6 w-16 h-16 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-all" />
-                    <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-all" />
-                    
-                    <div className={`p-2.5 sm:p-3 rounded-xl transition-all duration-300 ${isSelected ? "bg-amber-500/20" : "bg-slate-900 border border-slate-800"}`}>
-                      <Coins className={`w-7 h-7 sm:w-8 sm:h-8 transition-colors duration-300 ${isSelected ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" : "text-amber-500/80 group-hover:text-amber-400"}`} />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1b1509]/30 to-[#0d111d]/30 relative overflow-hidden">
+                      <div className="absolute -top-6 -left-6 w-16 h-16 bg-amber-500/5 rounded-full blur-xl" />
+                      <div className="p-2 sm:p-3 rounded-xl bg-slate-900 border border-slate-800/80">
+                        <Coins className={`w-6 h-6 sm:w-8 sm:h-8 transition-colors duration-300 ${isSelected ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]" : "text-amber-500/60"}`} />
+                      </div>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/10 to-transparent pointer-events-none" />
-                  </div>
-                )}
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 to-transparent pointer-events-none" />
+                </div>
 
                 {/* Card Title & Content */}
-                <div className="text-center w-full flex flex-col items-center justify-center flex-grow gap-2 mt-2">
-                  <h4 className={`font-black text-base sm:text-lg leading-tight transition-colors duration-300 whitespace-normal break-words text-center min-h-[36px] flex items-center justify-center gap-1 ${isSelected ? "text-white" : "text-slate-200 group-hover:text-white"}`}>
+                <div className="text-center w-full flex flex-col items-center justify-center flex-grow gap-2">
+                  <h4 className={`font-black text-sm sm:text-lg leading-tight transition-colors duration-300 whitespace-normal break-words text-center min-h-[28px] flex items-center justify-center gap-1 ${isSelected ? "text-white" : "text-slate-200 group-hover:text-white"}`}>
                     {displayName}
                   </h4>
                   
                   {p.bonusPercent ? (
-                    <div className="text-[10px] sm:text-xs text-amber-400 font-bold bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl w-fit mx-auto flex flex-col gap-0.5 shadow-sm">
-                      <span className="text-[9px] sm:text-[10px] text-slate-400 line-through">قبل العرض: {baseTokensStr} توكنز</span>
-                      <span className="flex items-center gap-1 font-black text-amber-400">
-                        {finalTokensStr} توكنز (+{p.bonusPercent}% بونص)
+                    <div className="text-[9px] sm:text-[11px] text-amber-400 font-bold bg-amber-500/10 border border-amber-500/15 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl w-fit mx-auto flex flex-col gap-0.5 shadow-sm leading-tight">
+                      <span className="text-[8px] sm:text-[9px] text-slate-400 font-medium">الأساسي: {baseTokensStr}</span>
+                      <span className="flex items-center gap-0.5 font-black text-emerald-400 whitespace-nowrap">
+                        الهدية: +{bonusTokensStr} مجاناً
                       </span>
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="text-[9px] sm:text-[10px] text-slate-500 font-bold bg-slate-800/10 border border-slate-800/20 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl w-fit mx-auto whitespace-nowrap">
+                      شحن آمن وفوري ⚡
+                    </div>
+                  )}
                 </div>
 
                 {/* Price tag */}
-                <div className="mt-auto pt-3 border-t border-slate-800/60 w-full flex flex-col items-center gap-0.5">
-                  <span className="text-[9px] uppercase font-bold text-slate-500 tracking-wider">السعر الإجمالي</span>
-                  <span className={`text-xl sm:text-2xl font-black font-mono tracking-tight transition-colors duration-300 ${isSelected ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-slate-300 group-hover:text-amber-400"}`}>
+                <div className="mt-auto pt-2 sm:pt-3 border-t border-slate-800/60 w-full flex flex-col items-center gap-0.5">
+                  <span className="text-[8px] uppercase font-bold text-slate-500 tracking-wider">السعر الإجمالي</span>
+                  <span className={`text-base sm:text-2xl font-black font-mono tracking-tight transition-colors duration-350 ${isSelected ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "text-slate-300 group-hover:text-amber-400"}`}>
                     {p.price.toFixed(2)} <span className="text-xs font-sans font-bold">{selectedGame.currency}</span>
                   </span>
                 </div>
@@ -258,6 +279,89 @@ export default function GameDetailScreen({
           })}
         </div>
       </section>
+
+      {/* Payment methods guide for checkout */}
+      {loggedUser && (
+        <section className="bg-slate-900/60 rounded-3xl p-6 border border-[#4f4633]/20 shadow-xl space-y-4 text-right">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="flex items-center gap-2">
+              <Coins className="w-5 h-5 text-amber-400" />
+              <h3 className="font-extrabold text-white text-base">طرق الدفع المتوفرة لتعبئة الرصيد</h3>
+            </div>
+            <span className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full font-bold">شحن مباشر ⚡</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Arab Bank */}
+            <div className="p-4 bg-[#111827]/80 rounded-2xl border border-blue-500/20 flex items-start gap-4 hover:border-blue-500/40 transition-all duration-300 relative group">
+              <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  type="button"
+                  onClick={() => handleLocalCopy("0779191371", "bank")}
+                  className="p-1.5 bg-slate-850 hover:bg-slate-800 text-slate-300 rounded-lg text-xs font-bold transition-all cursor-pointer border border-slate-700/50"
+                  title="نسخ رقم الهاتف"
+                >
+                  {copiedValue === "bank" ? "تم النسخ!" : "نسخ رقم الهاتف"}
+                </button>
+              </div>
+              <div className="bg-blue-500/10 p-2.5 rounded-xl border border-blue-500/20 shrink-0">
+                <Landmark className="w-6 h-6 text-blue-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-extrabold text-white text-sm">البنك العربي (Arab Bank)</h4>
+                <p className="text-xs text-slate-400 mt-1">تحويل مباشر إلى رقم الجوال:</p>
+                <div className="flex items-center justify-start gap-2 mt-1">
+                  <span className="text-base font-black text-blue-400 font-mono tracking-wider">0779191371</span>
+                  <button
+                    type="button"
+                    onClick={() => handleLocalCopy("0779191371", "bank")}
+                    className="p-1 hover:bg-blue-500/10 text-slate-400 hover:text-blue-400 rounded transition-all cursor-pointer sm:hidden"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+                <p className="text-[10px] text-slate-500 mt-0.5">المستفيد: مؤسسة فارة (Fara Souq)</p>
+              </div>
+            </div>
+
+            {/* Orange Money */}
+            <div className="p-4 bg-[#111827]/80 rounded-2xl border border-orange-500/20 flex items-start gap-4 hover:border-orange-500/40 transition-all duration-300 relative group">
+              <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  type="button"
+                  onClick={() => handleLocalCopy("FARASOUQ", "orange")}
+                  className="p-1.5 bg-slate-850 hover:bg-slate-800 text-slate-300 rounded-lg text-xs font-bold transition-all cursor-pointer border border-slate-700/50"
+                  title="نسخ اسم المستخدم"
+                >
+                  {copiedValue === "orange" ? "تم النسخ!" : "نسخ اسم المستخدم"}
+                </button>
+              </div>
+              <div className="bg-orange-500/10 p-2.5 rounded-xl border border-orange-500/20 shrink-0">
+                <CreditCard className="w-6 h-6 text-orange-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-extrabold text-white text-sm">أورانج ماني (Orange Money)</h4>
+                <p className="text-xs text-slate-400 mt-1">اسم المستخدم (المحفظة):</p>
+                <div className="flex items-center justify-start gap-2 mt-1">
+                  <span className="text-base font-black text-orange-400 font-mono tracking-wider">FARASOUQ</span>
+                  <button
+                    type="button"
+                    onClick={() => handleLocalCopy("FARASOUQ", "orange")}
+                    className="p-1 hover:bg-orange-500/10 text-slate-400 hover:text-orange-400 rounded transition-all cursor-pointer sm:hidden"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+                <p className="text-[10px] text-slate-500 mt-0.5">المستفيد: مؤسسة فارة (Fara Souq)</p>
+              </div>
+            </div>
+          </div>
+          
+          <p className="text-[10px] text-slate-500 leading-relaxed text-right">
+            * بعد إتمام التحويل المالي بأي من الطرق الموضحة أعلاه، يرجى الانتقال إلى صفحة <span className="text-amber-400 font-bold hover:underline cursor-pointer" onClick={() => setActiveTab("wallet")}>إدارة الرصيد</span> لتقديم طلب شحن الرصيد وإرفاق إيصال التحويل ليتم تفعيله فوراً في حسابك.
+          </p>
+        </section>
+      )}
 
       {/* Checkout Footer */}
       {loggedUser && (

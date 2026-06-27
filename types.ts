@@ -47,6 +47,8 @@ export interface GamePackage {
   badge?: string;
   isPreferred?: boolean;
   imageUrl?: string;
+  imageFit?: "cover" | "contain";
+  imageBg?: string;
 }
 
 export interface Order {

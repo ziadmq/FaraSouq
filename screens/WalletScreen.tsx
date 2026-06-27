@@ -35,14 +35,6 @@ interface WalletScreenProps {
 
 const PAYMENT_METHODS = [
   {
-    id: PaymentMethod.CLIQ,
-    label: "CliQ",
-    icon: Coins,
-    gradientClass: "from-amber-500/20 to-amber-600/10",
-    borderActiveClass: "border-amber-500",
-    iconColorClass: "text-amber-400",
-  },
-  {
     id: PaymentMethod.ARAB_BANK,
     label: "البنك العربي",
     icon: Landmark,
@@ -73,20 +65,6 @@ interface MethodInfo {
 
 function getMethodInfo(method: PaymentMethod): MethodInfo {
   switch (method) {
-    case PaymentMethod.CLIQ:
-      return {
-        label: "CliQ",
-        accountLabel: "اسم الحساب (Alias) - CliQ:",
-        accountValue: "FAARA-SHOP-99",
-        extra: [
-          { label: "يجب أن يظهر اسم المستفيد:", value: "مؤسسة فارة (Fara Souq)" },
-          { label: "البنك / المحفظة:", value: "بنك الاتحاد (Bank al Etihad)" },
-        ],
-        description: "لإضافة رصيد إلى محفظتك، يرجى تحويل المبلغ المطلوب عبر تطبيق CliQ إلى الحساب الموضح أدناه، ثم إرفاق صورة الوصل لتأكيد العملية.",
-        accentColorClass: "text-amber-400",
-        borderColorClass: "border-amber-500/20",
-        glowColorClass: "bg-amber-500/5",
-      };
     case PaymentMethod.ARAB_BANK:
       return {
         label: "البنك العربي",
@@ -117,17 +95,17 @@ function getMethodInfo(method: PaymentMethod): MethodInfo {
       };
     default:
       return {
-        label: "CliQ",
-        accountLabel: "اسم الحساب (Alias) - CliQ:",
-        accountValue: "FAARA-SHOP-99",
+        label: "البنك العربي",
+        accountLabel: "رقم الهاتف - البنك العربي:",
+        accountValue: "0779191371",
         extra: [
           { label: "يجب أن يظهر اسم المستفيد:", value: "مؤسسة فارة (Fara Souq)" },
-          { label: "البنك / المحفظة:", value: "بنك الاتحاد (Bank al Etihad)" },
+          { label: "البنك:", value: "البنك العربي (Arab Bank)" },
         ],
-        description: "لإضافة رصيد إلى محفظتك، يرجى تحويل المبلغ المطلوب عبر تطبيق CliQ إلى الحساب الموضح أدناه، ثم إرفاق صورة الوصل لتأكيد العملية.",
-        accentColorClass: "text-amber-400",
-        borderColorClass: "border-amber-500/20",
-        glowColorClass: "bg-amber-500/5",
+        description: "لإضافة رصيد إلى محفظتك، يرجى تحويل المبلغ المطلوب عبر البنك العربي إلى رقم الهاتف الموضح أدناه، ثم إرفاق صورة الوصل لتأكيد العملية.",
+        accentColorClass: "text-blue-400",
+        borderColorClass: "border-blue-500/20",
+        glowColorClass: "bg-blue-500/5",
       };
   }
 }

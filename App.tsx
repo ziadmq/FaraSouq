@@ -483,44 +483,27 @@ export default function App() {
               </div>
               
               <div className="space-y-4">
-                <div className="p-4 bg-[#191f2f] rounded-2xl border border-amber-500/20 hover:border-amber-500/40 transition-colors flex items-start gap-4">
-                  <div className="bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20 shrink-0">
-                    <Wallet className="w-6 h-6 text-amber-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-extrabold text-white text-base">خدمة CliQ الفورية</h4>
-                    <p className="text-xs text-slate-300 mt-1">أسرع وسيلة للدفع والتحويل المباشر وبدون رسوم إضافية. يمكنك التحويل إلى اسم المستفيد أو رقم الآيبان المعتمد.</p>
-                  </div>
-                </div>
-
-                <div className="p-4 bg-[#191f2f] rounded-2xl border border-slate-800 hover:border-slate-700 transition-colors flex items-start gap-4">
-                  <div className="bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/20 shrink-0">
-                    <Coins className="w-6 h-6 text-emerald-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-extrabold text-white text-base">زين كاش (Zain Cash)</h4>
-                    <p className="text-xs text-slate-300 mt-1">محفظة زين كاش الإلكترونية. يمكنك إتمام الدفع فوراً عبر إرسال المبلغ إلى الرقم المعتمد وإرفاق الإيصال.</p>
-                  </div>
-                </div>
-
                 <div className="p-4 bg-[#191f2f] rounded-2xl border border-slate-800 hover:border-slate-700 transition-colors flex items-start gap-4">
                   <div className="bg-blue-500/10 p-2.5 rounded-xl border border-blue-500/20 shrink-0">
                     <CreditCard className="w-6 h-6 text-blue-400" />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 text-right">
                     <h4 className="font-extrabold text-white text-base">البنك العربي (Arab Bank)</h4>
                     <p className="text-xs text-slate-300 mt-1">تحويل مباشر إلى رقم الجوال:</p>
                     <p className="text-sm font-black text-blue-400 mt-1 font-mono tracking-wider">0779191371</p>
+                    <p className="text-[10px] text-slate-500 mt-1">المستفيد: مؤسسة فارة (Fara Souq)</p>
                   </div>
                 </div>
+
                 <div className="p-4 bg-[#191f2f] rounded-2xl border border-slate-800 hover:border-slate-700 transition-colors flex items-start gap-4">
                   <div className="bg-orange-500/10 p-2.5 rounded-xl border border-orange-500/20 shrink-0">
                     <CreditCard className="w-6 h-6 text-orange-400" />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 text-right">
                     <h4 className="font-extrabold text-white text-base">أورانج ماني (Orange Money)</h4>
                     <p className="text-xs text-slate-300 mt-1">محفظة أورانج ماني. اسم المستخدم:</p>
                     <p className="text-sm font-black text-orange-400 mt-1 font-mono tracking-wider">FARASOUQ</p>
+                    <p className="text-[10px] text-slate-500 mt-1">المستفيد: مؤسسة فارة (Fara Souq)</p>
                   </div>
                 </div>
               </div>

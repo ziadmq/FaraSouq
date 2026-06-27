@@ -179,7 +179,7 @@ export function useAppState() {
   const [showIdHelp, setShowIdHelp] = useState<boolean>(false);
 
   // States for Wallet deposit Form (Screen 3)
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.CLIQ);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.ARAB_BANK);
   const [depositAmount, setDepositAmount] = useState<string>("");
   const [copiedText, setCopiedText] = useState<boolean>(false);
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
