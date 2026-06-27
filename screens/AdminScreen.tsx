@@ -14,7 +14,7 @@ import {
   LogOut, 
   Sliders 
 } from "lucide-react";
-import { Game, GameCategory, GamePackage, Order, User, BannerSlide, ShippingProof } from "../types";
+import { Game, GameCategory, GamePackage, Order, User, BannerSlide, ShippingProof, ContactSettings } from "../types";
 import AnalyticsTab from "../components/admin/AnalyticsTab";
 import DepositsTab from "../components/admin/DepositsTab";
 import UsersTab from "../components/admin/UsersTab";
@@ -58,6 +58,8 @@ interface AdminScreenProps {
   handleSaveBannerSlides: (slides: BannerSlide[]) => void;
   shippingProofs: ShippingProof[];
   handleSaveShippingProofs: (proofs: ShippingProof[]) => void;
+  contactSettings: ContactSettings;
+  handleSaveContactSettings: (settings: ContactSettings) => void;
   handleUpdateGameDetails: (
     gameId: string,
     name: string,
@@ -97,6 +99,8 @@ export default function AdminScreen({
   handleSaveBannerSlides,
   shippingProofs,
   handleSaveShippingProofs,
+  contactSettings,
+  handleSaveContactSettings,
   handleUpdateGameDetails
 }: AdminScreenProps) {
   return (
@@ -213,6 +217,8 @@ export default function AdminScreen({
             handleSaveBannerSlides={handleSaveBannerSlides}
             shippingProofs={shippingProofs}
             handleSaveShippingProofs={handleSaveShippingProofs}
+            contactSettings={contactSettings}
+            handleSaveContactSettings={handleSaveContactSettings}
           />
         )}
       </div>

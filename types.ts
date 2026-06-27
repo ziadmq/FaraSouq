@@ -118,3 +118,18 @@ export interface ShippingProof {
   caption: string;
   date: string;
 }
+
+export interface ContactSettings {
+  whatsapp: string;
+  email: string;
+  workingHours: string;
+  workingDays: string;
+  isWhatsappEnabled: boolean;
+  isEmailEnabled: boolean;
+  footerLinks: {
+    terms: string;
+    about: string;
+    support: string;
+    payment: string;
+  };
+}

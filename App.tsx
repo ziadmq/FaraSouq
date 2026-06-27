@@ -111,6 +111,8 @@ export default function App() {
     handleSaveBannerSlides,
     shippingProofs,
     handleSaveShippingProofs,
+    contactSettings,
+    handleSaveContactSettings,
     handleUpdateGameDetails
   } = useAppState();
 
@@ -161,6 +163,7 @@ export default function App() {
               loggedUser={loggedUser}
               bannerSlides={bannerSlides}
               shippingProofs={shippingProofs}
+              contactSettings={contactSettings}
             />
           )}
 
@@ -235,6 +238,8 @@ export default function App() {
               handleSaveBannerSlides={handleSaveBannerSlides}
               shippingProofs={shippingProofs}
               handleSaveShippingProofs={handleSaveShippingProofs}
+              contactSettings={contactSettings}
+              handleSaveContactSettings={handleSaveContactSettings}
               handleUpdateGameDetails={handleUpdateGameDetails}
             />
           )}
@@ -269,6 +274,7 @@ export default function App() {
         showToast={showToast}
         handleMarkAllNotificationsRead={handleMarkAllNotificationsRead}
         setSelectedGame={setSelectedGame}
+        contactSettings={contactSettings}
       />
 
       {/* Modals Lightboxes */}

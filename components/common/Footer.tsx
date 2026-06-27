@@ -5,7 +5,7 @@
 
 import React from "react";
 import { Gamepad2, ShoppingBag, Wallet, Sliders } from "lucide-react";
-import { Game } from "../../types";
+import { Game, ContactSettings } from "../../types";
 
 interface FooterProps {
   isAdmin: boolean;
@@ -15,6 +15,7 @@ interface FooterProps {
   showToast: (text: string, type: "success" | "error" | "info") => void;
   handleMarkAllNotificationsRead: () => void;
   setSelectedGame: (game: Game) => void;
+  contactSettings: ContactSettings;
 }
 
 export default function Footer({
@@ -24,11 +25,31 @@ export default function Footer({
   navigateToTab,
   showToast,
   handleMarkAllNotificationsRead,
-  setSelectedGame
+  setSelectedGame,
+  contactSettings
 }: FooterProps) {
+
+  const footerLinks = [
+    { label: "الشروط والأحكام", url: contactSettings.footerLinks?.terms },
+    { label: "من نحن",          url: contactSettings.footerLinks?.about },
+    { label: "الدعم الفني والشكاوى", url: contactSettings.footerLinks?.support },
+    { label: "طرق الدفع والتحصيل",   url: contactSettings.footerLinks?.payment },
+  ];
+
+  const handleFooterLinkClick = (url?: string, label?: string) => {
+    if (url) {
+      if (url.startsWith("http")) {
+        window.open(url, "_blank");
+      } else {
+        window.location.href = url;
+      }
+    } else {
+      showToast("سيتم إضافة هذه الصفحة قريباً", "info");
+    }
+  };
+
   return (
     <>
-      {/* High contrast responsive Footer */}
       {/* High contrast responsive Footer */}
       <footer className="relative bg-[#070e1d] mt-24 py-12 text-sm select-none overflow-hidden">
         {/* Decorative Top Border Gradient */}
@@ -39,18 +60,13 @@ export default function Footer({
         <div className="max-w-7xl mx-auto px-4 md:px-8 w-full flex flex-col md:flex-row-reverse justify-between items-center gap-10 text-center relative z-10">
           
           <div className="flex gap-8 font-semibold flex-wrap justify-center text-slate-400">
-            {[
-              "الشروط والأحكام",
-              "من نحن",
-              "الدعم الفني والشكاوى",
-              "طرق الدفع والتحصيل"
-            ].map((link, idx) => (
+            {footerLinks.map((link, idx) => (
               <a 
                 key={idx}
-                onClick={() => showToast("سيتم إضافة البيانات قريباً", "info")} 
+                onClick={() => handleFooterLinkClick(link.url, link.label)} 
                 className="hover:text-amber-400 cursor-pointer transition-all duration-300 hover:-translate-y-1 relative group"
               >
-                {link}
+                {link.label}
                 <span className="absolute -bottom-2 left-1/2 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full group-hover:left-0" />
               </a>
             ))}

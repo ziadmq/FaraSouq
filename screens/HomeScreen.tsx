@@ -11,9 +11,13 @@ import {
   CheckCircle2,
   ZoomIn,
   Search,
-  Star
+  Star,
+  Phone,
+  Mail,
+  Clock,
+  MessageCircle
 } from "lucide-react";
-import { GameCategory, Game, User, BannerSlide, ShippingProof } from "../types";
+import { GameCategory, Game, User, BannerSlide, ShippingProof, ContactSettings } from "../types";
 import BannerSlider from "../components/common/BannerSlider";
 
 interface HomeScreenProps {
@@ -29,6 +33,7 @@ interface HomeScreenProps {
   loggedUser: User | null;
   bannerSlides: BannerSlide[];
   shippingProofs: ShippingProof[];
+  contactSettings: ContactSettings;
 }
 
 export default function HomeScreen({
@@ -43,7 +48,8 @@ export default function HomeScreen({
   filteredGames,
   loggedUser,
   bannerSlides,
-  shippingProofs
+  shippingProofs,
+  contactSettings
 }: HomeScreenProps) {
   const [zoomProof, setZoomProof] = React.useState<ShippingProof | null>(null);
 
@@ -284,6 +290,67 @@ export default function HomeScreen({
             </button>
           </motion.div>
         </div>
+      )}
+      {/* ====== CONTACT SECTION ====== */}
+      {(contactSettings.isWhatsappEnabled || contactSettings.isEmailEnabled) && (
+        <section className="rounded-3xl bg-gradient-to-br from-[#191f2f] to-[#0f1623] border border-[#4f4633]/30 p-6 md:p-8 space-y-5 shadow-xl" dir="rtl">
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-6 bg-gradient-to-b from-amber-400 to-amber-600 rounded-full" />
+            <h2 className="text-xl font-black text-white">تواصل معنا</h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* WhatsApp Card */}
+            {contactSettings.isWhatsappEnabled && contactSettings.whatsapp && (
+              <a
+                href={`https://wa.me/${contactSettings.whatsapp.replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 p-4 rounded-2xl bg-green-500/5 border border-green-500/20 hover:border-green-400/50 hover:bg-green-500/10 transition-all duration-300 cursor-pointer"
+              >
+                <div className="w-12 h-12 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                  <MessageCircle className="w-6 h-6 text-green-400" />
+                </div>
+                <div>
+                  <p className="text-[11px] text-slate-500 font-medium mb-0.5">واتساب</p>
+                  <p className="text-white font-bold text-sm" dir="ltr">{contactSettings.whatsapp}</p>
+                  <p className="text-green-400 text-[10px] font-semibold mt-0.5">اضغط للمحادثة ←</p>
+                </div>
+              </a>
+            )}
+
+            {/* Email Card */}
+            {contactSettings.isEmailEnabled && contactSettings.email && (
+              <a
+                href={`mailto:${contactSettings.email}`}
+                className="group flex items-center gap-4 p-4 rounded-2xl bg-blue-500/5 border border-blue-500/20 hover:border-blue-400/50 hover:bg-blue-500/10 transition-all duration-300 cursor-pointer"
+              >
+                <div className="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                  <Mail className="w-6 h-6 text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-[11px] text-slate-500 font-medium mb-0.5">البريد الإلكتروني</p>
+                  <p className="text-white font-bold text-sm" dir="ltr">{contactSettings.email}</p>
+                  <p className="text-blue-400 text-[10px] font-semibold mt-0.5">اضغط للمراسلة ←</p>
+                </div>
+              </a>
+            )}
+
+            {/* Working Hours Card */}
+            {(contactSettings.workingHours || contactSettings.workingDays) && (
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-amber-500/5 border border-amber-500/20">
+                <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
+                  <Clock className="w-6 h-6 text-amber-400" />
+                </div>
+                <div>
+                  <p className="text-[11px] text-slate-500 font-medium mb-0.5">أوقات الدعم</p>
+                  {contactSettings.workingDays && <p className="text-white font-bold text-sm">{contactSettings.workingDays}</p>}
+                  {contactSettings.workingHours && <p className="text-amber-300 text-xs font-semibold mt-0.5">{contactSettings.workingHours}</p>}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
       )}
 
     </motion.div>

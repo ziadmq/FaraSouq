@@ -8,7 +8,7 @@ import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot, query, where, deleteDoc } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
 import { auth, db, functions, handleFirestoreError, OperationType } from "../lib/firebase";
-import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, User, AppNotification, JoPaySettings, BannerSlide, ShippingProof } from "../types";
+import { GameCategory, OrderStatus, PaymentMethod, Game, GamePackage, Order, User, AppNotification, JoPaySettings, BannerSlide, ShippingProof, ContactSettings } from "../types";
 import { GAMES_DATA, INITIAL_ORDERS, INITIAL_USERS, INITIAL_NOTIFICATIONS } from "../data";
 
 export function useAppState() {
@@ -151,6 +151,35 @@ export function useAppState() {
   const handleSaveShippingProofs = (proofs: ShippingProof[]) => {
     localStorage.setItem("fara_shipping_proofs_v1", JSON.stringify(proofs));
     setShippingProofs(proofs);
+  };
+
+  // Contact Settings state
+  const DEFAULT_CONTACT: ContactSettings = {
+    whatsapp: "",
+    email: "",
+    workingHours: "9:00 ص - 11:00 م",
+    workingDays: "السبت - الخميس",
+    isWhatsappEnabled: true,
+    isEmailEnabled: true,
+    footerLinks: {
+      terms: "",
+      about: "",
+      support: "",
+      payment: "",
+    },
+  };
+
+  const [contactSettings, setContactSettings] = useState<ContactSettings>(() => {
+    const saved = localStorage.getItem("fara_contact_settings_v1");
+    if (saved) {
+      try { return { ...DEFAULT_CONTACT, ...JSON.parse(saved) }; } catch (e) {}
+    }
+    return DEFAULT_CONTACT;
+  });
+
+  const handleSaveContactSettings = (settings: ContactSettings) => {
+    localStorage.setItem("fara_contact_settings_v1", JSON.stringify(settings));
+    setContactSettings(settings);
   };
 
   const [joPaySettings, setJoPaySettings] = useState<JoPaySettings>({
@@ -1137,6 +1166,8 @@ export function useAppState() {
     shippingProofs,
     setShippingProofs,
     handleSaveShippingProofs,
+    contactSettings,
+    handleSaveContactSettings,
     handleUpdateGameDetails,
   };
 }
