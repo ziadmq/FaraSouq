@@ -9,7 +9,9 @@ import {
   Gamepad2, 
   Wallet,
   CheckCircle2,
-  ZoomIn
+  ZoomIn,
+  Search,
+  Star
 } from "lucide-react";
 import { GameCategory, Game, User, BannerSlide, ShippingProof } from "../types";
 import BannerSlider from "../components/common/BannerSlider";
@@ -109,8 +111,8 @@ export default function HomeScreen({
               <Wallet className="w-8 h-8 text-amber-400" />
             </div>
             <div className="z-10 mt-2">
-              <h3 className="text-2xl font-black text-white mb-2">\u0625\u062f\u0627\u0631\u0629 \u0627\u0644\u0631\u0635\u064a\u062f</h3>
-              <p className="text-[#d3c5ac] text-sm">\u0642\u0645 \u0628\u0634\u062d\u0646 \u0631\u0635\u064a\u062f \u0645\u062d\u0641\u0638\u062a\u0643\u060c \u0648\u0645\u062a\u0627\u0628\u0639\u0629 \u062d\u0648\u0627\u0644\u0627\u062a\u0643 \u0648\u0645\u0639\u0631\u0641\u0629 \u0631\u0635\u064a\u062f\u0643 \u0627\u0644\u0645\u062a\u0627\u062d \u0644\u0644\u0634\u0631\u0627\u0621 \u0641\u0648\u0631\u0627\u064b.</p>
+              <h3 className="text-2xl font-black text-white mb-2">إدارة الرصيد</h3>
+              <p className="text-[#d3c5ac] text-sm">قم بشحن رصيد محفظتك، ومتابعة حوالاتك ومعرفة رصيدك المتاح للشراء فوراً.</p>
             </div>
           </button>
         )}
@@ -128,11 +130,126 @@ export default function HomeScreen({
             <Gamepad2 className="w-8 h-8 text-amber-400" />
           </div>
           <div className="z-10 mt-2">
-            <h3 className="text-2xl font-black text-white mb-2">\u0628\u0627\u0642\u0627\u062a \u0627\u0644\u0634\u062d\u0646</h3>
-            <p className="text-[#d3c5ac] text-sm">\u062a\u0635\u0641\u062d \u0627\u0644\u0628\u0627\u0642\u0627\u062a \u0627\u0644\u0645\u062a\u0648\u0641\u0631\u0629\u060c \u0648\u0627\u062e\u062a\u0631 \u0627\u0644\u0628\u0627\u0642\u0629 \u0627\u0644\u0623\u0646\u0633\u0628 \u0644\u0643 \u0644\u062a\u0634\u062d\u0646\u0647\u0627 \u0645\u0628\u0627\u0634\u0631\u0629 \u0648\u062a\u0633\u062a\u0645\u062a\u0639 \u0628\u0627\u0644\u0644\u0639\u0628.</p>
+            <h3 className="text-2xl font-black text-white mb-2">باقات الشحن</h3>
+            <p className="text-[#d3c5ac] text-sm">تصفح الباقات المتوفرة، واختر الباقة الأنسب لك لتشحنها مباشرة وتستمتع باللعب.</p>
           </div>
         </button>
       </div>
+
+      {/* === AVAILABLE GAMES SECTION === */}
+      <section id="games-section" className="space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-6 bg-gradient-to-b from-amber-400 to-amber-600 rounded-full" />
+            <h2 className="text-xl font-black text-white">أقسام ألعاب الشحن المتوفرة</h2>
+          </div>
+
+          {/* Search bar */}
+          <div className="relative w-full md:w-72">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="ابحث عن لعبة أو بطاقة..."
+              className="w-full bg-slate-900/80 border border-slate-800 focus:border-amber-500 rounded-xl py-2.5 pr-10 pl-4 text-sm text-white placeholder-slate-500 outline-none transition-all text-right"
+            />
+            <Search className="w-4 h-4 text-slate-500 absolute top-1/2 right-3.5 -translate-y-1/2" />
+          </div>
+        </div>
+
+        {/* Category Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" dir="rtl">
+          {[
+            { id: GameCategory.ALL, label: "الكل" },
+            { id: GameCategory.JAWAKER, label: "جواكر" },
+            { id: GameCategory.BATTLE_ROYALE, label: "باتل رويال" },
+            { id: GameCategory.MOBA, label: "موبا" },
+            { id: GameCategory.GIFT_CARDS, label: "بطاقات الهدايا" },
+          ].map((cat) => {
+            const isSelected = selectedCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap cursor-pointer border ${
+                  isSelected
+                    ? "bg-gradient-to-r from-amber-600 to-amber-500 border-amber-500/20 text-white shadow-lg shadow-amber-500/10 scale-[1.02]"
+                    : "bg-[#191f2f] hover:bg-[#20273a] text-slate-400 border-slate-800"
+                }`}
+              >
+                {cat.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Games Grid */}
+        {filteredGames.length === 0 ? (
+          <div className="bg-[#191f2f] rounded-3xl p-12 text-center border border-slate-800">
+            <Gamepad2 className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+            <p className="text-slate-400 font-bold">لم يتم العثور على أي ألعاب تطابق بحثك</p>
+            <p className="text-slate-600 text-xs mt-1">تأكد من كتابة الاسم بشكل صحيح أو تصفح الأقسام الأخرى</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {filteredGames.map((game) => (
+              <div
+                key={game.id}
+                onClick={() => {
+                  setSelectedGame(game);
+                  navigateToTab("game-detail");
+                }}
+                className="group relative overflow-hidden rounded-3xl bg-[#191f2f] border border-slate-800 hover:border-amber-500/40 transition-all duration-300 shadow-xl cursor-pointer flex flex-col justify-between"
+              >
+                {/* Image Wrap */}
+                <div className="aspect-[16/9] w-full bg-slate-900 relative overflow-hidden shrink-0">
+                  <img
+                    src={game.imageUrl}
+                    alt={game.name}
+                    className="w-full h-full transition-transform duration-500 group-hover:scale-105"
+                    style={{
+                      objectFit: game.imageFit || "cover",
+                      objectPosition: game.imagePosition || "center"
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                  
+                  {/* Category Badge */}
+                  <span className="absolute top-3 right-3 bg-slate-950/80 border border-slate-800 text-[10px] font-black px-2.5 py-1 rounded-lg text-amber-400">
+                    {game.category === GameCategory.JAWAKER ? "جواكر" : game.category}
+                  </span>
+                </div>
+
+                {/* Info Content */}
+                <div className="p-5 flex-grow flex flex-col justify-between gap-4 text-right">
+                  <div className="space-y-1.5">
+                    <h3 className="text-lg font-black text-white group-hover:text-amber-400 transition-colors">
+                      {game.name}
+                    </h3>
+                    <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                      {game.description || "اشحن حسابك فوراً وبكل سهولة بالمعرف الخاص بك."}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-end border-t border-slate-800/60 pt-4">
+                    <div className="flex flex-col items-end">
+                      <span className="text-[10px] text-slate-500 font-medium">يبدأ من</span>
+                      <span className="text-sm font-black text-amber-400 font-mono">
+                        {game.startingPrice.toFixed(2)} <span className="text-[10px] font-sans font-bold">{game.currency}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Browse Hover Overlay Bar */}
+                <div className="bg-amber-500 py-2.5 text-center text-slate-950 font-black text-xs transition-all transform translate-y-full group-hover:translate-y-0 duration-300 absolute bottom-0 left-0 right-0 flex items-center justify-center gap-1 shadow-inner">
+                  <span>تصفح باقات الشحن ⚡</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       {/* === SHIPPING PROOFS SECTION === */}
       {shippingProofs && shippingProofs.length > 0 && (
@@ -140,14 +257,14 @@ export default function HomeScreen({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-1 h-6 bg-gradient-to-b from-amber-400 to-amber-600 rounded-full" />
-              <h2 className="text-xl font-black text-white">\u0625\u062b\u0628\u0627\u062a\u0627\u062a \u0627\u0644\u0634\u062d\u0646</h2>
+              <h2 className="text-xl font-black text-white">إثباتات الشحن</h2>
             </div>
             <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl">
               <CheckCircle2 className="w-4 h-4 text-amber-400" />
-              <span className="text-xs font-bold text-amber-400">\u0634\u062d\u0646 \u0645\u0624\u0643\u062f</span>
+              <span className="text-xs font-bold text-amber-400">شحن مؤكد</span>
             </div>
           </div>
-          <p className="text-sm text-slate-400 -mt-2">\u0639\u0645\u0644\u064a\u0627\u062a \u0634\u062d\u0646 \u062d\u0642\u064a\u0642\u064a\u0629 \u0623\u062a\u0645\u0647\u0627 \u0639\u0645\u0644\u0627\u0624\u0646\u0627 \u0645\u0639 \u0645\u062a\u062c\u0631\u0646\u0627</p>
+          <p className="text-sm text-slate-400 -mt-2">عمليات شحن حقيقية أتمها عملاؤنا مع متجرنا</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {shippingProofs.map((proof) => (
               <div
@@ -158,14 +275,14 @@ export default function HomeScreen({
                 <div className="aspect-square bg-slate-900">
                   <img
                     src={proof.imageUrl}
-                    alt={proof.caption || "\u0625\u062b\u0628\u0627\u062a \u0634\u062d\u0646"}
+                    alt={proof.caption || "إثبات شحن"}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
                   <div className="flex items-center gap-1.5">
                     <ZoomIn className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span className="text-xs font-bold text-white truncate">{proof.caption || "\u0627\u0636\u063a\u0637 \u0644\u0644\u062a\u0643\u0628\u064a\u0631"}</span>
+                    <span className="text-xs font-bold text-white truncate">{proof.caption || "اضغط للتكبير"}</span>
                   </div>
                   {proof.date && (
                     <span className="text-[10px] text-slate-400 mt-0.5">{proof.date}</span>
@@ -200,7 +317,7 @@ export default function HomeScreen({
               onClick={() => setZoomProof(null)}
               className="absolute top-3 left-3 bg-slate-900/80 text-white p-2 rounded-full border border-slate-700 hover:bg-slate-800 transition-all text-xs font-bold cursor-pointer"
             >
-              \u00d7
+              ×
             </button>
           </motion.div>
         </div>

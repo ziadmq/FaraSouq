@@ -37,6 +37,8 @@ export interface Game {
   currency: string;
   packages: GamePackage[];
   description?: string;
+  imageFit?: "cover" | "contain";
+  imagePosition?: string;
 }
 
 export interface GamePackage {

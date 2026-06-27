@@ -88,7 +88,11 @@ export default function GameDetailScreen({
           <img 
             src={selectedGame.imageUrl} 
             alt={selectedGame.name} 
-            className="w-full h-full object-cover"
+            className="w-full h-full"
+            style={{
+              objectFit: selectedGame.imageFit || "cover",
+              objectPosition: selectedGame.imagePosition || "center"
+            }}
           />
         </div>
         <div className="p-6 md:p-8 md:w-2/3 flex flex-col justify-center">

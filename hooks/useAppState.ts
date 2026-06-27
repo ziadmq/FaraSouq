@@ -88,17 +88,35 @@ export function useAppState() {
   const DEFAULT_BANNER_SLIDES: BannerSlide[] = [
     {
       id: "slide_1",
-      imageUrl: "https://images.unsplash.com/photo-1511193311914-0346f16efe90?q=80&w=1200&auto=format&fit=crop",
-      title: "اشحن توكنز جواكر بأفضل الأسعار ⭐",
-      subtitle: "خصم يصل إلى 20% على جميع باقات جواكر لفترة محدودة",
-      badgeText: "جديد!",
-      buttonText: "اكتشف العروض",
+      imageUrl: "https://images.unsplash.com/photo-1612287230202-1bf1d85d1bdf?q=80&w=1200&auto=format&fit=crop",
+      title: "توكنز جواكر بأفضل الأسعار ⭐",
+      subtitle: "شحن آمن وفوري مباشرة بالمعرف الخاص بك مع خصومات مميزة لفترة محدودة",
+      badgeText: "عرض محدود",
+      buttonText: "اشحن الآن ⚡",
+      buttonUrl: ""
+    },
+    {
+      id: "slide_2",
+      imageUrl: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop",
+      title: "مفاجآت وعروض أسبوعية 🎁",
+      subtitle: "احصل على بونص إضافي يصل إلى 25% عند شحن باقاتك المفضلة اليوم",
+      badgeText: "بونص إضافي",
+      buttonText: "اكتشف المزيد 🔍",
+      buttonUrl: ""
+    },
+    {
+      id: "slide_3",
+      imageUrl: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1200&auto=format&fit=crop",
+      title: "شحن فوري على مدار الساعة ⚡",
+      subtitle: "نظام شحن آمن بالكامل مع دعم فني متواجد لمساعدتك طوال اليوم",
+      badgeText: "دعم 24/7",
+      buttonText: "شحن محفظتك 📥",
       buttonUrl: ""
     }
   ];
 
   const [bannerSlides, setBannerSlides] = useState<BannerSlide[]>(() => {
-    const saved = localStorage.getItem("fara_banner_slides_v1");
+    const saved = localStorage.getItem("fara_banner_slides_v2");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -114,7 +132,7 @@ export function useAppState() {
       ...s,
       imageUrl: s.imageUrl.startsWith("data:") ? "" : s.imageUrl
     }));
-    localStorage.setItem("fara_banner_slides_v1", JSON.stringify(slides));
+    localStorage.setItem("fara_banner_slides_v2", JSON.stringify(slides));
     setBannerSlides(slides);
   };
 
@@ -905,6 +923,38 @@ export function useAppState() {
     localStorage.setItem("fara_games_list_v3", JSON.stringify(updated));
   };
 
+  // Update specific game details (name, image, description)
+  const handleUpdateGameDetails = (
+    gameId: string,
+    name: string,
+    description: string,
+    imageUrl: string,
+    imageFit?: "cover" | "contain",
+    imagePosition?: string
+  ) => {
+    const updated = gamesList.map(g => {
+      if (g.id === gameId) {
+        const prices = g.packages.map(p => p.price);
+        const startingPrice = prices.length > 0 ? Math.min(...prices) : g.startingPrice;
+        return {
+          ...g,
+          name,
+          description,
+          imageUrl,
+          imageFit: imageFit || "cover",
+          imagePosition: imagePosition || "center",
+          startingPrice
+        };
+      }
+      return g;
+    });
+    saveGamesList(updated);
+    if (selectedGame && selectedGame.id === gameId) {
+      setSelectedGame(updated.find(g => g.id === gameId) || updated[0]);
+    }
+    showToast("تم تحديث بيانات كارت اللعبة بنجاح! ✨", "success");
+  };
+
   // Save Jawaker packages
   const handleSavePackages = (e: React.FormEvent) => {
     e.preventDefault();
@@ -917,13 +967,19 @@ export function useAppState() {
     const indexToUpdate = jawakerIndex > -1 ? jawakerIndex : 0;
 
     const updated = [...gamesList];
+    const updatedPackages = formPackages.map((pkg) => ({
+      ...pkg,
+      price: Number(pkg.price) || 0,
+      bonusPercent: pkg.bonusPercent ? Number(pkg.bonusPercent) : undefined
+    }));
+    
+    // Automatically calculate starting price from cheapest package
+    const startingPrice = updatedPackages.length > 0 ? Math.min(...updatedPackages.map(p => p.price)) : updated[indexToUpdate].startingPrice;
+
     updated[indexToUpdate] = {
       ...updated[indexToUpdate],
-      packages: formPackages.map((pkg, idx) => ({
-        ...pkg,
-        price: Number(pkg.price) || 0,
-        bonusPercent: pkg.bonusPercent ? Number(pkg.bonusPercent) : undefined
-      }))
+      packages: updatedPackages,
+      startingPrice
     };
     saveGamesList(updated);
     showToast("تم تحديث باقات الشحن لجواكر بنجاح! ✨", "success");
@@ -1091,5 +1147,6 @@ export function useAppState() {
     shippingProofs,
     setShippingProofs,
     handleSaveShippingProofs,
+    handleUpdateGameDetails,
   };
 }

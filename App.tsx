@@ -123,7 +123,8 @@ export default function App() {
     bannerSlides,
     handleSaveBannerSlides,
     shippingProofs,
-    handleSaveShippingProofs
+    handleSaveShippingProofs,
+    handleUpdateGameDetails
   } = useAppState();
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
@@ -266,6 +267,7 @@ export default function App() {
               handleSaveBannerSlides={handleSaveBannerSlides}
               shippingProofs={shippingProofs}
               handleSaveShippingProofs={handleSaveShippingProofs}
+              handleUpdateGameDetails={handleUpdateGameDetails}
             />
           )}
 

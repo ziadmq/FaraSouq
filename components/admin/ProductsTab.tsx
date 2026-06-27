@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { Coins, Plus, Trash2, Star, Eye, EyeOff } from "lucide-react";
+import { Coins, Plus, Trash2, Star, Eye, EyeOff, Gamepad2, Save, Upload } from "lucide-react";
 import { Game, GamePackage } from "../../types";
 
 interface ProductsTabProps {
@@ -15,6 +15,14 @@ interface ProductsTabProps {
   handleUpdatePackageField: (id: string, field: keyof GamePackage, value: any) => void;
   handleUpdateJawakerPackage: (oldId: string, newId: string, newName: string) => void;
   gamesList: Game[];
+  handleUpdateGameDetails: (
+    gameId: string,
+    name: string,
+    description: string,
+    imageUrl: string,
+    imageFit?: "cover" | "contain",
+    imagePosition?: string
+  ) => void;
 }
 
 export default function ProductsTab({
@@ -24,13 +32,44 @@ export default function ProductsTab({
   handleRemovePackage,
   handleUpdatePackageField,
   handleUpdateJawakerPackage,
-  gamesList
+  gamesList,
+  handleUpdateGameDetails
 }: ProductsTabProps) {
   const jawakerGame = gamesList.find(g => g.id === "jawaker") || gamesList[0];
   const [previewingPkgId, setPreviewingPkgId] = React.useState<string | null>(null);
 
+  // Game details editing state
+  const [gameName, setGameName] = React.useState(jawakerGame.name);
+  const [gameDescription, setGameDescription] = React.useState(jawakerGame.description || "");
+  const [gameImageUrl, setGameImageUrl] = React.useState(jawakerGame.imageUrl);
+  const [gameImageFit, setGameImageFit] = React.useState<"cover" | "contain">(jawakerGame.imageFit || "cover");
+  const [gameImagePosition, setGameImagePosition] = React.useState(jawakerGame.imagePosition || "center");
+
+  React.useEffect(() => {
+    if (jawakerGame) {
+      setGameName(jawakerGame.name);
+      setGameDescription(jawakerGame.description || "");
+      setGameImageUrl(jawakerGame.imageUrl);
+      setGameImageFit(jawakerGame.imageFit || "cover");
+      setGameImagePosition(jawakerGame.imagePosition || "center");
+    }
+  }, [jawakerGame]);
+
+  const handleSaveGameDetailsLocal = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleUpdateGameDetails(
+      jawakerGame.id,
+      gameName,
+      gameDescription,
+      gameImageUrl,
+      gameImageFit,
+      gameImagePosition
+    );
+  };
+
   return (
     <div className="space-y-6">
+      {/* 1. Packages editor */}
       <div className="bg-[#191f2f] rounded-2xl p-6 border border-[#4f4633]/30 shadow-md">
 
 
@@ -409,6 +448,207 @@ export default function ProductsTab({
             </button>
           </div>
         </form>
+      </div>
+
+      {/* 2. Game details Card form with Live Preview */}
+      <div className="bg-[#191f2f] rounded-2xl p-6 border border-[#4f4633]/30 shadow-md text-right space-y-6">
+        <div className="flex items-center gap-3 justify-start border-b border-[#4f4633]/15 pb-4">
+          <Gamepad2 className="w-6 h-6 text-amber-400" />
+          <div>
+            <h4 className="font-extrabold text-white text-base">تعديل بيانات كارت اللعبة الرئيسي والمعاينة</h4>
+            <p className="text-xs text-[#9c8f79] mt-0.5">تعديل اسم اللعبة، الوصف، صورة الكارت، وطريقة العرض، مع معاينة فورية.</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Inputs Column */}
+          <form onSubmit={handleSaveGameDetailsLocal} className="lg:col-span-7 space-y-4 order-2 lg:order-1">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-amber-400">اسم اللعبة</label>
+              <input 
+                type="text" 
+                value={gameName}
+                onChange={(e) => setGameName(e.target.value)}
+                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm text-right focus:border-amber-400 outline-none"
+                dir="rtl"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-amber-400">صورة اللعبة</label>
+              <div className="flex gap-3 items-center">
+                <div className="relative w-12 h-12 rounded-xl border border-[#4f4633]/30 bg-slate-900 flex flex-col items-center justify-center overflow-hidden cursor-pointer hover:border-amber-400 group/gameimg transition-all shrink-0">
+                  {gameImageUrl ? (
+                    <>
+                      <img src={gameImageUrl} className="w-full h-full object-cover" alt="" />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/gameimg:opacity-100 flex items-center justify-center transition-opacity text-[8px] text-white font-bold">تغيير</div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-slate-500 text-center p-1">
+                      <Upload className="w-4 h-4 mb-0.5" />
+                      <span className="text-[7px] font-bold">رفع</span>
+                    </div>
+                  )}
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        const file = e.target.files[0];
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          const img = new Image();
+                          img.onload = () => {
+                            const canvas = document.createElement("canvas");
+                            const MAX_DIM = 800; 
+                            let width = img.width;
+                            let height = img.height;
+                            if (width > height) {
+                              if (width > MAX_DIM) {
+                                height = Math.round((height * MAX_DIM) / width);
+                                width = MAX_DIM;
+                              }
+                            } else {
+                              if (height > MAX_DIM) {
+                                width = Math.round((width * MAX_DIM) / height);
+                                height = MAX_DIM;
+                              }
+                            }
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext("2d");
+                            if (ctx) {
+                              ctx.drawImage(img, 0, 0, width, height);
+                              const compressed = canvas.toDataURL("image/jpeg", 0.7);
+                              setGameImageUrl(compressed);
+                            }
+                          };
+                          img.src = event.target?.result as string || "";
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                  />
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="أو رابط الصورة المباشر..."
+                  value={gameImageUrl.startsWith("data:") ? "" : gameImageUrl}
+                  onChange={(e) => setGameImageUrl(e.target.value)}
+                  className="flex-1 bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-xs text-left font-mono focus:border-amber-400 outline-none"
+                  dir="ltr"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-amber-400">طريقة وضع الصورة (Image Fit)</label>
+                <select
+                  value={gameImageFit}
+                  onChange={(e) => setGameImageFit(e.target.value as "cover" | "contain")}
+                  className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-3 py-2.5 text-xs text-right focus:border-amber-400 outline-none cursor-pointer"
+                >
+                  <option value="cover">تغطية كاملة (Cover - قص تلقائي)</option>
+                  <option value="contain">احتواء كامل (Contain - بدون قص)</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-amber-400">موضع الصورة (Position)</label>
+                <select
+                  value={gameImagePosition}
+                  onChange={(e) => setGameImagePosition(e.target.value)}
+                  className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-3 py-2.5 text-xs text-right focus:border-amber-400 outline-none cursor-pointer"
+                >
+                  <option value="center">المنتصف (Center)</option>
+                  <option value="top">الأعلى (Top)</option>
+                  <option value="bottom">الأسفل (Bottom)</option>
+                  <option value="left">اليسار (Left)</option>
+                  <option value="right">اليمين (Right)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-amber-400">وصف اللعبة</label>
+              <textarea 
+                value={gameDescription}
+                onChange={(e) => setGameDescription(e.target.value)}
+                rows={3}
+                className="w-full bg-[#070e1d] border border-[#4f4633]/30 text-white rounded-xl px-4 py-2.5 text-sm text-right focus:border-amber-400 outline-none resize-none leading-relaxed"
+                dir="rtl"
+              />
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button 
+                type="submit"
+                className="bg-[#312e81] hover:bg-[#3730a3] text-white font-black px-6 py-2.5 rounded-xl cursor-pointer text-sm shadow-md transition-all active:scale-95 flex items-center gap-2"
+              >
+                <Save className="w-5 h-5" />
+                <span>حفظ تعديلات كارت اللعبة</span>
+              </button>
+            </div>
+          </form>
+
+          {/* Live Preview Column */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center p-4 bg-[#0a1120] border border-[#4f4633]/25 rounded-2xl order-1 lg:order-2 space-y-3">
+            <span className="text-xs font-bold text-[#9c8f79] self-start mb-1">👁️ معاينة الكارت المباشرة بالصفحة الرئيسية:</span>
+            
+            <div className="w-full max-w-xs bg-[#191f2f] rounded-3xl border border-slate-800 shadow-xl overflow-hidden flex flex-col justify-between text-right aspect-[4/5] scale-95 md:scale-100 transition-transform">
+              
+              {/* Image Wrap */}
+              <div className="aspect-[16/10] w-full bg-slate-900 relative overflow-hidden shrink-0">
+                {gameImageUrl ? (
+                  <img
+                    src={gameImageUrl}
+                    alt={gameName}
+                    className="w-full h-full"
+                    style={{
+                      objectFit: gameImageFit,
+                      objectPosition: gameImagePosition
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-slate-800">
+                    <span className="text-xs text-slate-500 font-bold">لا توجد صورة</span>
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                
+                {/* Category Badge */}
+                <span className="absolute top-3 right-3 bg-slate-950/80 border border-slate-800 text-[9px] font-black px-2 py-0.5 rounded text-amber-400">
+                  {jawakerGame.category}
+                </span>
+              </div>
+
+              {/* Info Content */}
+              <div className="p-4 flex-grow flex flex-col justify-between gap-2.5">
+                <div className="space-y-1">
+                  <h3 className="text-sm font-black text-white leading-tight">
+                    {gameName || "اسم اللعبة"}
+                  </h3>
+                  <p className="text-[#d3c5ac] text-[10px] font-medium leading-relaxed line-clamp-2">
+                    {gameDescription || "وصف قصير للعبة يظهر هنا في الصفحة الرئيسية لتعريف المستخدم بالخدمة..."}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-end border-t border-slate-800/60 pt-2">
+                  <div className="flex flex-col items-end">
+                    <span className="text-[8px] text-slate-500 font-medium font-sans">يبدأ من</span>
+                    <span className="text-xs font-black text-amber-400 font-mono">
+                      {jawakerGame.startingPrice.toFixed(2)} <span className="text-[9px] font-sans font-bold">{jawakerGame.currency || "JD"}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   );

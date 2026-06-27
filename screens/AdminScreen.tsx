@@ -71,6 +71,14 @@ interface AdminScreenProps {
   handleSaveBannerSlides: (slides: BannerSlide[]) => void;
   shippingProofs: ShippingProof[];
   handleSaveShippingProofs: (proofs: ShippingProof[]) => void;
+  handleUpdateGameDetails: (
+    gameId: string,
+    name: string,
+    description: string,
+    imageUrl: string,
+    imageFit?: "cover" | "contain",
+    imagePosition?: string
+  ) => void;
 }
 
 export default function AdminScreen({
@@ -114,7 +122,8 @@ export default function AdminScreen({
   bannerSlides,
   handleSaveBannerSlides,
   shippingProofs,
-  handleSaveShippingProofs
+  handleSaveShippingProofs,
+  handleUpdateGameDetails
 }: AdminScreenProps) {
   return (
     <motion.div
@@ -217,6 +226,7 @@ export default function AdminScreen({
             handleUpdatePackageField={handleUpdatePackageField}
             handleUpdateJawakerPackage={handleUpdateJawakerPackage}
             gamesList={gamesList}
+            handleUpdateGameDetails={handleUpdateGameDetails}
           />
         )}
 
